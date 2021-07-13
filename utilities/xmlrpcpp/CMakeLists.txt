@@ -5,6 +5,9 @@ if(NOT WIN32)
   set_directory_properties(PROPERTIES COMPILE_OPTIONS "-Wall;-Wextra")
 endif()
 
+add_compile_options(-std=c++11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 find_package(catkin REQUIRED COMPONENTS cpp_common rostime)
 
 # The CFG_EXTRAS is only for compatibility, to be removed in Lunar.
