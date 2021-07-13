@@ -93,7 +93,6 @@ add_library(roscpp
   src/libros/publisher.cpp
   src/libros/timer.cpp
   src/libros/io.cpp
-  src/libros/metrics.cpp
   src/libros/names.cpp
   src/libros/topic.cpp
   src/libros/topic_manager.cpp
