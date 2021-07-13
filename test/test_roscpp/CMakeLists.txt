@@ -6,6 +6,9 @@ if(NOT WIN32)
   set_directory_properties(PROPERTIES COMPILE_OPTIONS "-Wall;-Wextra")
 endif()
 
+add_compile_options(-std=c++11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 find_package(catkin REQUIRED COMPONENTS
   message_generation roscpp rostest rosunit std_srvs
 )
@@ -13,7 +16,11 @@ find_package(catkin REQUIRED COMPONENTS
 if(CATKIN_ENABLE_TESTING)
   find_package(Boost REQUIRED COMPONENTS signals filesystem system)
 
-  include_directories(include ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+  include_directories(include
+      # TODO: fix me
+      ${CMAKE_CURRENT_SOURCE_DIR}/../../clients/roscpp/include/boost_1.65.0
+      ${catkin_INCLUDE_DIRS}
+      ${Boost_INCLUDE_DIRS})
 
   # Testing message and service files.  See comment below about subdirectory support.
   add_message_files(

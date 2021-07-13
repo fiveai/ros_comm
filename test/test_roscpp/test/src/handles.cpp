@@ -444,7 +444,7 @@ TEST(RoscppHandles, trackedObjectWithAdvertiseSubscriberCallback)
 
   boost::shared_ptr<char> tracked(boost::make_shared<char>());
 
-  ros::Publisher pub = n.advertise<test_roscpp::TestArray>("/test", 0, connectedCallback, SubscriberStatusCallback(), tracked);
+  ros::Publisher pub = n.advertise<test_roscpp::TestArray>("/test", 0u, (SubscriberStatusCallback)connectedCallback, SubscriberStatusCallback(), tracked);
 
   g_recv_count = 0;
   g_sub_count = 0;
@@ -476,7 +476,7 @@ TEST(RoscppHandles, trackedObjectWithAdvertiseSubscriberCallback)
 TEST(RoscppHandles, spinAfterHandleShutdownWithAdvertiseSubscriberCallback)
 {
   ros::NodeHandle n;
-  ros::Publisher pub = n.advertise<test_roscpp::TestArray>("/test", 0, connectedCallback, SubscriberStatusCallback());
+  ros::Publisher pub = n.advertise<test_roscpp::TestArray>("/test", 0, (SubscriberStatusCallback)connectedCallback, SubscriberStatusCallback());
 
   g_sub_count = 0;
   ros::Subscriber sub = n.subscribe("/test", 0, subscriberCallback);
@@ -496,7 +496,7 @@ TEST(RoscppHandles, spinAfterHandleShutdownWithAdvertiseSubscriberCallback)
 TEST(RoscppHandles, multiplePublishersWithSubscriberConnectCallback)
 {
   ros::NodeHandle n;
-  ros::Publisher pub = n.advertise<test_roscpp::TestArray>("/test", 0, connectedCallback, SubscriberStatusCallback());
+  ros::Publisher pub = n.advertise<test_roscpp::TestArray>("/test", 0, (SubscriberStatusCallback)connectedCallback, SubscriberStatusCallback());
 
   g_sub_count = 0;
   ros::Subscriber sub = n.subscribe("/test", 0, subscriberCallback);
@@ -510,7 +510,7 @@ TEST(RoscppHandles, multiplePublishersWithSubscriberConnectCallback)
   ASSERT_EQ(g_sub_count, 1);
   g_sub_count = 0;
 
-  ros::Publisher pub2 = n.advertise<test_roscpp::TestArray>("/test", 0, connectedCallback, SubscriberStatusCallback());
+  ros::Publisher pub2 = n.advertise<test_roscpp::TestArray>("/test", 0, (SubscriberStatusCallback)connectedCallback, SubscriberStatusCallback());
   ros::spinOnce();
 
   ASSERT_EQ(g_sub_count, 1);

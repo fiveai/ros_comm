@@ -1,5 +1,8 @@
 include_directories(${GTEST_INCLUDE_DIRS})
 
+## Compile as C++11, supported in ROS Kinetic and newer
+add_compile_options(-std=c++11)
+
 link_directories(${GTEST_LIBRARY_DIRS})
 
 add_executable(${PROJECT_NAME}-handles EXCLUDE_FROM_ALL handles.cpp)
