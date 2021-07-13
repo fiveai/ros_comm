@@ -28,13 +28,23 @@
 #include "ros/subscriber.h"
 #include "ros/node_handle.h"
 #include "ros/topic_manager.h"
+#include "ros/shm_puller.h"
+
+#include <ros/this_node.h>
+
+#include <boost/make_unique.hpp>
 
 namespace ros
 {
 
-  Subscriber::Impl::Impl()
-  : unsubscribed_(false)
-  { }
+  Subscriber::Impl::Impl(const std::string& topic, const NodeHandle& node_handle,
+                         const SubscriptionCallbackHelperPtr& helper) :
+      topic_{topic},
+      node_handle_{boost::make_shared<NodeHandle>(node_handle)},
+      helper_{helper},
+      unsubscribed_{false}
+  {
+  }
 
   Subscriber::Impl::~Impl()
   {
@@ -60,11 +70,8 @@ namespace ros
 
   Subscriber::Subscriber(const std::string& topic, const NodeHandle& node_handle, 
 			 const SubscriptionCallbackHelperPtr& helper)
-  : impl_(boost::make_shared<Impl>())
+  : impl_(boost::make_shared<Impl>(topic, node_handle, helper))
   {
-    impl_->topic_ = topic;
-    impl_->node_handle_ = boost::make_shared<NodeHandle>(node_handle);
-    impl_->helper_ = helper;
   }
 
   Subscriber::Subscriber(const Subscriber& rhs)

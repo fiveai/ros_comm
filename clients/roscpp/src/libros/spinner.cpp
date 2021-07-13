@@ -28,6 +28,7 @@
 #include "ros/spinner.h"
 #include "ros/ros.h"
 #include "ros/callback_queue.h"
+#include "threading/Utils.h"
 
 #include <boost/thread/thread.hpp>
 #include <boost/thread/mutex.hpp>
@@ -153,6 +154,8 @@ void SingleThreadedSpinner::spin(CallbackQueue* queue)
     return;
   }
 
+  fiveai::platform::threading::baptizeThisThread("ros-st-spin");
+
   ros::WallDuration timeout(0.1f);
   ros::NodeHandle n;
   while (n.ok())
@@ -266,6 +269,8 @@ void AsyncSpinnerImpl::stop()
 void AsyncSpinnerImpl::threadFunc()
 {
   disableAllSignalsInThisThread();
+
+  fiveai::platform::threading::baptizeThisThread("ros-async-spin");
 
   CallbackQueue* queue = callback_queue_;
   bool use_call_available = thread_count_ == 1;

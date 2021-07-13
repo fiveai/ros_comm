@@ -93,16 +93,17 @@ private:
   class Impl
   {
   public:
-    Impl();
+    Impl(const std::string& topic, const NodeHandle& node_handle,
+         const SubscriptionCallbackHelperPtr& helper);
     ~Impl();
 
     void unsubscribe();
     bool isValid() const;
 
-    std::string topic_;
-    NodeHandlePtr node_handle_;
+    std::string                   topic_;
+    NodeHandlePtr                 node_handle_;
     SubscriptionCallbackHelperPtr helper_;
-    bool unsubscribed_;
+    bool                          unsubscribed_;
   };
   typedef boost::shared_ptr<Impl> ImplPtr;
   typedef boost::weak_ptr<Impl> ImplWPtr;

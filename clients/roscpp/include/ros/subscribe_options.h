@@ -32,6 +32,7 @@
 #include "common.h"
 #include "ros/transport_hints.h"
 #include "ros/message_traits.h"
+#include "ros/shm_traits.h"
 #include "subscription_callback_helper.h"
 
 namespace ros
@@ -49,6 +50,7 @@ struct ROSCPP_DECL SubscribeOptions
   : queue_size(1)
   , callback_queue(0)
   , allow_concurrent_callbacks(false)
+  , isShm{false}
   {
   }
 
@@ -68,6 +70,7 @@ struct ROSCPP_DECL SubscribeOptions
   , datatype(_datatype)
   , callback_queue(0)
   , allow_concurrent_callbacks(false)
+  , isShm{false}
   {}
 
   /**
@@ -89,6 +92,11 @@ struct ROSCPP_DECL SubscribeOptions
     md5sum = message_traits::md5sum<MessageType>();
     datatype = message_traits::datatype<MessageType>();
     helper = boost::make_shared<SubscriptionCallbackHelperT<P> >(_callback, factory_fn);
+    isShm = IsShm<P>::value;
+    if (isShm)
+    {
+        transport_hints = TransportHints().shm();
+    }
   }
 
   /**
@@ -139,6 +147,8 @@ struct ROSCPP_DECL SubscribeOptions
   VoidConstPtr tracked_object;
 
   TransportHints transport_hints;                                   ///< Hints for transport type and options
+
+  bool isShm;
 
   /**
    * \brief Templated helper function for creating an AdvertiseServiceOptions with most of its options

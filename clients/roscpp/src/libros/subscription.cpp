@@ -43,6 +43,7 @@
 #include "ros/subscription.h"
 #include "ros/publication.h"
 #include "ros/transport_publisher_link.h"
+#include "ros/shm_transport_publisher_link.h"
 #include "ros/intraprocess_publisher_link.h"
 #include "ros/intraprocess_subscriber_link.h"
 #include "ros/connection.h"
@@ -58,6 +59,7 @@
 #include "ros/file_log.h"
 #include "ros/transport_hints.h"
 #include "ros/subscription_callback_helper.h"
+#include "ros/shm_engine.h"
 
 #include <boost/make_shared.hpp>
 
@@ -384,6 +386,11 @@ bool Subscription::negotiateConnection(const std::string& xmlrpc_uri)
       tcpros_array[0] = std::string("TCPROS");
       protos_array[protos++] = tcpros_array;
     }
+    else if (*it == "SHM")
+    {
+      tcpros_array[0] = std::string("SHM");
+      protos_array[protos++] = tcpros_array;
+    }
     else
     {
       ROS_WARN("Unsupported transport type hinted: %s, skipping", it->c_str());
@@ -494,9 +501,9 @@ void Subscription::pendingConnectionDone(const PendingConnectionPtr& conn, XmlRp
   }
 
   std::string proto_name = proto[0];
-  if (proto_name == "TCPROS")
+  if (proto_name == "TCPROS" || proto_name == "SHM")
   {
-    if (proto.size() != 3 ||
+    if ((proto.size() != 3 && proto.size() != 6) ||
         proto[1].getType() != XmlRpcValue::TypeString ||
         proto[2].getType() != XmlRpcValue::TypeInt)
     {
@@ -512,7 +519,16 @@ void Subscription::pendingConnectionDone(const PendingConnectionPtr& conn, XmlRp
     if (transport->connect(pub_host, pub_port))
     {
       ConnectionPtr connection(boost::make_shared<Connection>());
-      TransportPublisherLinkPtr pub_link(boost::make_shared<TransportPublisherLink>(shared_from_this(), xmlrpc_uri, transport_hints_));
+
+      TransportPublisherLinkPtr pub_link;
+      if (proto_name == "SHM")
+      {
+          pub_link = boost::make_shared<ShmTransportPublisherLink>(shared_from_this(), xmlrpc_uri, transport_hints_);
+      }
+      else
+      {
+          pub_link = boost::make_shared<TransportPublisherLink>(shared_from_this(), xmlrpc_uri, transport_hints_);
+      }
 
       connection->initialize(transport, false, HeaderReceivedFunc());
       pub_link->initialize(connection);
@@ -527,6 +543,21 @@ void Subscription::pendingConnectionDone(const PendingConnectionPtr& conn, XmlRp
     else
     {
       ROSCPP_CONN_LOG_DEBUG("Failed to connect to publisher of topic [%s] at [%s:%d]", name_.c_str(), pub_host.c_str(), pub_port);
+    }
+
+    if (proto_name == "SHM")
+    {
+        if (proto.size() != 6 ||
+            proto[3].getType() != XmlRpcValue::TypeString ||
+            proto[4].getType() != XmlRpcValue::TypeString)
+        {
+            ROSCPP_LOG_DEBUG("publisher implements SHM, but the parameters aren't string,string");
+            return;
+        }
+
+        const PullerShmInfo info{proto[3], proto[4]};
+        const std::string publisherName = proto[5];
+        ShmEngine::instance().asyncAttachPullerToShm(name_, publisherName, info);
     }
   }
   else if (proto_name == "UDPROS")
@@ -659,6 +690,9 @@ uint32_t Subscription::handleMessage(const SerializedMessage& m, bool ser, bool 
     }
   }
 
+  ROS_WARN_COND(drops > 0, "Subscription %s discarded %d callbacks in node %s",
+                getName().c_str(), drops, this_node::getName().c_str());
+
   // measure statistics
   statistics_.callback(connection_header, name_, link->getCallerID(), m, link->getStats().bytes_received_, receipt_time, drops > 0);
 
@@ -745,6 +779,11 @@ bool Subscription::addCallback(const SubscriptionCallbackHelperPtr& helper, cons
             if (!was_full)
             {
               info->callback_queue_->addCallback(info->subscription_queue_, (uint64_t)info.get());
+            }
+            else
+            {
+              ROS_WARN("Subscription queue of %s was full in node %s, scheduling  of latched callback postponed",
+                       getName().c_str(), this_node::getName().c_str());
             }
           }
         }

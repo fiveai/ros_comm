@@ -44,6 +44,9 @@
 #include "ros/names.h"
 #include "ros/init.h"
 #include "ros/this_node.h"
+#include "ros/shm_engine.h"
+#include "ros/shm_puller.h"
+#include "ros/single_subscriber_publisher.h"
 #include "xmlrpcpp/XmlRpc.h"
 
 #include <boost/thread.hpp>
@@ -285,6 +288,12 @@ std::string NodeHandle::resolveName(const std::string& name, bool remap, no_vali
 Publisher NodeHandle::advertise(AdvertiseOptions& ops)
 {
   ops.topic = resolveName(ops.topic);
+
+  if (ops.isShm)
+  {
+    ShmEngine::instance().asyncMaybeCreatePusher(ops.topic);
+  }
+
   if (ops.callback_queue == 0)
   {
     if (callback_queue_)
@@ -318,6 +327,7 @@ Publisher NodeHandle::advertise(AdvertiseOptions& ops)
 Subscriber NodeHandle::subscribe(SubscribeOptions& ops)
 {
   ops.topic = resolveName(ops.topic);
+
   if (ops.callback_queue == 0)
   {
     if (callback_queue_)

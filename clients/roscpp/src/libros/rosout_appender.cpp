@@ -38,6 +38,7 @@
 #include "ros/topic_manager.h"
 #include "ros/advertise_options.h"
 #include "ros/names.h"
+#include "threading/Utils.h"
 
 #include <rosgraph_msgs/Log.h>
 
@@ -116,6 +117,8 @@ void ROSOutAppender::log(::ros::console::Level level, const char* str, const cha
 
 void ROSOutAppender::logThread()
 {
+  fiveai::platform::threading::baptizeThisThread("ros-out");
+
   while (!shutting_down_)
   {
     V_Log local_queue;

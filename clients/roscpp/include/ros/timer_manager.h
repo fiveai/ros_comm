@@ -482,6 +482,8 @@ void TimerManager<T, D, E>::setPeriod(int32_t handle, const D& period, bool rese
 template<class T, class D, class E>
 void TimerManager<T, D, E>::threadFunc()
 {
+  ::pthread_setname_np(pthread_self(), "ros-timer-mng");
+
   T current;
   while (!quit_)
   {

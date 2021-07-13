@@ -96,6 +96,7 @@ bool TransportPublisherLink::initialize(const ConnectionPtr& connection)
     header["callerid"] = this_node::getName();
     header["type"] = parent->datatype();
     header["tcp_nodelay"] = transport_hints_.getTCPNoDelay() ? "1" : "0";
+    header["is_shm"] = isShm() ? "1" : "0";
     connection_->writeHeader(header, boost::bind(&TransportPublisherLink::onHeaderWritten, this, _1));
   }
   else

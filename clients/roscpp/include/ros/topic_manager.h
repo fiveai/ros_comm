@@ -152,7 +152,8 @@ private:
    *
    * @todo Consider making this private
    */
-  bool requestTopic(const std::string &topic, XmlRpc::XmlRpcValue &protos, XmlRpc::XmlRpcValue &ret);
+  bool requestTopic(const std::string& callerId, const std::string &topic,
+                    XmlRpc::XmlRpcValue &protos, XmlRpc::XmlRpcValue &ret);
 
   // Must lock the advertised topics mutex before calling this function
   bool isTopicAdvertised(const std::string& topic);

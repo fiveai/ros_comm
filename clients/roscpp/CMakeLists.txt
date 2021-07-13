@@ -5,6 +5,10 @@ if(NOT WIN32)
   set_directory_properties(PROPERTIES COMPILE_OPTIONS "-std=c++11;-Wall;-Wextra")
 endif()
 
+## Compile as C++11, supported in ROS Kinetic and newer
+add_compile_options(-std=c++11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 find_package(catkin REQUIRED COMPONENTS
   cpp_common message_generation rosconsole roscpp_serialization roscpp_traits rosgraph_msgs rostime std_msgs xmlrpcpp
 )
@@ -55,7 +59,7 @@ catkin_package(
   INCLUDE_DIRS include ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_INCLUDE_DESTINATION}/ros
   LIBRARIES roscpp ${PTHREAD_LIB}
   CATKIN_DEPENDS cpp_common message_runtime rosconsole roscpp_serialization roscpp_traits rosgraph_msgs rostime std_msgs xmlrpcpp
-  DEPENDS Boost
+  DEPENDS Boost rt
 )
 
 include(CheckIncludeFiles)
@@ -89,6 +93,7 @@ add_library(roscpp
   src/libros/publisher.cpp
   src/libros/timer.cpp
   src/libros/io.cpp
+  src/libros/metrics.cpp
   src/libros/names.cpp
   src/libros/topic.cpp
   src/libros/topic_manager.cpp
@@ -122,6 +127,15 @@ add_library(roscpp
   src/libros/service.cpp
   src/libros/this_node.cpp
   src/libros/steady_timer.cpp
+  src/libros/shm_engine.cpp
+  src/libros/shm_puller.cpp
+  src/libros/shm_pusher.cpp
+  src/libros/util/Exception.cpp
+  src/libros/util/String.cpp
+  src/libros/threading/Attributes.cpp
+  src/libros/threading/AttributesIO.cpp
+  src/libros/threading/Thread.cpp
+  src/libros/threading/Utils.cpp
   )
 
 add_dependencies(roscpp ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -129,6 +143,7 @@ add_dependencies(roscpp ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TA
 target_link_libraries(roscpp
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
+  -lrt
   )
 
 #explicitly install library and includes
@@ -138,7 +153,7 @@ install(TARGETS roscpp
   RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION})
 install(DIRECTORY include/
   DESTINATION ${CATKIN_GLOBAL_INCLUDE_DESTINATION}
-  FILES_MATCHING PATTERN "*.h")
+  FILES_MATCHING PATTERN "*")
 install(FILES ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_INCLUDE_DESTINATION}/ros/common.h
   DESTINATION ${CATKIN_GLOBAL_INCLUDE_DESTINATION}/ros)
 # install legacy infrastructure needed by rosbuild

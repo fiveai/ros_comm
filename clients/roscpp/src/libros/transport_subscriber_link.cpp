@@ -197,7 +197,7 @@ void TransportSubscriberLink::enqueueMessage(const SerializedMessage& m, bool se
     {
       if (!queue_full_)
       {
-        ROS_DEBUG("Outgoing queue full for topic [%s].  "
+        ROS_WARN("Outgoing queue full for topic [%s].  "
                "Discarding oldest message\n",
                topic_.c_str());
       }
