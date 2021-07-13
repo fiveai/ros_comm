@@ -68,6 +68,8 @@
 #include <signal.h>
 #include <cstdlib>
 
+#define ROSCPP_START_STOP_STREAM_INFO(...)  ROS_INFO_STREAM_NAMED("roscpp_start_stop", __VA_ARGS__)
+
 namespace ros
 {
 
