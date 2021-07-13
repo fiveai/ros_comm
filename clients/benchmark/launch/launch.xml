@@ -1,0 +1,225 @@
+<launch>
+
+    <!--
+        1p1s_same_host
+        1p5s_same_host
+        5p1s_same_host
+
+        1p1s_same_docker
+        1p5s_same_docker
+        5p1s_same_docker
+
+        1p1s_separate_docker
+        1p5s_separate_docker
+        5p1s_separate_docker
+        NB:
+          - same host/docker means all ROS nodes run on the same host computer or within same docker container
+          - separate docker means each ROS node runs withing a dedicated docker instance
+    -->
+    <arg name="use_case"/>
+    
+
+    <arg name="shm_size_mega_bytes"      default="2000" />
+    <arg name="transport"                default="shm" />
+    <arg name="image_width_pixels"       default="4096" />
+    <arg name="image_height_pixels"      default="4096" />
+    <arg name="pub_image_count"          default="2000" />
+    <arg name="pub_hz"                   default="30" />
+    <arg name="pub_queue_size"           default="100" />
+    <arg name="pub_pool_size"            default="100" />
+    <arg name="pub_extra_delay_ms"       default="0" />
+    <arg name="pub_enable_synch_startup" default="false" />
+    <arg name="pub_wait_for_subscribers" default="true" />
+    <arg name="sub_queue_size"           default="100" />
+    <arg name="sub_output_stats"         default="false" />
+    <arg name="sub_tcp_no_delay"         default="true" />
+    <arg name="sub_stats_file_path"      default="/home/costin" />
+    <arg name="sub_stats_file_name"     
+        default="$(arg transport)_$(arg use_case)_$(arg image_width_pixels)x$(arg image_height_pixels)_pool$(arg pub_pool_size)_Hz$(arg pub_hz)_count$(arg pub_image_count).txt" 
+    />
+    <arg name="sub_extra_delay_ms"       default="0" />
+    <arg name="sub_enable_synch_startup" default="false" />
+    <arg name="pubs_prefix" default="" />
+    <arg name="subs_prefix" default="" />
+
+    <param name="/shm_size_mega_bytes" type="int" value="$(arg shm_size_mega_bytes)" />
+    <param name="/transport"           type="str" value="$(arg transport)" />
+    <param name="/image_width_pixels"  type="int" value="$(arg image_width_pixels)" />
+    <param name="/image_height_pixels" type="int" value="$(arg image_height_pixels)" />
+
+    <param name="/pub/image_count"          type="int"    value="$(arg pub_image_count)" />
+    <param name="/pub/hz"                   type="double" value="$(arg pub_hz)" />
+    <param name="/pub/queue_size"           type="int"    value="$(arg pub_queue_size)" />
+    <param name="/pub/pool_size"            type="int"    value="$(arg pub_pool_size)" />
+    <param name="/pub/extra_delay_ms"       type="int"    value="$(arg pub_extra_delay_ms)" />
+    <param name="/pub/enable_synch_startup" type="bool"   value="$(arg pub_enable_synch_startup)" />
+    <param name="/pub/wait_for_subscribers" type="bool"   value="$(arg pub_wait_for_subscribers)" />
+
+    <param name="/sub/queue_size"           type="int"  value="$(arg sub_queue_size)" />
+    <param name="/sub/output_stats"         type="bool" value="$(arg sub_output_stats)" />
+    
+    <param name="/sub/tcp_no_delay"         type="bool" value="$(arg sub_tcp_no_delay)" />
+    <param name="/sub/expected_image_count" type="int"  value="$(arg pub_image_count)" />
+    <param name="/sub/extra_delay_ms"       type="int"    value="$(arg sub_extra_delay_ms)" />
+    <param name="/sub/enable_synch_startup" type="bool" value="$(arg sub_enable_synch_startup)" />
+
+    <node name="monitor" pkg="benchmark" type="benchmark_monitor" required="true"/>
+
+    <group if="$(eval arg('use_case') == '1p1s_same_host' or arg('use_case') == '1p1s_same_docker')">
+        <param name="sub_count" type="int" value="1" />
+        <param name="pub_count" type="int" value="1" />
+
+        <node name="pub1" launch-prefix="$(arg pubs_prefix)" pkg="benchmark" type="benchmark_publisher">
+            <param name="id" type="int" value="0" />
+        </node>
+        <node name="sub1" launch-prefix="$(arg subs_prefix)" pkg="benchmark" type="benchmark_subscriber">
+            <param name="stats_full_file_path" type="str"  value="$(arg sub_stats_file_path)/sub1_$(arg sub_stats_file_name)" />
+            <param name="id" type="int" value="0" />
+        </node>
+    </group>
+
+    <group if="$(eval arg('use_case') == '1p1s_separate_docker')">
+        <param name="sub_count" type="int" value="1" />
+        <param name="pub_count" type="int" value="1" />
+
+        <machine name="m1" address="node2" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
+        <node machine="m1" name="pub1" launch-prefix="$(arg pubs_prefix)" pkg="benchmark" type="benchmark_publisher" >
+            <param name="id" type="int" value="0" />
+        </node>
+        <node name="sub1" launch-prefix="$(arg subs_prefix)" pkg="benchmark" type="benchmark_subscriber">
+            <param name="stats_full_file_path" type="str"  value="$(arg sub_stats_file_path)/sub1_$(arg sub_stats_file_name)" />
+            <param name="id" type="int" value="0" />
+        </node>
+    </group>
+
+
+    <group if="$(eval arg('use_case') == '1p5s_same_host' or arg('use_case') == '1p5s_same_docker')">
+        <param name="sub_count" type="int"  value="5" />
+        <param name="pub_count" type="int" value="1" />
+
+        <node name="pub1" launch-prefix="$(arg pubs_prefix)" pkg="benchmark" type="benchmark_publisher" >
+            <param name="id" type="int" value="0" />
+        </node>
+
+        <node name="sub1" launch-prefix="$(arg subs_prefix)" pkg="benchmark" type="benchmark_subscriber">
+            <param name="stats_full_file_path" type="str"  value="$(arg sub_stats_file_path)/sub1_$(arg sub_stats_file_name)" />
+            <param name="id" type="int" value="0" />
+        </node>
+        <node name="sub2" launch-prefix="$(arg subs_prefix)" pkg="benchmark" type="benchmark_subscriber">
+            <param name="stats_full_file_path" type="str"  value="$(arg sub_stats_file_path)/sub2_$(arg sub_stats_file_name)" />
+            <param name="id" type="int" value="1" />
+        </node>
+        <node name="sub3" launch-prefix="$(arg subs_prefix)" pkg="benchmark" type="benchmark_subscriber">
+            <param name="stats_full_file_path" type="str"  value="$(arg sub_stats_file_path)/sub3_$(arg sub_stats_file_name)" />
+            <param name="id" type="int" value="2" />
+        </node>
+        <node name="sub4" launch-prefix="$(arg subs_prefix)" pkg="benchmark" type="benchmark_subscriber">
+            <param name="stats_full_file_path" type="str"  value="$(arg sub_stats_file_path)/sub4_$(arg sub_stats_file_name)" />
+            <param name="id" type="int" value="3" />
+        </node>
+        <node name="sub5" launch-prefix="$(arg subs_prefix)" pkg="benchmark" type="benchmark_subscriber">
+            <param name="stats_full_file_path" type="str"  value="$(arg sub_stats_file_path)/sub5_$(arg sub_stats_file_name)" />
+            <param name="id" type="int" value="4" />
+        </node>
+    </group>
+
+    <group if="$(eval arg('use_case') == '1p5s_separate_docker')">
+        <machine name="m1" address="node2" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
+        <machine name="m2" address="node3" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
+        <machine name="m3" address="node4" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
+        <machine name="m4" address="node5" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
+        <machine name="m5" address="node6" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
+
+        <param name="sub_count" type="int" value="5" />
+        <param name="pub_count" type="int" value="1" />
+
+        <node name="pub1" launch-prefix="$(arg pubs_prefix)" pkg="benchmark" type="benchmark_publisher" >
+            <param name="id" type="int" value="0" />
+        </node>
+
+        <node machine="m1" launch-prefix="$(arg subs_prefix)" name="sub1" pkg="benchmark" type="benchmark_subscriber">
+            <param name="stats_full_file_path" type="str"  value="$(arg sub_stats_file_path)/sub1_$(arg sub_stats_file_name)" />
+            <param name="id" type="int" value="0" />
+        </node>
+        <node machine="m2" launch-prefix="$(arg subs_prefix)" name="sub2" pkg="benchmark" type="benchmark_subscriber">
+            <param name="stats_full_file_path" type="str"  value="$(arg sub_stats_file_path)/sub2_$(arg sub_stats_file_name)" />
+            <param name="id" type="int" value="1" />
+        </node>
+        <node machine="m3" launch-prefix="$(arg subs_prefix)" name="sub3" pkg="benchmark" type="benchmark_subscriber">
+            <param name="stats_full_file_path" type="str"  value="$(arg sub_stats_file_path)/sub3_$(arg sub_stats_file_name)" />
+            <param name="id" type="int" value="2" />
+        </node>
+        <node machine="m4" launch-prefix="$(arg subs_prefix)" name="sub4" pkg="benchmark" type="benchmark_subscriber">
+            <param name="stats_full_file_path" type="str"  value="$(arg sub_stats_file_path)/sub4_$(arg sub_stats_file_name)" />
+            <param name="id" type="int" value="3" />
+        </node>
+        <node machine="m5" launch-prefix="$(arg subs_prefix)" name="sub5" pkg="benchmark" type="benchmark_subscriber">
+            <param name="stats_full_file_path" type="str"  value="$(arg sub_stats_file_path)/sub5_$(arg sub_stats_file_name)" />
+            <param name="id" type="int" value="4" />
+        </node>
+    </group>
+    
+
+
+
+
+    <group if="$(eval arg('use_case') == '5p1s_same_host' or arg('use_case') == '5p1s_same_docker')">
+        <param name="sub_count" type="int" value="1" />
+        <param name="pub_count" type="int" value="5" />
+
+        <node name="pub1" launch-prefix="$(arg pubs_prefix)" pkg="benchmark" type="benchmark_publisher" >
+            <param name="id" type="int" value="0" />
+        </node>
+        <node name="pub2" launch-prefix="$(arg pubs_prefix)" pkg="benchmark" type="benchmark_publisher" >
+            <param name="id" type="int" value="1" />
+        </node>
+        <node name="pub3" launch-prefix="$(arg pubs_prefix)" pkg="benchmark" type="benchmark_publisher" >
+            <param name="id" type="int" value="2" />
+        </node>
+        <node name="pub4" launch-prefix="$(arg pubs_prefix)" pkg="benchmark" type="benchmark_publisher" >
+            <param name="id" type="int" value="3" />
+        </node>
+        <node name="pub5" launch-prefix="$(arg pubs_prefix)" pkg="benchmark" type="benchmark_publisher" >
+            <param name="id" type="int" value="4" />
+        </node>
+
+        <node name="sub1" launch-prefix="$(arg subs_prefix)" pkg="benchmark" type="benchmark_subscriber">
+            <param name="stats_full_file_path" type="str"  value="$(arg sub_stats_file_path)/sub1_$(arg sub_stats_file_name)" />
+            <param name="id" type="int" value="0" />
+        </node>
+    </group>
+
+    <group if="$(eval arg('use_case') == '5p1s_separate_docker')">
+        <machine name="m1" address="node2" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
+        <machine name="m2" address="node3" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
+        <machine name="m3" address="node4" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
+        <machine name="m4" address="node5" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
+        <machine name="m5" address="node6" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
+
+        <param name="sub_count" type="int" value="1" />
+        <param name="pub_count" type="int" value="5" />
+
+        <node machine="m1" name="pub1" launch-prefix="$(arg pubs_prefix)" pkg="benchmark" type="benchmark_publisher" >
+            <param name="id" type="int" value="0" />
+        </node>
+         <node machine="m2" name="pub2" launch-prefix="$(arg pubs_prefix)" pkg="benchmark" type="benchmark_publisher" >
+            <param name="id" type="int" value="1" />
+        </node>
+         <node machine="m3" name="pub3" launch-prefix="$(arg pubs_prefix)" pkg="benchmark" type="benchmark_publisher" >
+            <param name="id" type="int" value="2" />
+        </node>
+         <node machine="m4" name="pub4" launch-prefix="$(arg pubs_prefix)" pkg="benchmark" type="benchmark_publisher" >
+            <param name="id" type="int" value="3" />
+        </node>
+         <node machine="m5" name="pub5" launch-prefix="$(arg pubs_prefix)" pkg="benchmark" type="benchmark_publisher" >
+            <param name="id" type="int" value="4" />
+        </node>
+
+        <node name="sub1" launch-prefix="$(arg subs_prefix)" pkg="benchmark" type="benchmark_subscriber">
+            <param name="stats_full_file_path" type="str"  value="$(arg sub_stats_file_path)/sub1_$(arg sub_stats_file_name)" />
+            <param name="id" type="int" value="0" />
+        </node>
+    </group>
+
+</launch> 
+
