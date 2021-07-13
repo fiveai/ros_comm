@@ -63,6 +63,11 @@ public:
   virtual std::string getTransportInfo();
   virtual void drop();
 
+  virtual bool isShm() const
+  {
+      return false;
+  }
+
 private:
   void onConnectionDropped(const ConnectionPtr& conn, Connection::DropReason reason);
   bool onHeaderReceived(const ConnectionPtr& conn, const Header& header);

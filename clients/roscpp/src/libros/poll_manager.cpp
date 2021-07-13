@@ -27,6 +27,7 @@
 
 #include "ros/poll_manager.h"
 #include "ros/common.h"
+#include "threading/Utils.h"
 
 #include <signal.h>
 
@@ -72,6 +73,8 @@ void PollManager::shutdown()
 void PollManager::threadFunc()
 {
   disableAllSignalsInThisThread();
+
+  ros::threading::baptizeThisThread("ros-poll-mng");
 
   while (!shutting_down_)
   {

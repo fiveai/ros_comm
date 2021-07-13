@@ -64,7 +64,8 @@ void SubscriptionQueue::push(const SubscriptionCallbackHelperPtr& helper, const 
 
     if (!full_)
     {
-      ROS_DEBUG("Incoming queue was full for topic \"%s\". Discarded oldest message (current queue size [%d])", topic_.c_str(), (int)queue_.size());
+      ROS_WARN("Incoming queue was full for topic %s. Discarded oldest message (current queue size [%d])",
+               topic_.c_str(), (int)queue_.size());
     }
 
     full_ = true;

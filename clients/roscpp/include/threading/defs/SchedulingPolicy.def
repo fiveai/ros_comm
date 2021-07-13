@@ -1,0 +1,8 @@
+#define LOT_SEQ_STANDARD_SCHEDULING_POLICIES  \
+(OTHER)      \
+(IDLE)       \
+(BATCH)
+
+#define LOT_SEQ_REAL_TIME_SCHEDULING_POLICIES  \
+(FIFO)              \
+(ROUND_ROBIN)

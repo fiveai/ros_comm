@@ -29,6 +29,7 @@
 #include "ros/poll_manager.h"
 #include "ros/connection.h"
 #include "ros/transport_subscriber_link.h"
+#include "ros/shm_transport_subscriber_link.h"
 #include "ros/service_client_link.h"
 #include "ros/transport/transport_tcp.h"
 #include "ros/transport/transport_udp.h"
@@ -36,6 +37,8 @@
 #include "ros/network.h"
 
 #include <ros/assert.h>
+
+#include <boost/algorithm/string/predicate.hpp>
 
 namespace ros
 {
@@ -202,7 +205,17 @@ bool ConnectionManager::onConnectionHeaderReceived(const ConnectionPtr& conn, co
     ROSCPP_CONN_LOG_DEBUG("Connection: Creating TransportSubscriberLink for topic [%s] connected to [%s]", 
 		     val.c_str(), conn->getRemoteString().c_str());
 
-    TransportSubscriberLinkPtr sub_link(boost::make_shared<TransportSubscriberLink>());
+    TransportSubscriberLinkPtr sub_link;
+    std::string isShm;
+    header.getValue("is_shm", isShm);
+    if (isShm == "1")
+    {
+        sub_link = boost::make_shared<ShmTransportSubscriberLink>();
+    }
+    else
+    {
+        sub_link = boost::make_shared<TransportSubscriberLink>();
+    }
     sub_link->initialize(conn);
     ret = sub_link->handleHeader(header);
   }

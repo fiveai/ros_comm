@@ -32,6 +32,7 @@
 #include "ros/common.h"
 #include "ros/file_log.h"
 #include "ros/io.h"
+#include "threading/Utils.h"
 
 using namespace XmlRpc;
 
@@ -247,6 +248,8 @@ bool XMLRPCManager::validateXmlrpcResponse(const std::string& method, XmlRpcValu
 void XMLRPCManager::serverThreadFunc()
 {
   disableAllSignalsInThisThread();
+
+  threading::baptizeThisThread("ros-xmlrpc");
 
   while(!shutting_down_)
   {

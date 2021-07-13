@@ -48,7 +48,10 @@
 #include "ros/subscribe_options.h"
 #include "ros/transport/transport_tcp.h"
 #include "ros/internal_timer_manager.h"
+#include "ros/file_log.h"
+#include "ros/shm_engine.h"
 #include "xmlrpcpp/XmlRpcSocket.h"
+#include "threading/Utils.h"
 
 #include "roscpp/GetLoggers.h"
 #include "roscpp/SetLoggerLevel.h"
@@ -58,11 +61,14 @@
 #include <ros/time.h>
 #include <rosgraph_msgs/Clock.h>
 
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/trim.hpp>
+
 #include <algorithm>
-
 #include <signal.h>
-
 #include <cstdlib>
+
+#define ROSCPP_START_STOP_STREAM_INFO(...)  ROS_INFO_STREAM_NAMED("roscpp_start_stop", __VA_ARGS__)
 
 namespace ros
 {
@@ -106,6 +112,18 @@ static bool g_shutdown_requested = false;
 static volatile bool g_shutting_down = false;
 static boost::recursive_mutex g_shutting_down_mutex;
 static boost::thread g_internal_queue_thread;
+
+namespace
+{
+    std::unique_ptr<ShmEngine> g_shmEngine;
+}
+
+ShmEngine& ShmEngine::instance()
+{
+    ROS_ASSERT_MSG(g_shmEngine != nullptr,
+                   "Attempting to access ShmEngine before being constructed or after being destructed.");
+    return *g_shmEngine;
+}
 
 bool isInitialized()
 {
@@ -277,6 +295,8 @@ void internalCallbackQueueThreadFunc()
 {
   disableAllSignalsInThisThread();
 
+  ros::threading::baptizeThisThread("ros-cb-queue");
+
   CallbackQueuePtr queue = getInternalCallbackQueue();
 
   while (!g_shutting_down)
@@ -341,6 +361,7 @@ void start()
     signal(SIGINT, basicSigintHandler);
   }
 
+  std::string transport;
   ros::Time::init();
 
   if (!(g_init_options & init_options::NoRosout))
@@ -408,6 +429,21 @@ void start()
 		   this_node::getName().c_str(), getpid(), network::getHost().c_str(), 
 		   XMLRPCManager::instance()->getServerPort(), ConnectionManager::instance()->getTCPPort(), 
 		   Time::useSystemTime() ? "real" : "sim");
+
+  transport = param::param<std::string>("/transport", "");
+  if (transport == "shm")
+  {
+      using namespace boost::algorithm;
+
+      auto megaBytesToBytes = [](std::uint64_t megaBytes){return megaBytes * 1024*1024;};
+      const std::uint64_t shmSizeBytes = megaBytesToBytes(param::param<int>("/shm_size_mega_bytes", 10));
+      auto name = this_node::getName() + "_ShmEngine";
+      trim_left_if(name, is_any_of("/"));
+      replace_all(name, "/", "_");
+
+      g_shmEngine.reset(new ShmEngine(name, "ROSSHM", shmSizeBytes));
+      ShmEngine::instance().start();
+  }
 
   // Label used to abort if we've started shutting down in the middle of start(), which can happen in
   // threaded code or if Ctrl-C is pressed while we're initializing
@@ -577,13 +613,18 @@ bool ok()
 
 void shutdown()
 {
+  ROSCPP_START_STOP_STREAM_INFO("Shutting down roscpp");
+
   boost::recursive_mutex::scoped_lock lock(g_shutting_down_mutex);
   if (g_shutting_down)
     return;
   else
     g_shutting_down = true;
 
-  ros::console::shutdown();
+  if (g_started)
+  {
+    ShmEngine::instance().releaseRosReferences();
+  }
 
   g_global_queue->disable();
   g_global_queue->clear();
@@ -597,18 +638,27 @@ void shutdown()
 
   if (g_started)
   {
+    ShmEngine::instance().stop();
+    ROSCPP_START_STOP_STREAM_INFO("Shutting down roscpp singletons");
     TopicManager::instance()->shutdown();
     ServiceManager::instance()->shutdown();
     PollManager::instance()->shutdown();
     ConnectionManager::instance()->shutdown();
     XMLRPCManager::instance()->shutdown();
+    ROSCPP_START_STOP_STREAM_INFO("roscpp singletons have been shut down successfully");
+    g_shmEngine.reset();
   }
+
 
   WallTime end = WallTime::now();
 
   g_started = false;
   g_ok = false;
   Time::shutdown();
+
+  ros::console::shutdown();
+
+  ROSCPP_START_STOP_STREAM_INFO("roscpp has ended");
 }
 
 }

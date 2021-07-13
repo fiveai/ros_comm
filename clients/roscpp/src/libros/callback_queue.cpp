@@ -49,6 +49,8 @@
 #endif
 #endif
 
+#include <chrono>
+
 namespace ros
 {
 
@@ -65,7 +67,7 @@ CallbackQueue::~CallbackQueue()
 
 void CallbackQueue::enable()
 {
-  boost::mutex::scoped_lock lock(mutex_);
+  std::unique_lock<std::mutex> lock(mutex_);
   enabled_ = true;
 
   condition_.notify_all();
@@ -73,7 +75,7 @@ void CallbackQueue::enable()
 
 void CallbackQueue::disable()
 {
-  boost::mutex::scoped_lock lock(mutex_);
+  std::unique_lock<std::mutex> lock(mutex_);
   enabled_ = false;
 
   condition_.notify_all();
@@ -81,21 +83,21 @@ void CallbackQueue::disable()
 
 void CallbackQueue::clear()
 {
-  boost::mutex::scoped_lock lock(mutex_);
+  std::unique_lock<std::mutex> lock(mutex_);
 
   callbacks_.clear();
 }
 
 bool CallbackQueue::isEmpty()
 {
-  boost::mutex::scoped_lock lock(mutex_);
+  std::unique_lock<std::mutex> lock(mutex_);
 
   return callbacks_.empty() && calling_ == 0;
 }
 
 bool CallbackQueue::isEnabled()
 {
-  boost::mutex::scoped_lock lock(mutex_);
+  std::unique_lock<std::mutex> lock(mutex_);
 
   return enabled_;
 }
@@ -127,7 +129,7 @@ void CallbackQueue::addCallback(const CallbackInterfacePtr& callback, uint64_t r
   }
 
   {
-    boost::mutex::scoped_lock lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_);
 
     if (!enabled_)
     {
@@ -180,7 +182,7 @@ void CallbackQueue::removeByID(uint64_t removal_id)
 
     {
       boost::unique_lock<boost::shared_mutex> rw_lock(id_info->calling_rw_mutex);
-      boost::mutex::scoped_lock lock(mutex_);
+      std::unique_lock<std::mutex> lock(mutex_);
       D_CallbackInfo::iterator it = callbacks_.begin();
       for (; it != callbacks_.end();)
       {
@@ -231,7 +233,7 @@ CallbackQueue::CallOneResult CallbackQueue::callOne(ros::WallDuration timeout)
   CallbackInfo cb_info;
 
   {
-    boost::mutex::scoped_lock lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_);
 
     if (!enabled_)
     {
@@ -242,7 +244,7 @@ CallbackQueue::CallOneResult CallbackQueue::callOne(ros::WallDuration timeout)
     {
       if (!timeout.isZero())
       {
-        condition_.wait_for(lock, boost::chrono::nanoseconds(timeout.toNSec()));
+        condition_.wait_for(lock, std::chrono::nanoseconds(timeout.toNSec()));
       }
 
       if (callbacks_.empty())
@@ -295,7 +297,7 @@ CallbackQueue::CallOneResult CallbackQueue::callOne(ros::WallDuration timeout)
   CallOneResult res = callOneCB(tls);
   if (res != Empty)
   {
-    boost::mutex::scoped_lock lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_);
     --calling_;
   }
   return res;
@@ -307,7 +309,7 @@ void CallbackQueue::callAvailable(ros::WallDuration timeout)
   TLS* tls = tls_.get();
 
   {
-    boost::mutex::scoped_lock lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_);
 
     if (!enabled_)
     {
@@ -318,7 +320,7 @@ void CallbackQueue::callAvailable(ros::WallDuration timeout)
     {
       if (!timeout.isZero())
       {
-        condition_.wait_for(lock, boost::chrono::nanoseconds(timeout.toNSec()));
+        condition_.wait_for(lock, std::chrono::nanoseconds(timeout.toNSec()));
       }
 
       if (callbacks_.empty() || !enabled_)
@@ -351,7 +353,7 @@ void CallbackQueue::callAvailable(ros::WallDuration timeout)
   }
 
   {
-    boost::mutex::scoped_lock lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_);
     calling_ -= called;
   }
 }
@@ -410,7 +412,7 @@ CallbackQueue::CallOneResult CallbackQueue::callOneCB(TLS* tls)
     // Push TryAgain callbacks to the back of the shared queue
     if (result == CallbackInterface::TryAgain && !info.marked_for_removal)
     {
-      boost::mutex::scoped_lock lock(mutex_);
+      std::unique_lock<std::mutex> lock(mutex_);
       callbacks_.push_back(info);
 
       return TryAgain;

@@ -1,0 +1,48 @@
+# ***************************************************************************************************
+# * Copyright Five AI 2021.
+# * All rights reserved.
+# ***************************************************************************************************
+
+version: "3.7"
+
+x-base_node: &base_node
+    image: lot
+    ipc: host
+    volumes: 
+        - "${HOME}:${HOME}"
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    environment:
+        - LOT_HOME=${HOME}/lot
+
+services:
+    # define the nodes as copies of the base node
+    node_1:
+        << : *base_node
+        container_name: node1
+        hostname: node1
+    
+    node_2:
+        << : *base_node
+        container_name: node2
+        hostname: node2
+
+    node_3:
+        << : *base_node
+        container_name: node3
+        hostname: node3
+
+    node_4:
+        << : *base_node
+        container_name: node4
+        hostname: node4
+
+    node_5:
+        << : *base_node
+        container_name: node5
+        hostname: node5
+
+    node_6:
+        << : *base_node
+        container_name: node6
+        hostname: node6

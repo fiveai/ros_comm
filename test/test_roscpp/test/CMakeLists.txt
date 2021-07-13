@@ -38,6 +38,14 @@ if(TARGET ${PROJECT_NAME}-test_args)
   target_link_libraries(${PROJECT_NAME}-test_args ${catkin_LIBRARIES})
 endif()
 
+catkin_add_gtest(${PROJECT_NAME}-test_shm test_shm.cpp)
+if(TARGET ${PROJECT_NAME}-test_shm)
+  target_link_libraries(${PROJECT_NAME}-test_shm ${catkin_LIBRARIES})
+  target_include_directories(${PROJECT_NAME}-test_shm 
+    PUBLIC ${CMAKE_SOURCE_DIR}/ros_comm/clients/roscpp/include/boost_1.65.0/
+  )
+endif()
+
 if(GTEST_FOUND)
   add_subdirectory(src)
 endif()
