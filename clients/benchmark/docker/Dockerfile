@@ -1,7 +1,9 @@
 # syntax=docker/dockerfile:experimental
 
-# WARNING: The top line must go first in the file!
-# To build this docker run: 
+# WARNING: The top line must go first in the file and is required to
+#          allow cloning the git repository through ssh. More details
+#          can be found at: https://medium.com/@tonistiigi/build-secrets-and-ssh-forwarding-in-docker-18-09-ae8161d066
+# To build this docker image run:
 #    1. export DOCKER_BUILDKIT=1
 #    2. docker build --ssh default --tag XXX .
 
