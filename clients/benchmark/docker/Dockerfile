@@ -5,6 +5,11 @@
 #    1. export DOCKER_BUILDKIT=1
 #    2. docker build --ssh default --tag XXX .
 
+# ***************************************************************************************************
+# * Copyright Five AI 2021.
+# * All rights reserved.
+# ***************************************************************************************************
+
 FROM osrf/ros:kinetic-desktop-full-xenial
 
 RUN apt-get update && apt-get install -y \
