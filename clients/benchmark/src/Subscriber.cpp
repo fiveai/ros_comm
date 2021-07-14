@@ -25,6 +25,17 @@
 #include <fstream>
 #include <thread>
 
+/**
+ * The ROS node @em subscriber is in charge of receiving images on
+ * designated topics and making use of one of the following transport
+ * protocols: SHM, TCP, UDP or TZC.
+ *
+ * When more than one @em subscriber exists in the ROS graph, the initialisation
+ * order among its siblings can be enforced. Likewise, additional delays are
+ * suppored in key points if more complex synchronisation strategies with
+ * the publisher(s) are required.
+ */
+
 using SharedPtrConstShmImage = fiveai::std_msgs::shm::SharedPtrConstShmImage;
 using SharedPtrConstImage = sensor_msgs::ImageConstPtr;
 using SizePixels = fiveai::util::SizePixels;
@@ -82,6 +93,7 @@ namespace
     bool s_allImagesReceived = false;
 }
 
+// Registers stats about the received images in an in-memory table
 template <typename T>
 void callback(T img)
 {
@@ -119,6 +131,7 @@ void callback(T img)
     }
 }
 
+// Factory function - creates a subscriber specified by transport parameter
 boost::variant<ros::Subscriber, tzc_transport::Subscriber< tzc_transport::sensor_msgs::Image >>
 makeSubscriber(ros::NodeHandle& nh)
 {
@@ -213,6 +226,7 @@ int main(int argc, char** argv)
         subStats.resize(params.imageCount, Data{});
     }
 
+    // ad-hoc connection order mechanism
     const auto& myName = ros::this_node::getName();
     if (params.enableSynchStartup)
     {
@@ -244,6 +258,8 @@ int main(int argc, char** argv)
         s_cv.wait(lk, []{return s_allImagesReceived;});
     }
 
+    // Stats are saved once all the images have been received to avoid
+    // latencies being biased by writing to disk.
     ROS_INFO_STREAM("Dumping stats to " << params.statsFullFilePath);
     dumpStats(params.statsFullFilePath);
     ROS_INFO_STREAM("Stats successfuly saved.");

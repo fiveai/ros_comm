@@ -40,6 +40,42 @@ namespace ros
         std::string shmQueueName;
     };
 
+    /**
+     * The @class ShmEngine represents the workhorse of the shared memory mechanism.
+     * Every ROS node wishing to take advantage of said mechanism incorporates one
+     * instance of this class.
+     *
+     * The @class ShmEngine is in charge of allocating the shared memory segment in OS,
+     * and it does so by means of boost::interprocess::managed_shared_memory. All ROS
+     * nodes will attempt to either create or open the memory segment identified in
+     * the OS by a unique name, e.g. ROSSHM. Whilst all ROS nodes are allowed to map
+     * the memory segment into their address space, Boost.Interprocess guarantees that
+     * the creation of the memory segment is carried out by one single ROS node. It's
+     * unspecfied which of the ROS graph nodes creates the segment.
+     *
+     * In addition to the above, we have extended ROS’s transport protocols by adding
+     * SHMROS, under which ROS nodes rely on the XMLRPC protocol and OS sockets to
+     * establish connections, and ShmEngine to transmit data. Each ROS node incorporates
+     * one ShmEngine. The SHM protocol settings, e.g. the names of ShmQueues, are exchanged
+     * via XMLRPC during the connection setup. As mentioned above, all ROS nodes using SHMROS
+     * share a common memory segment with configurable size and identified by a unique, well
+     * known string in the OS file system. When topics are advertised by the publisher, the
+     * @class ShmEngine assigns one @class ShmPusher per topic. When a node subscribes to a topic,
+     * a @class ShmQueue is created by the corresponding topic's @class ShmPusher and its name
+     * is returned to the subscriber. The subscriber, in turn, creates a @class ShmPuller per
+     * publisher and topic the main job of which is to spawn a thread, attach itself to the
+     * @class ShmQueue indicated by the publisher and start waiting for incoming items on
+     * the queue. Items may be of any SHM compliant C++ type. These include the @class ShmSharedPtr
+     * and @class ShmUniquePtr, two of the SHM compliant smart pointers we have defined.
+     *
+     * The ShmPuller also creates local private topics in order to forward items popped
+     * from the ShmQueue to the ROS subscriber using its standard interface. Unlike regular
+     * topics, the scope of private topics is limited to the node that created them, i.e.
+     * intra-process, and they are not publicly advertised. ShmPuller combines private topics
+     * and ROS intra-process message passing by wrapping incoming items in shared_ptrs and
+     * publishing them as though they originated from another ROS node.
+     *
+     */
     class ShmEngine
     {
     public:

@@ -22,7 +22,14 @@
 
 namespace ros
 {
-
+    /**
+     * @class ShmPuller is in charge of retrieving a pointer to the @class CircularQueue
+     * (assigned by the corresponding publisher) from the shared memory and spawing an OS
+     * thread whose main responsibility is to wait and pop elements from the queue when
+     * they become avalable. In addition to the CircularQueue, there is also an internal
+     * thread-safe queue that is used by the ShmPuller to attend internal requests, e.g.
+     * attach to/detach from the CircularQueue.
+     */
     class ShmPuller
     {
     public:

@@ -1,6 +1,10 @@
 <launch>
 
     <!--
+        List of supported use cases. ROS nodes can all run on
+        the same host, within the same Docker container or spread
+        across several Docker containers running on the *same* host.
+
         1p1s_same_host
         1p5s_same_host
         5p1s_same_host

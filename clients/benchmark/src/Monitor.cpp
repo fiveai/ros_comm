@@ -12,6 +12,13 @@
 #include <ros/param.h>
 #include <std_msgs/String.h>
 
+/**
+ * ROS node that acts as a barrier waiting for subscribers to complete.
+ * Its aggregated to the ROS graph as a required ROS node - see launch.xml.
+ * Its purpose is to force killing the ROS graph should the subscribers or
+ * publishers refuse to shutdown politely.
+*/
+
 struct Params
 {
     Params() :

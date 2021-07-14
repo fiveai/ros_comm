@@ -3,6 +3,13 @@
 # * All rights reserved.
 # ***************************************************************************************************
 
+# This script runs on top of roslaunch. Its purpose is to execute suites
+# of benchmarks and it does so by generating sets of parameters
+# that are then passed to roslaunch that in turn takes care of launching
+# the ROS nodes specified in the launch.xml file. The launch.xml file takes
+# in several parameters that can be overriden by this script via --extra_params
+# argument.
+
 import copy
 import roslaunch
 import rospy
@@ -29,7 +36,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Help')
     parser.add_argument('--pub_image_count', type=int, default=2000, help='The number of images broadcast by the publisher')
     parser.add_argument('--pub_pool_size', type=int, default=100, help='The number of images each publisher buffers before starting broadcasting')
-    parser.add_argument('--extra_params', nargs='*', type=str, default="", help='Extra parameters in the form param:=value that are to be passed to roslaunch')
+    parser.add_argument('--extra_params', nargs='*', type=str, default="", help='Extra parameters in the form param:=value that are to be passed to roslaunch. Example: --extra_params transport:=tcp pub_hz:=10')
     parser.add_argument('--use_case', type=str, help="1p1s_same_host 1p5s_same_host 5p1s_same_host " +
                                                      "1p1s_same_docker 1p5s_same_docker 5p1s_same_docker " +
                                                      "1p1s_separate_docker 1p5s_separate_docker 5p1s_separate_docker")

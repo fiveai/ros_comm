@@ -18,6 +18,13 @@
 
 namespace ros
 {
+    /**
+     * @class ShmPusher is in charge of creating one @class CircularQueue
+     * per connected subscriber in the shared memory and informing the corresponding
+     * ShmPuller about its existence via the @class ShmEngine. It also exposes
+     * the @fn post method that is used to deliver the image to the interested
+     * subscribers.
+     */
     class ShmPusher
     {
     public:

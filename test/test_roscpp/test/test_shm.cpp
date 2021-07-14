@@ -225,7 +225,9 @@ protected:
 };
 
 /*
- *  pub ---intra---> sub
+ * pub ---intra---> sub
+ *
+ * Publisher and subscriber live in the same OS process and communicate through SHM.
 */
 TEST_F(Shm, Intra1pub1sub1msg)
 {
@@ -262,6 +264,8 @@ TEST_F(Shm, Intra1pub1sub1msg)
 
 /*
  *  pub ---inter---> sub
+ *
+ * Publisher and subscriber live in different OS processes and communicate through SHM.
 */
 TEST_F(Shm, Inter1pub1sub1msg)
 {
@@ -341,6 +345,8 @@ TEST_F(Shm, Inter1pub1sub1msg)
  *  pub1 ---inter---> sub
  *  ...              /
  *  pub20---inter---/
+ *
+ * Publishers and the subscriber live in different OS processes and communicate through SHM.
 */
 TEST_F(Shm, DISABLED_Inter20pub1sub1msg)
 {
@@ -433,6 +439,8 @@ TEST_F(Shm, DISABLED_Inter20pub1sub1msg)
  *  pub ---inter---> sub1
  *     \             ....
  *      \--inter---> sub20
+ *
+ * The publisher and the subscribers live in different OS processes and communicate through SHM.
 */
 TEST_F(Shm, Inter1pub20sub1msg)
 {
@@ -526,6 +534,10 @@ TEST_F(Shm, Inter1pub20sub1msg)
  *  pub ---inter---> sub1
  *     \
  *      \--intra---> sub2
+ *
+ * Publisher and subscriber 2 live in same OS process, whilst the publisher
+ * and the subscriber sub2 live in different OS processes. Communication is
+ * achieved through SHM in either case.
 */
 TEST_F(Shm, Inter1pub1sub_Intra1pub1sub_1msg)
 {
@@ -631,6 +643,10 @@ TEST_F(Shm, Inter1pub1sub_Intra1pub1sub_1msg)
  *     \---intra---> sub2
  *      \             ....
  *       \--intra---> sub22
+ *
+ * Publisher and subscriber 1 live in diferent OS processes, whilst the publisher
+ * and the subscribers [sub2, sub22] live in different OS processes. Communication is
+ * achieved through SHM in all cases.
 */
 TEST_F(Shm, Inter1pub1sub_Intra1pub20sub_1msg)
 {

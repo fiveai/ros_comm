@@ -23,6 +23,17 @@
 
 #include <thread>
 
+/**
+ * The ROS node @em publisher is in charge of broadcasting images on
+ * designated topics whilst making use of one of the following transport
+ * protocols: SHM, TCP, UDP or TZC.
+ *
+ * When more than one @em publisher exists in the ROS graph, the initialisation
+ * order among its siblings can be enforced. Likewise, additional delays are
+ * suppored in key points if more complex synchronisation strategies with
+ * the subscriber(s) are required.
+ */
+
 using SharedPtrConstShmImage = fiveai::std_msgs::shm::SharedPtrConstShmImage;
 using SharedPtrShmImage = fiveai::std_msgs::shm::SharedPtrShmImage;
 using SharedPtrImage = sensor_msgs::ImagePtr;
@@ -73,6 +84,8 @@ inline bool isPoolEnabled()
     return params.poolSize > 0;
 }
 
+// Generic factory function. Not implemented,
+// see its specialisations for concrete implementations.
 template <typename T> T makeImage();
 
 template <>
@@ -98,6 +111,10 @@ SharedPtrImage makeImage<SharedPtrImage>()
     return img;
 }
 
+/**
+ * Images can be allocated from pools of images which
+ * are preallocated upon start up.
+*/
 template <typename T>
 std::vector<T> maybeMakePool()
 {
@@ -124,6 +141,7 @@ std::vector<T> maybeMakePool()
 template <typename T, typename U>
 void publish(ros::NodeHandle& nh)
 {
+    // ad-hoc connection order mechanism
     if (params.enableSynchStartup)
     {
         if (params.id > 0)
@@ -196,12 +214,14 @@ void publishThroughTcpOrUdp(ros::NodeHandle& nh)
     publish<SharedPtrImage, sensor_msgs::Image>(nh);
 }
 
+// NB: Does not support pools and occasionally crashes in TZC.
 void publishThroughTzc(ros::NodeHandle& nh)
 {
     using Img = tzc_transport::sensor_msgs::Image;
 
     auto megaBytesToBytes = [](std::uint64_t megaBytes){return megaBytes * 1024*1024;};
 
+    // ad-hoc connection order mechanism
     if (params.enableSynchStartup)
     {
         if (params.id > 0)
