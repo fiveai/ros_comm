@@ -22,7 +22,3 @@ public:
 typedef boost::shared_ptr<ShmTransportPublisherLink> ShmTransportPublisherLinkPtr;
 
 } // namespace ros
-
-
-
-
