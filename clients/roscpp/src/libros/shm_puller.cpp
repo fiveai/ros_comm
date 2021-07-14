@@ -69,7 +69,9 @@ ShmPuller::retrieveShmQueue(const std::string& queueName) const
 {
     ROS_INFO_STREAM(getName() << " is retrieving queue " << queueName <<
                     " located in the shm segment " << getShmName());
-    auto& mng = const_cast<ShmManager&>(m_shmManager); // find should have been const?
+    // NB: The const_cast is required to work around managed_shared_memory::find
+    //     method that lacks the const overload.
+    auto& mng = const_cast<ShmManager&>(m_shmManager);
     const auto ret = mng.find<ShmQueue>(queueName.c_str());
 
     if (ret.first == nullptr)
