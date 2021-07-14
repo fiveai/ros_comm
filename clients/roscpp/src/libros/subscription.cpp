@@ -782,7 +782,7 @@ bool Subscription::addCallback(const SubscriptionCallbackHelperPtr& helper, cons
             }
             else
             {
-              ROS_WARN("Subscription queue of %s was full in node %s, scheduling  of latched callback postponed",
+              ROS_WARN("Subscription queue of %s was full in node %s, scheduling of latched callback postponed",
                        getName().c_str(), this_node::getName().c_str());
             }
           }

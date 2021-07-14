@@ -172,7 +172,7 @@ void ShmPuller::asyncLogState()
 
 void ShmPuller::attach()
 {
-    const std::string action = m_state == State::ATTACHED ? "REattaching" :
+    const std::string action = m_state == State::ATTACHED ? "Reattaching" :
                                                             "attaching";
     ROS_INFO_STREAM(getName() << " is " << action << " to shm " <<
                     getShmName() << " and queue " << getShmQueueName());

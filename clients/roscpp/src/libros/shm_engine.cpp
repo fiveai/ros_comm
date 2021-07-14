@@ -359,7 +359,7 @@ void ShmEngine::releaseRosReferences()
 
 void ShmEngine::doReleaseRosReferences()
 {
-    ROS_INFO_STREAM(getName() << " is stoping internal ROS references");
+    ROS_INFO_STREAM(getName() << " is stopping internal ROS references");
     for (auto& puller : m_pullers)
     {
         puller->releaseRosReferences();
@@ -504,8 +504,8 @@ void ShmEngine::doStop(std::size_t offset)
 
         asyncOnAllResponsesReceived([this]
         {
-            // NB: this delay is a bit of a hack; its intent is to give peers of this ROS node
-            //     a chance to send requests and get a response back, and thus avoid hanging.
+            // NB: Here we required a delay to give peers of this ROS node a chance
+            //     to send requests and get a response back, and thus avoid hanging.
             std::chrono::milliseconds dur(200);
             ROS_INFO_STREAM("Waiting " << dur.count() << "ms to allow the peers of " <<
                             getName() << " to send requests and receive responses");

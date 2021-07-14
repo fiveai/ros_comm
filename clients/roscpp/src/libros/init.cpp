@@ -430,9 +430,8 @@ void start()
 		   XMLRPCManager::instance()->getServerPort(), ConnectionManager::instance()->getTCPPort(), 
 		   Time::useSystemTime() ? "real" : "sim");
 
-  // TODO: remove this check
   transport = param::param<std::string>("/transport", "");
-  if ( transport == "shm")
+  if (transport == "shm")
   {
       using namespace boost::algorithm;
 
@@ -659,7 +658,7 @@ void shutdown()
 
   ros::console::shutdown();
 
-  ROSCPP_START_STOP_STREAM_INFO("roscpp end marker");
+  ROSCPP_START_STOP_STREAM_INFO("roscpp has ended");
 }
 
 }
