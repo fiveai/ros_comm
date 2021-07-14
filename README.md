@@ -6,7 +6,7 @@ The implementation is based on ROS 1.12.14 but it can be easily ported to more m
 
 To support data gathering and ensure consistency across runs, a [suite of benchmarks](./clients/benchmark) has been put put in place. The suites or individual tests can be executed following the procedure described below. Currently, four protocols are supported: TCP, UDP, SHM and TZC.
 
-[Boost.Process 1_65_0](https://www.boost.org/doc/libs/1_65_0/doc/html/process.html) has been imported into the source tree to support [unit tests](./test/test_roscpp/test/test_shm).
+[Boost.Process 1_65_0](https://www.boost.org/doc/libs/1_65_0/doc/html/process.html) has been imported into the source tree to support [unit tests](./test/test_roscpp/test/test_shm.cpp).
 
 Bug fixes applied on top of ROS 1.12.14:
  - _roslaunch_ [bug fix](https://github.com/ros/ros_comm/pull/1115)
