@@ -1,3 +1,8 @@
+# ***************************************************************************************************
+# * Copyright Five AI 2021.
+# * All rights reserved.
+# ***************************************************************************************************
+
 cmake_minimum_required(VERSION 2.8.3)
 project(benchmark)
 
@@ -39,7 +44,6 @@ add_executable(${PROJECT_NAME}_publisher src/Publisher.cpp)
 add_executable(${PROJECT_NAME}_subscriber src/Subscriber.cpp)
 add_executable(${PROJECT_NAME}_monitor src/Monitor.cpp)
 
-#target_link_libraries(${CMAKE_THREAD_LIBS_INIT})(${PROJECT_NAME}_publisher rt)
 add_custom_target(${PROJECT_NAME}_all)
 add_dependencies(${PROJECT_NAME}_all
     ${PROJECT_NAME}_publisher

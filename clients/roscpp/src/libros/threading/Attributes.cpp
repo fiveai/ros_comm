@@ -1,4 +1,10 @@
-﻿#include "threading/Attributes.h"
+﻿/***************************************************************************************************
+ * Copyright Five AI 2021.
+ * All rights reserved.
+ ***************************************************************************************************/
+
+
+#include "threading/Attributes.h"
 
 #include "util/Exception.h"
 #include "util/Macros.h"
