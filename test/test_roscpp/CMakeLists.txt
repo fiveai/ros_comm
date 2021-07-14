@@ -17,7 +17,6 @@ if(CATKIN_ENABLE_TESTING)
   find_package(Boost REQUIRED COMPONENTS signals filesystem system)
 
   include_directories(include
-      # TODO: fix me
       ${CMAKE_CURRENT_SOURCE_DIR}/../../clients/roscpp/include/boost_1.65.0
       ${catkin_INCLUDE_DIRS}
       ${Boost_INCLUDE_DIRS})
