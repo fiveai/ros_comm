@@ -348,7 +348,7 @@ void ShmEngine::removeShmFromSystem()
             "" :
             ". This indicates that the shared memory segment is still being used "
             "by other processes or it did not exist at the time of removal. Both "
-            "situations are legitimate failure cases, do not panic!";
+            "situations do not indicate incorrect operation, do not panic!";
     ROS_INFO_STREAM("Removing " << m_shmName << " from system has " << status << extraClarification);
 }
 
