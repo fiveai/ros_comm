@@ -121,7 +121,7 @@ namespace
 ShmEngine& ShmEngine::instance()
 {
     ROS_ASSERT_MSG(g_shmEngine != nullptr,
-                   "You are fried, attempting to access ShmEngine before being constructed or after being destructed.");
+                   "Attempting to access ShmEngine before being constructed or after being destructed.");
     return *g_shmEngine;
 }
 
@@ -645,7 +645,7 @@ void shutdown()
     PollManager::instance()->shutdown();
     ConnectionManager::instance()->shutdown();
     XMLRPCManager::instance()->shutdown();
-    ROSCPP_START_STOP_STREAM_INFO("roscpp singletons have been shut down successfuly");
+    ROSCPP_START_STOP_STREAM_INFO("roscpp singletons have been shut down successfully");
     g_shmEngine.reset();
   }
 

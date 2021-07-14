@@ -327,7 +327,6 @@ Publisher NodeHandle::advertise(AdvertiseOptions& ops)
 Subscriber NodeHandle::subscribe(SubscribeOptions& ops)
 {
   ops.topic = resolveName(ops.topic);
-
   if (ops.callback_queue == 0)
   {
     if (callback_queue_)

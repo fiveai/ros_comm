@@ -283,7 +283,7 @@ void ShmPuller::onImage(SharedPtrConstImage msg)
 
 void ShmPuller::resetShmData()
 {
-    // NB: do not reset m_shmManager here as there might still be images on flight
+    // NB: do not reset m_shmManager here as there might still be images in flight
     //     and a reset would unmap the shared memory from the address space of this
     //     process leading to nasty crashes.
 
