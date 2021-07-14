@@ -100,7 +100,7 @@ namespace ros { namespace serialization
         {
             throw std::logic_error{"Shared memory shared pointers are not (de)serializable!"
                                    " This means that they cannot be passed between nodes via "
-                                   "ros publish/subscribe mechanisms."};
+                                   "ROS publish/subscribe mechanisms."};
         }
 
         ROS_DECLARE_ALLINONE_SERIALIZER
