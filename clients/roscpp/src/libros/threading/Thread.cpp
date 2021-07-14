@@ -144,11 +144,8 @@ void Thread<StandardAttributes>::initLiveAttributes()
 
    initCommonLiveAttributes();
 
-   // nice
-   {
-       auto msg = [this] {return "Could not set nice of thread " + m_attributes.getName();};
-       util::tryInvoke(::setpriority, msg, PRIO_PROCESS, 0, m_attributes.getNice().getValue());
-   }
+    auto msg = [this] {return "Could not set nice of thread " + m_attributes.getName();};
+    util::tryInvoke(::setpriority, msg, PRIO_PROCESS, 0, m_attributes.getNice().getValue());
 }
 
 template <>
@@ -160,11 +157,8 @@ void Thread<RealTimeAttributes>::initLiveAttributes()
 template <typename A>
 void Thread<A>::initCommonLiveAttributes()
 {
-    // name
-    {
-        auto msg = [this] {return "Could not set name of thread " + m_attributes.getName();};
-        util::tryInvoke(fiveai::platform::threading::baptizeThisThread, msg, m_attributes.getName());
-    }
+    auto msg = [this] {return "Could not set name of thread " + m_attributes.getName();};
+    util::tryInvoke(fiveai::platform::threading::baptizeThisThread, msg, m_attributes.getName());
 }
 
 template <>

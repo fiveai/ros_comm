@@ -6,9 +6,6 @@ if(NOT WIN32)
   set_directory_properties(PROPERTIES COMPILE_OPTIONS "-Wall;-Wextra")
 endif()
 
-add_compile_options(-std=c++11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 find_package(catkin REQUIRED)
 
 find_path(lz4_INCLUDE_DIRS NAMES lz4.h)
