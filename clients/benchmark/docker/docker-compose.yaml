@@ -9,9 +9,11 @@ x-base_node: &base_node
     image: shm-on-ros:2.4
     ipc: host
     volumes: 
-        - "/home/costin/projects/:/home/costin/projects/"
+        - "${HOME}:${HOME}"
     stdin_open: true # docker run -i
     tty: true        # docker run -t
+    environment:
+        - SHM_ON_ROS_HOME=${HOME}/shm-on-ros
 
 services:
     # define the nodes as copies of the base node

@@ -33,7 +33,7 @@
     <arg name="sub_queue_size"           default="100" />
     <arg name="sub_output_stats"         default="false" />
     <arg name="sub_tcp_no_delay"         default="true" />
-    <arg name="sub_stats_file_path"      default="/home/costin" />
+    <arg name="sub_stats_file_path"      default="$(env SHM_ON_ROS_HOME)" />
     <arg name="sub_stats_file_name"     
         default="$(arg transport)_$(arg use_case)_$(arg image_width_pixels)x$(arg image_height_pixels)_pool$(arg pub_pool_size)_Hz$(arg pub_hz)_count$(arg pub_image_count).txt" 
     />
@@ -60,7 +60,7 @@
     
     <param name="/sub/tcp_no_delay"         type="bool" value="$(arg sub_tcp_no_delay)" />
     <param name="/sub/expected_image_count" type="int"  value="$(arg pub_image_count)" />
-    <param name="/sub/extra_delay_ms"       type="int"    value="$(arg sub_extra_delay_ms)" />
+    <param name="/sub/extra_delay_ms"       type="int"  value="$(arg sub_extra_delay_ms)" />
     <param name="/sub/enable_synch_startup" type="bool" value="$(arg sub_enable_synch_startup)" />
 
     <node name="monitor" pkg="benchmark" type="benchmark_monitor" required="true"/>

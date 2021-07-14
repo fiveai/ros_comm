@@ -35,6 +35,7 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 RUN echo "/usr/sbin/sshd" >> ~/.bashrc
 RUN echo "export ROSLAUNCH_SSH_UNKNOWN=1" >> ~/.bashrc
 RUN echo "source /ros_comm_fiveai/devel-release/setup.sh" >> ~/.bashrc
+RUN echo "mkdir -p \${SHM_ON_ROS_HOME}" >> ~/.bashrc
 # This line is need to workaround a roslaunch bug where multiple instances of roscore are launched 
 RUN echo "export ROS_MASTER_URI=http://\$(uname -n):11311" >> ~/.bashrc
 RUN echo "nano /ros_comm_fiveai/src/ros_comm/clients/benchmark/launch/launch.xml" >> ~/.bash_history
@@ -56,7 +57,7 @@ RUN --mount=type=ssh git clone git@github.com:costinior/ros_comm.git /ros_comm_f
     git checkout shm-on-ros                  && \
     cd /ros_comm_fiveai
 
-RUN  /bin/bash -c "source /opt/ros/kinetic/setup.sh   &&        \             
+RUN  /bin/bash -c "source /opt/ros/kinetic/setup.sh   &&        \
     catkin_make_isolated                                        \
     --source        /ros_comm_fiveai/src/                       \
     --build         /ros_comm_fiveai/build-release              \
