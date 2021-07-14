@@ -49,11 +49,6 @@ RUN --mount=type=ssh git clone git@github.com:costinior/ros_comm.git /ros_comm_f
     git checkout shm-on-ros                  && \
     cd /ros_comm_fiveai
 
-#RUN git clone https://github.com/ros/class_loader.git class_loader  && \
-#    git clone https://github.com/ros/nodelet_core.git               && \
-#    git clone https://github.com/ros/pluginlib.git                  && \
-#    git clone https://github.com/qboticslabs/tzc_transport.git 
-
 RUN  /bin/bash -c "source /opt/ros/kinetic/setup.sh   &&        \             
     catkin_make_isolated                                        \
     --source        /ros_comm_fiveai/src/                       \

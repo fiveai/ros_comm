@@ -1,6 +1,6 @@
 # SHM on ROS
 ## General description
-This repo contains the C++ implementation of the shared memory mechanism described in _Smart Pointers and Shared Memory Synchronisation for Efficient Inter-process Communication in ROS on an Autonomous Vehicle_ paper along with detailed build and deployment instructions.
+This repo contains the C++ implementation of the shared memory mechanism described in the _Smart Pointers and Shared Memory Synchronisation for Efficient Inter-process Communication in ROS on an Autonomous Vehicle_ paper along with detailed build and deployment instructions.
 
 The implementation is based on ROS 1.12.14 but it can be easily ported to more modern ROS versions which support C++11 or later. The code can be built either directly on the host machine _or_ within a Docker container via  [the provided Docker script](https://github.com/costinior/ros_comm/blob/shm-on-ros/clients/benchmark/docker/Dockerfile) . The former assumes the installation of ROS 1.12.14, Boost 1.58.0 and python2 on the host machine. The latter requires Docker installation only on the host machine.
 
