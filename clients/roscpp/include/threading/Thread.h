@@ -115,7 +115,6 @@ namespace fiveai { namespace threading
     private:
         Attributes              m_attributes;
         Worker                  m_worker;
-        // Wrapper function which works around a compiler bug
         std::function<void()>   m_mainLoop;
     };
 
