@@ -10,7 +10,7 @@
 #include <future>
 #include <functional>
 
-namespace fiveai { namespace platform { namespace threading
+namespace fiveai { namespace threading
 {
     /**
      * Assigns @param name to the calling thread.
@@ -32,4 +32,4 @@ namespace fiveai { namespace platform { namespace threading
         barrier.set_value();
     }
 
-}}}
+}}

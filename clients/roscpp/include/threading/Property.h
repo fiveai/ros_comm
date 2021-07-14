@@ -10,7 +10,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace fiveai { namespace platform { namespace threading
+namespace fiveai { namespace threading
 {
     template <typename T, class D>
     class Property : boost::totally_ordered<D,
@@ -93,4 +93,4 @@ namespace fiveai { namespace platform { namespace threading
     private:
         Value m_value;
     };
-}}}
+}}

@@ -766,7 +766,7 @@ int main(int argc, char** argv)
     globalArgc = argc;
     globalArgv = argv;
 
-    fiveai::platform::threading::baptizeThisThread("main");
+    fiveai::threading::baptizeThisThread("main");
 
     const auto ret = RUN_ALL_TESTS();
     return ret;

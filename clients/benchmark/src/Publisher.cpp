@@ -28,7 +28,7 @@ using SharedPtrShmImage = fiveai::std_msgs::shm::SharedPtrShmImage;
 using SharedPtrImage = sensor_msgs::ImagePtr;
 using SharedPtrConstImage = sensor_msgs::ImageConstPtr;
 
-using SizePixels = fiveai::platform::util::SizePixels;
+using SizePixels = fiveai::util::SizePixels;
 
 struct Params
 {

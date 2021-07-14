@@ -10,7 +10,7 @@
 
 #include <type_traits>
 
-namespace fiveai { namespace platform { namespace shm
+namespace fiveai { namespace shm
 {
     namespace __shared_ptr
     {
@@ -30,5 +30,5 @@ namespace fiveai { namespace platform { namespace shm
         __shared_ptr::VoidAllocator,
         __shared_ptr::Deleter<T>
     >;
-}}}
+}}
 

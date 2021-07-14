@@ -8,7 +8,7 @@
 
 #include <boost/thread/thread.hpp>
 
-namespace fiveai { namespace platform { namespace threading
+namespace fiveai { namespace threading
 {
     template <typename A>
     class Thread
@@ -121,4 +121,4 @@ namespace fiveai { namespace platform { namespace threading
 
     using StandardThread = Thread<StandardAttributes>;
     using RealTimeThread = Thread<RealTimeAttributes>;
-}}}
+}}

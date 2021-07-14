@@ -6,7 +6,7 @@
 
 #include <boost/thread/thread_only.hpp>
 
-namespace fiveai { namespace platform { namespace threading
+namespace fiveai { namespace threading
 {
     using OsId = boost::thread::id;
-}}}
+}}

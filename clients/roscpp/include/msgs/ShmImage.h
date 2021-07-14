@@ -31,8 +31,8 @@ namespace fiveai { namespace std_msgs { namespace shm
 
         using SegmentManager = boost::interprocess::managed_shared_memory::segment_manager;
         using Header         = shm::Header_<StringAllocator>;
-        using String         = fiveai::platform::shm::_String<typename StringAllocator::value_type, StringAllocator>;
-        using Vector         = fiveai::platform::shm::Vector<typename DataAllocator::value_type, DataAllocator>;
+        using String         = fiveai::shm::_String<typename StringAllocator::value_type, StringAllocator>;
+        using Vector         = fiveai::shm::Vector<typename DataAllocator::value_type, DataAllocator>;
         using Size           = uint32_t;
         using Bool           = uint8_t;
 
@@ -80,9 +80,9 @@ namespace fiveai { namespace std_msgs { namespace shm
         Vector  data;
     };
 
-    using Image                  = shm::Image_<fiveai::platform::shm::StringAllocator>;
-    using SharedPtrShmImage      = fiveai::platform::shm::SharedPtr<shm::Image>;
-    using SharedPtrConstShmImage = fiveai::platform::shm::SharedPtr<const shm::Image>;
+    using Image                  = shm::Image_<fiveai::shm::StringAllocator>;
+    using SharedPtrShmImage      = fiveai::shm::SharedPtr<shm::Image>;
+    using SharedPtrConstShmImage = fiveai::shm::SharedPtr<const shm::Image>;
 
     // constants requiring out of line definition
     template<typename A>

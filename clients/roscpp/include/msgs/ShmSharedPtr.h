@@ -19,7 +19,7 @@
 namespace fiveai { namespace std_msgs { namespace shm
 {
     template <typename T>
-    using SharedPtr = fiveai::platform::shm::SharedPtr<T>;
+    using SharedPtr = fiveai::shm::SharedPtr<T>;
 }}}
 
 namespace ros { namespace message_traits

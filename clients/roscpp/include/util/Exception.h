@@ -10,7 +10,7 @@
 #include <string>
 #include <functional>
 
-namespace fiveai { namespace platform { namespace util
+namespace fiveai { namespace util
 {
     /*
      * Writes the error message for exception ex to output stream os, followed by a | symbol. If the exception is
@@ -50,4 +50,4 @@ namespace fiveai { namespace platform { namespace util
         return ret;
     }
 
-}}}
+}}

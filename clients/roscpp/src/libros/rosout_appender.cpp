@@ -117,7 +117,7 @@ void ROSOutAppender::log(::ros::console::Level level, const char* str, const cha
 
 void ROSOutAppender::logThread()
 {
-  fiveai::platform::threading::baptizeThisThread("ros-out");
+  fiveai::threading::baptizeThisThread("ros-out");
 
   while (!shutting_down_)
   {

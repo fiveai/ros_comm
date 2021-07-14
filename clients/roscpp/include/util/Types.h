@@ -9,11 +9,11 @@
 
 #include <cstdint>
 
-namespace fiveai { namespace platform { namespace util
+namespace fiveai { namespace util
 {
     using ElementCount = std::uint64_t;
     using ByteCount = std::uint64_t;
     using PixelCount = std::uint64_t;
 
     using SizePixels = RectangleSize<PixelCount>;
-}}}
+}}

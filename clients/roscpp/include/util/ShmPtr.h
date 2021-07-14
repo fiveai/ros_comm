@@ -8,7 +8,7 @@
 #include "util/ShmSharedPtr.h"
 #include "util/ShmUniquePtr.h"
 
-namespace fiveai { namespace platform { namespace shm
+namespace fiveai { namespace shm
 {
 
     template <typename T, typename ManagedMemory>
@@ -35,5 +35,5 @@ namespace fiveai { namespace platform { namespace shm
     {
         return {std::move(ptr)};
     }
-}}}
+}}
 

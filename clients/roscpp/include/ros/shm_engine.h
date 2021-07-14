@@ -49,15 +49,15 @@ namespace ros
         using OnStoppedMainLoopCallback = std::function<void()>;
 
         using Image               = fiveai::std_msgs::shm::Image;
-        using SharedPtrImage      = fiveai::platform::shm::SharedPtr<Image>;
-        using UniquePtrImage      = fiveai::platform::shm::UniquePtr<Image>;
-        using SharedPtrConstImage = fiveai::platform::shm::SharedPtr<const Image>;
-        using UniquePtrConstImage = fiveai::platform::shm::UniquePtr<const Image>;
+        using SharedPtrImage      = fiveai::shm::SharedPtr<Image>;
+        using UniquePtrImage      = fiveai::shm::UniquePtr<Image>;
+        using SharedPtrConstImage = fiveai::shm::SharedPtr<const Image>;
+        using UniquePtrConstImage = fiveai::shm::UniquePtr<const Image>;
         using ShmManager          = boost::interprocess::managed_shared_memory;
-        using ByteCount           = fiveai::platform::util::ByteCount;
-        using SizePixels          = fiveai::platform::util::SizePixels;
-        using WorkerAttributes    = fiveai::platform::threading::StandardAttributes;
-        using Worker              = fiveai::platform::threading::StandardThread;
+        using ByteCount           = fiveai::util::ByteCount;
+        using SizePixels          = fiveai::util::SizePixels;
+        using WorkerAttributes    = fiveai::threading::StandardAttributes;
+        using Worker              = fiveai::threading::StandardThread;
         using ShmQueue             = ::ros::ShmEngineQueue;
         using ShmQueueShmUniquePtr = typename boost::interprocess::managed_unique_ptr
                                      <

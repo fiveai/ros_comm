@@ -8,7 +8,7 @@
 #include <boost/interprocess/allocators/allocator.hpp>
 #include <boost/interprocess/managed_shared_memory.hpp>
 
-namespace fiveai { namespace platform { namespace shm
+namespace fiveai { namespace shm
 {
     /// A STL compatible allocator able to reserve/release shared memory
     /// of the type specified by template @param T
@@ -16,5 +16,4 @@ namespace fiveai { namespace platform { namespace shm
     using Allocator = boost::interprocess::allocator<T, boost::interprocess::managed_shared_memory::segment_manager>;
 
     using StringAllocator = Allocator<char>;
-}}}
-
+}}

@@ -17,7 +17,7 @@
 
 #include <sched.h>
 
-namespace fiveai { namespace platform { namespace threading
+namespace fiveai { namespace threading
 {
     namespace scheduling_policy
     {
@@ -305,4 +305,4 @@ namespace fiveai { namespace platform { namespace threading
         Nice m_nice;
     };
 
-}}}
+}}

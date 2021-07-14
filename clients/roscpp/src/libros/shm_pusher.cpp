@@ -30,7 +30,7 @@ ShmPusher::ShmPusher(const std::string& topicName, std::size_t shmCircularQueueC
 std::string ShmPusher::makeQueueName(const std::string& subscriberName) const
 {
     auto name = this_node::getName() + "_" + subscriberName + "_" + m_topicName;
-    return fiveai::platform::util::portableShmQueueName(name);
+    return fiveai::util::portableShmQueueName(name);
 }
 
 std::string ShmPusher::createQueue(const std::string& subscriberName)
@@ -58,7 +58,7 @@ ShmPusher::ShmQueueShmUniquePtr
 ShmPusher::makeQueue(const std::string& shmQueueName)
 {
     using namespace boost::interprocess;
-    using namespace fiveai::platform;
+    using namespace fiveai;
 
     ROS_INFO_STREAM(getName() << " is creating shm queue " << shmQueueName <<
                     " with capacity " << m_shmCircularQueueCapacity << " in " <<
@@ -97,14 +97,14 @@ void ShmPusher::post(SharedPtrConstImage img)
         catch (...)
         {
             ROS_ERROR_STREAM("Could not put image on queue " << q.first << " due to: "
-                             << fiveai::platform::util::currentExceptionInfo());
+                             << fiveai::util::currentExceptionInfo());
         }
     }
 }
 
 void ShmPusher::post(UniquePtrConstImage img)
 {
-    using namespace fiveai::platform::shm;
+    using namespace fiveai::shm;
 
     auto sharedImg = convertToShared(boost::move(img), m_shmManager);
     post(sharedImg);

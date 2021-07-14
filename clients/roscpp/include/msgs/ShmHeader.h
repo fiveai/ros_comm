@@ -26,7 +26,7 @@ namespace fiveai { namespace std_msgs { namespace shm
         using SegmentManager  = boost::interprocess::managed_shared_memory::segment_manager;
         using Sequence        = uint32_t;
         using Timestamp       = ros::Time;
-        using String          = fiveai::platform::shm::_String<typename StringAllocator::value_type, StringAllocator>;
+        using String          = fiveai::shm::_String<typename StringAllocator::value_type, StringAllocator>;
 
         explicit Header_(SegmentManager& segmentManager) :
             seq{0},
@@ -51,9 +51,9 @@ namespace fiveai { namespace std_msgs { namespace shm
         String    frame_id;
     };
 
-    using Header            = shm::Header_<fiveai::platform::shm::StringAllocator>;
-    using HeaderShmPtr      = fiveai::platform::shm::SharedPtr<shm::Header>;
-    using HeaderConstShmPtr = fiveai::platform::shm::SharedPtr<const shm::Header>;
+    using Header            = shm::Header_<fiveai::shm::StringAllocator>;
+    using HeaderShmPtr      = fiveai::shm::SharedPtr<shm::Header>;
+    using HeaderConstShmPtr = fiveai::shm::SharedPtr<const shm::Header>;
 
     template<typename A>
     std::ostream& operator<<(std::ostream& s, const shm::Header_<A>& v)

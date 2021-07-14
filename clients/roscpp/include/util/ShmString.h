@@ -11,7 +11,7 @@
 
 #include <string> // for std::char_traits
 
-namespace fiveai { namespace platform { namespace shm
+namespace fiveai { namespace shm
 {
     template
     <
@@ -28,5 +28,5 @@ namespace fiveai { namespace platform { namespace shm
         StringAllocator allocator{shmManager.get_segment_manager()};
         return {str.c_str(), allocator};
     }
-}}}
+}}
 

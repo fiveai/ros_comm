@@ -24,9 +24,9 @@ namespace ros
         {
             using Service = S;
 
-            std::size_t                   id;
-            fiveai::platform::shm::String sourceNodeName;
-            fiveai::platform::shm::String targetNodeName;
+            std::size_t         id;
+            fiveai::shm::String sourceNodeName;
+            fiveai::shm::String targetNodeName;
         };
 
         template <typename S>
@@ -34,9 +34,9 @@ namespace ros
         {
             using Service = S;
 
-            std::size_t                   requestId;
-            fiveai::platform::shm::String sourceNodeName;
-            fiveai::platform::shm::String targetNodeName;
+            std::size_t         requestId;
+            fiveai::shm::String sourceNodeName;
+            fiveai::shm::String targetNodeName;
         };
     }
 

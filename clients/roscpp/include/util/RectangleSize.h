@@ -4,7 +4,7 @@
  ***************************************************************************************************/
 #pragma once
 
-namespace fiveai { namespace platform { namespace util
+namespace fiveai { namespace util
 {
     /*
      * Portable and type safe class encapsulating the size of a rectangle.
@@ -69,4 +69,4 @@ namespace fiveai { namespace platform { namespace util
     {
         return !(lhs == rhs);
     }
-}}}
+}}

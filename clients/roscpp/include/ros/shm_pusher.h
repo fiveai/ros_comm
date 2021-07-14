@@ -22,10 +22,10 @@ namespace ros
     {
     public:
         using Image               = fiveai::std_msgs::shm::Image;
-        using SharedPtrImage      = fiveai::platform::shm::SharedPtr<Image>;
-        using UniquePtrImage      = fiveai::platform::shm::UniquePtr<Image>;
-        using SharedPtrConstImage = fiveai::platform::shm::SharedPtr<const Image>;
-        using UniquePtrConstImage = fiveai::platform::shm::UniquePtr<const Image>;
+        using SharedPtrImage      = fiveai::shm::SharedPtr<Image>;
+        using UniquePtrImage      = fiveai::shm::UniquePtr<Image>;
+        using SharedPtrConstImage = fiveai::shm::SharedPtr<const Image>;
+        using UniquePtrConstImage = fiveai::shm::UniquePtr<const Image>;
         using ShmManager          = boost::interprocess::managed_shared_memory;
 
         ShmPusher(const std::string& topicName, std::size_t shmCircularQueueCapacity,

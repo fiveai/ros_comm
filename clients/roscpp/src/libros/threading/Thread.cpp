@@ -16,7 +16,7 @@
 #include <pthread.h>
 #include <sys/resource.h>
 
-namespace fiveai { namespace platform { namespace threading
+namespace fiveai { namespace threading
 {
 
 template <typename A>
@@ -158,7 +158,7 @@ template <typename A>
 void Thread<A>::initCommonLiveAttributes()
 {
     auto msg = [this] {return "Could not set name of thread " + m_attributes.getName();};
-    util::tryInvoke(fiveai::platform::threading::baptizeThisThread, msg, m_attributes.getName());
+    util::tryInvoke(fiveai::threading::baptizeThisThread, msg, m_attributes.getName());
 }
 
 template <>
@@ -185,4 +185,4 @@ void Thread<RealTimeAttributes>::initStaticPriority(pthread_attr_t* nh)
 template class Thread<StandardAttributes>;
 template class Thread<RealTimeAttributes>;
 
-}}}
+}}

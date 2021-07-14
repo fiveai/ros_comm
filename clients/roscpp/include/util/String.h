@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <functional>
 
-namespace fiveai { namespace platform { namespace util
+namespace fiveai { namespace util
 {
     template <typename C>
     std::string foldToString(const C& container,
@@ -35,4 +35,4 @@ namespace fiveai { namespace platform { namespace util
     // http://man7.org/linux/man-pages/man3/shm_open.3.html
     std::string portableShmName(const std::string& str);
     std::string portableShmQueueName(const std::string& str);
-}}}
+}}

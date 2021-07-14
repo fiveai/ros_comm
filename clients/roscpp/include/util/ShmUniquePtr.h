@@ -10,7 +10,7 @@
 
 #include <type_traits>
 
-namespace fiveai { namespace platform { namespace shm
+namespace fiveai { namespace shm
 {
     namespace __unique_ptr
     {
@@ -35,5 +35,4 @@ namespace fiveai { namespace platform { namespace shm
                 managedMemory.template get_deleter<NoConstT>()};
 
     }
-}}}
-
+}}

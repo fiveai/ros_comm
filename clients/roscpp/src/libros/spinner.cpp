@@ -154,7 +154,7 @@ void SingleThreadedSpinner::spin(CallbackQueue* queue)
     return;
   }
 
-  fiveai::platform::threading::baptizeThisThread("ros-st-spin");
+  fiveai::threading::baptizeThisThread("ros-st-spin");
 
   ros::WallDuration timeout(0.1f);
   ros::NodeHandle n;
@@ -270,7 +270,7 @@ void AsyncSpinnerImpl::threadFunc()
 {
   disableAllSignalsInThisThread();
 
-  fiveai::platform::threading::baptizeThisThread("ros-async-spin");
+  fiveai::threading::baptizeThisThread("ros-async-spin");
 
   CallbackQueue* queue = callback_queue_;
   bool use_call_available = thread_count_ == 1;

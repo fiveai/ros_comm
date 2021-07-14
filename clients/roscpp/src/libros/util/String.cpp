@@ -8,7 +8,7 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
-namespace fiveai { namespace platform { namespace util
+namespace fiveai { namespace util
 {
 
 std::string portableShmName(const std::string& s)
@@ -48,4 +48,4 @@ std::string portableShmQueueName(const std::string& s)
      return name;
 }
 
-}}}
+}}

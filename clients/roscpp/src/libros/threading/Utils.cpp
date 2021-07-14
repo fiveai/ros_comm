@@ -9,7 +9,7 @@
 
 #include <pthread.h>
 
-namespace fiveai { namespace platform { namespace threading
+namespace fiveai { namespace threading
 {
 
 int baptizeThisThread(const std::string& name)
@@ -23,4 +23,4 @@ int baptizeThisThread(const std::string& name)
     return ::pthread_setname_np(id, truncatedName.c_str());
 }
 
-}}}
+}}

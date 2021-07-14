@@ -11,7 +11,7 @@
 #include <string>
 #include <algorithm>
 
-namespace fiveai { namespace platform { namespace threading
+namespace fiveai { namespace threading
 {
     std::ostream& operator<<(std::ostream& os, const Nice& nice)
     {
@@ -121,4 +121,4 @@ namespace fiveai { namespace platform { namespace threading
     {
         return str(attributes);
     }
-}}}
+}}

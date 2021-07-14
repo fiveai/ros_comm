@@ -5,7 +5,7 @@
 
 #pragma once
 
-namespace fiveai { namespace platform { namespace util
+namespace fiveai { namespace util
 {
     template <typename T>
     struct Range
@@ -34,4 +34,4 @@ namespace fiveai { namespace platform { namespace util
         T high;
     };
 
-}}}
+}}

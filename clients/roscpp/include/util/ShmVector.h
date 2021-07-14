@@ -9,9 +9,8 @@
 
 #include <boost/interprocess/containers/vector.hpp>
 
-namespace fiveai { namespace platform { namespace shm
+namespace fiveai { namespace shm
 {
     template <typename T, typename A = shm::Allocator<T>>
     using Vector = boost::interprocess::vector<T, A>;
-}}}
-
+}}

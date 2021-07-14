@@ -8,7 +8,7 @@
 #include <exception>
 #include <sstream>
 
-namespace fiveai { namespace platform { namespace util
+namespace fiveai { namespace util
 {
     void printExceptionInfo(const std::exception& ex, std::ostream& os) noexcept
     {
@@ -61,4 +61,4 @@ namespace fiveai { namespace platform { namespace util
         printCurrentExceptionInfo(oss);
         return oss.str();
     }
-}}}
+}}

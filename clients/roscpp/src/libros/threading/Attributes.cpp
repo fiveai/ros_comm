@@ -20,7 +20,7 @@
 
 #include <sys/resource.h>
 
-namespace fiveai { namespace platform { namespace threading
+namespace fiveai { namespace threading
 {
     namespace scheduling_policy
     {
@@ -203,4 +203,4 @@ StackSize StackSize::getDefault()
     return StackSize{boost::thread_attributes{}.get_stack_size()};
 }
 
-}}}
+}}

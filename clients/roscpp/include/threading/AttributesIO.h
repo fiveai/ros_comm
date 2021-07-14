@@ -8,7 +8,7 @@
 
 #include <iosfwd>
 
-namespace fiveai { namespace platform { namespace threading
+namespace fiveai { namespace threading
 {
     std::ostream& operator<<(std::ostream& os, const Nice& nice);
     template <typename Policy>
@@ -27,4 +27,4 @@ namespace fiveai { namespace platform { namespace threading
     std::string toString(const StackSize& stackSize);
     std::string toString(const StandardAttributes& attributes);
     std::string toString(const RealTimeAttributes& attributes);
-}}}
+}}
