@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
             iputils-ping    \
             net-tools
 
-RUN mkdir -p -m 0600 ~/.ssh && \ssh-keyscan gitlab.corp.five.ai >> ~/.ssh/known_hosts
+RUN mkdir -p -m 0600 ~/.ssh && \ssh-keyscan github.com >> ~/.ssh/known_hosts
 RUN mkdir /var/run/sshd
 RUN echo 'root:abcde' | chpasswd
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
@@ -43,11 +43,10 @@ sub_stats_file_path:=/root/tmp use_case:=1p1s_same_host" >> ~/.bash_history
 RUN echo "python2 /ros_comm_fiveai/src/ros_comm/clients/benchmark/execute.py --use_case=1p1s_same_host --extra_params=''" >> ~/.bash_history
 
 
-RUN --mount=type=ssh git clone git@gitlab.corp.five.ai:vehicle-software-framework/ros/ros_comm.git /ros_comm_fiveai/src/ros_comm && \
+RUN --mount=type=ssh git clone git@github.com:costinior/ros_comm.git /ros_comm_fiveai/src/ros_comm && \
     cd /ros_comm_fiveai/src/ros_comm         && \
     git pull                                 && \
-    git checkout RAV-175-benchmark-five-ros1 && \
-    rm -fr /ros_comm_fiveai/src/ros_comm/clients/benchmark/data/ && \
+    git checkout shm-on-ros                  && \
     cd /ros_comm_fiveai
 
 #RUN git clone https://github.com/ros/class_loader.git class_loader  && \
