@@ -1,7 +1,7 @@
 version: "3.7"
 
 x-base_node: &base_node
-    image: registry.corp.five.ai/visual-geometry/visual-geometry/ros-kinetic-desktop-full-xenial-benchmark:2.4
+    image: shm-on-ros:2.4
     ipc: host
     volumes: 
         - "/home/costin/projects/:/home/costin/projects/"

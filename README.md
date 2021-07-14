@@ -53,7 +53,7 @@ python2 ./src/ros_comm/clients/benchmark/execute.py --tcp=no --shm=yes --use_cas
 ```
 cd ~/ros_comm/src/ros_comm/clients/benchmark/docker
 export DOCKER_BUILDKIT=1
-docker build --ssh default --tag YOUR_REGISTRY/shm-on-ros:2.4 .
+docker build --ssh default --tag shm-on-ros:2.4 .
 ```
 
 ## Benchmark execution command examples
