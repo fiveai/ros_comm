@@ -46,7 +46,6 @@ namespace fiveai { namespace std_msgs { namespace shm
             data{DataAllocator{&segmentManager}}
         {}
 
-        // TODO: needs to be clarified
         Image_(SegmentManager& segmentManager,
                const Header& header,
                const Size height, const Size width,
@@ -84,7 +83,6 @@ namespace fiveai { namespace std_msgs { namespace shm
     using SharedPtrShmImage      = fiveai::shm::SharedPtr<shm::Image>;
     using SharedPtrConstShmImage = fiveai::shm::SharedPtr<const shm::Image>;
 
-    // constants requiring out of line definition
     template<typename A>
     std::ostream& operator<<(std::ostream& s, const shm::Image_<A> & v)
     {
@@ -110,8 +108,7 @@ namespace ros { namespace message_traits
     {
         static const char* value()
         {
-            // TODO: generate proper MD5 sum
-            return "11111111111111111111111111111111";
+            return "b5370f33e6f7ca0826f9f9522c20aee0";
         }
 
         static const char* value(const fiveai::std_msgs::shm::Image_<A>&)
@@ -128,8 +125,7 @@ namespace ros { namespace message_traits
     {
         static const char* value()
         {
-            // TODO: generate proper MD5 sum
-            return "00000000000000000000000000000000";
+            return "44579588cc1b1465f0f5e0db924d97f8";
         }
 
         static const char* value(const fiveai::std_msgs::shm::Image_<A>&)

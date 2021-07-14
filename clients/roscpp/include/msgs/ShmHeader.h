@@ -104,8 +104,7 @@ struct MD5Sum< ::fiveai::std_msgs::shm::Header_<ContainerAllocator> >
 {
   static const char* value()
   {
-    // TODO: generate proper MD5 sum
-    return "12345678912345678912345678912345";
+    return "55bf682044a302f2fdf00c1fcd1a70a9";
   }
 
   static const char* value(const ::fiveai::std_msgs::shm::Header_<ContainerAllocator>&) { return value(); }

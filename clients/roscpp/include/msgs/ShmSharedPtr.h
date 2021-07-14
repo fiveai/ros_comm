@@ -38,8 +38,7 @@ namespace ros { namespace message_traits
     {
         static const char* value()
         {
-            // TODO: generate proper MD5 sum
-            static const auto sum = std::string("33333333333333333333333333333333_") + MD5Sum<T>::value();
+            static const auto sum = std::string("1d4399e98b95735c1dfdd7e1c0f7f555") + MD5Sum<T>::value();
             return sum.c_str();
         }
 
@@ -63,7 +62,6 @@ namespace ros { namespace message_traits
 
         static const char* value()
         {
-            // TODO: is this thread safe?
             static const auto v = std::string("sensor_msgs/ShmSharedPtr_") + getPointedTypeName();
             return v.c_str();
         }
