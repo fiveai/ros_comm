@@ -40,7 +40,7 @@ std::string portableShmQueueName(const std::string& s)
 {
      if (s.empty())
      {
-         throw std::logic_error{"Empty string is not a valid string for identifying objects in shm"};
+         throw std::logic_error{"Empty string is not a valid string for identifying objects in shared memory"};
      }
 
      auto name = "Q_" + s;

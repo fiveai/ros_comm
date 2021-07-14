@@ -444,7 +444,10 @@ TEST(RoscppHandles, trackedObjectWithAdvertiseSubscriberCallback)
 
   boost::shared_ptr<char> tracked(boost::make_shared<char>());
 
-  ros::Publisher pub = n.advertise<test_roscpp::TestArray>("/test", 0u, (SubscriberStatusCallback)connectedCallback, SubscriberStatusCallback(), tracked);
+  ros::Publisher pub = n.advertise<test_roscpp::TestArray>("/test", 0u,
+                                                           static_cast<SubscriberStatusCallback>(connectedCallback),
+                                                           SubscriberStatusCallback(),
+                                                           tracked);
 
   g_recv_count = 0;
   g_sub_count = 0;
