@@ -10,13 +10,13 @@ The code can be built either directly on the host machine _or_ within a Docker c
 
 The benchmarks - either the entire suite or individual tests - can be executed following the procedure described below. Currently, four protocols are supported: TCP, UDP, SHM and TZC.
 
-When executed from within the Docker containers, the benchmarks results are generated under ${HOME}/fiveshm folder. Otherwise, environment variable FIVESHM_HOME dictates the results folder.
+When executed from within the Docker containers, the benchmarks results are generated under `${HOME}/fiveshm` folder. Otherwise, environment variable `FIVESHM_HOME` dictates the results folder.
 
 ### Notes on provided code
 
 We apply the following bug fixes on top of ROS 1.12.14 in addition to our own code:
- - _roslaunch_ [bug fix](https://github.com/ros/ros_comm/pull/1115)
- - replace _boost::condition_variable_ variable with _std::condition_variable_ in [callback_queue.cpp](./clients/roscpp/src/libros/callback_queue.cpp)
+ - _roslaunch_ [bug fix](https://github.com/ros/ros_comm/pull/1115).
+ - replace `boost::condition_variable` variable with `std::condition_variable` in [callback_queue.cpp](./clients/roscpp/src/libros/callback_queue.cpp).
 
 ### Third party code
 
@@ -24,11 +24,7 @@ We apply the following bug fixes on top of ROS 1.12.14 in addition to our own co
 
 For convenience of running the benchmarks, we have also included TZC in this repository. TZC was developed by a group researchers afilliated to Tsinghua University, China and University of Maryland, USA and is described more fully in the _TZC: Efficient Inter-Process Communication for Robotics Middleware with Partial Serialization_. Its authors have released it under the [BSD](https://github.com/qboticslabs/tzc_transport/blob/master/package.xml) license.
 
-## Building and running benchmarks natively
-
-The following steps build the code directly on the host machine.
-
-### Cloning the repo and switching to the target branch
+## Cloning the repository and switching to the target branch
 
 Note that we clone the repository into `$HOME/ros_comm/src/ros_comm` in this step. We assume this directory in subsequent steps. If you prefer to use a different working directory, the subsequent steps will need to be appropriately modified.
 
@@ -38,7 +34,11 @@ cd $HOME/ros_comm/src/ros_comm
 git checkout fiveshm
 ```
 
-### Compile the entire workspace
+## Building and running the benchmarks natively
+
+The following steps build the code directly on the host machine.
+
+### Compiling the entire workspace
 
 ```
 cd $HOME/ros_comm
@@ -52,7 +52,7 @@ catkin_make_isolated
   --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
 
-### Execute the benchmarks specified in launch.xml overriding some of the parameters
+### Executing the benchmarks specified in launch.xml overriding some of the parameters
 
 ```
 cd $HOME/ros_comm
@@ -62,9 +62,9 @@ roslaunch --screen -v  benchmark launch.xml   \
   transport:=shm pub_queue_size:=200 pub_image_count:=200
 ```
 
-## Building and running benchmarks within Docker
+## Building and running benchmarks within Docker containers
 
-### Build the docker image
+### Building the Docker image
 
 ```
 cd ~/ros_comm/src/ros_comm/clients/benchmark/docker
@@ -72,7 +72,7 @@ export DOCKER_BUILDKIT=1
 docker build --ssh default --tag fiveshm .
 ```
 
-### Execute the benchmark suite deploying the ROS nodes in separate docker images
+### Executing the benchmark suite, deploying the ROS nodes in separate docker images
 
 Assuming the Docker container built as above, with a tag of `fiveshm`:
 
@@ -94,7 +94,7 @@ The next sections provides examples of such commands.
 
 ### Benchmark execution command examples
 
-Execute the benchmarks for 1p5s using TZC protocol, in separate Docker containers, enforcing the subscribers start up order, allocating 16GB of shared memory to be used by the publishers, and telling the subscriber to wait 15 seconds before starting publishing messages, TCP_NODELAY enabled.
+Execute the benchmarks for 1p5s using TZC protocol, in separate Docker containers, enforcing the subscribers start up order, allocating 16GB of shared memory to be used by the publishers, and telling the subscriber to wait 15 seconds before starting publishing messages, `TCP_NODELAY` enabled.
 ```
 python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py  \
         --tcp=no --shm=no --tzc=yes --udp=no                        \
@@ -106,7 +106,7 @@ python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py  \
 ```
 
 
-Execute the benchmarks for 5p1s using TZC protocol, in separate Docker containers, with each publisher waiting for the subscriber to establish connection and with the subscriber start up delayed by 15secs, TCP_NODELAY enabled.
+Execute the benchmarks for 5p1s using TZC protocol, in separate Docker containers, with each publisher waiting for the subscriber to establish connection and with the subscriber start up delayed by 15secs, `TCP_NODELAY` enabled.
 ```
 python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py  \
         --tcp=no --shm=no --tzc=yes --udp=no                        \
@@ -116,7 +116,7 @@ python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py  \
                         sub_stats_file_path:=/path/to/results
 ```
 
-Execute the benchmarks for 5p1s using TZC protocol, in separate Docker containers, with each publisher waiting for the subscriber to establish connection and with the publishers start up order enforced, TCP_NODELAY enabled.
+Execute the benchmarks for 5p1s using TZC protocol, in separate Docker containers, with each publisher waiting for the subscriber to establish connection and with the publishers start up order enforced, `TCP_NODELAY` enabled.
 ```
 python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py  \
         --tcp=no --shm=no --tzc=yes --udp=no                        \
