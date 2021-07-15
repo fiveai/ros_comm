@@ -126,7 +126,7 @@ python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py      \
                         sub_stats_file_path:=/path/to/results
 ```
 
-3. Execute the benchmarks suite for 5p1s using SHM protocol, in separate Docker containers, with each publisher waiting for the subscriber to establish connection and with the publishers start up order enforced, and image pools disabled.
+4. Execute the benchmarks suite for 5p1s using SHM protocol, in separate Docker containers, with each publisher waiting for the subscriber to establish connection and with the publishers start up order enforced, and image pools disabled.
 
 ```
 python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py      \
@@ -136,7 +136,7 @@ python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py      \
                         pub_enable_synch_startup:=true
 ```
 
-4. Execute _one single test_ using TCP protocol, in same docker container, with image pool disabled.
+5. Execute _one single test_ using TCP protocol, in same docker container, with image pool disabled.
 
 ```
 roslaunch --screen -v  benchmark launch.xml     \
