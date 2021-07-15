@@ -51,7 +51,7 @@ sub_stats_file_path:=/root/tmp use_case:=1p1s_same_host" >> ~/.bash_history
 RUN echo "python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py --use_case=1p1s_same_host --extra_params=''" >> ~/.bash_history
 
 
-RUN --mount=type=ssh git clone git@github.com:costinior/ros_comm.git /ros_comm/src/ros_comm && \
+RUN --mount=type=ssh git clone git@github.com:fiveai/ros_comm.git /ros_comm/src/ros_comm && \
     cd /ros_comm/src/ros_comm     && \
     git pull                      && \
     git checkout fiveshm          && \
