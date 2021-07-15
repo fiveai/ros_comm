@@ -35,7 +35,7 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 RUN echo "/usr/sbin/sshd" >> ~/.bashrc
 RUN echo "export ROSLAUNCH_SSH_UNKNOWN=1" >> ~/.bashrc
 RUN echo "source /ros_comm/devel-release/setup.sh" >> ~/.bashrc
-RUN echo "mkdir -p \${SHM_ON_ROS_HOME}" >> ~/.bashrc
+RUN echo "mkdir -p \${FIVESHM_HOME}" >> ~/.bashrc
 # This line is need to workaround a roslaunch bug where multiple instances of roscore are launched 
 RUN echo "export ROS_MASTER_URI=http://\$(uname -n):11311" >> ~/.bashrc
 RUN echo "nano /ros_comm/src/ros_comm/clients/benchmark/launch/launch.xml" >> ~/.bash_history
