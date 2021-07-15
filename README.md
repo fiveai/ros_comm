@@ -94,45 +94,56 @@ The next sections provides examples of such commands.
 
 ### Benchmark execution command examples
 
-Execute the benchmarks for 1p5s using TZC protocol, in separate Docker containers, enforcing the subscribers start up order, allocating 16GB of shared memory to be used by the publishers, and telling the subscriber to wait 15 seconds before starting publishing messages, `TCP_NODELAY` enabled.
+1. Execute the benchmarks suite for 1p5s using TZC protocol, in separate Docker containers, enforcing the subscribers start up order, allocating 16GB of shared memory to be used by the publishers, and telling the subscriber to wait 15 seconds before starting publishing messages, `TCP_NODELAY` enabled.
+
 ```
-python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py  \
-        --tcp=no --shm=no --tzc=yes --udp=no                        \
-        --use_case=1p5s_separate_docker --no_pool=yes --pool=no     \
-        --extra_params sub_enable_synch_startup:=true               \
-                       pub_extra_delay_ms:=15000                    \
-                       sub_stats_file_path:=/path/to/results        \
-                       shm_size_mega_bytes:=
+python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py      \
+        --tcp=no --shm=no --tzc=yes --udp=no                     \
+        --use_case=1p5s_separate_docker --no_pool=yes --pool=no  \
+        --extra_params sub_enable_synch_startup:=true            \
+                       pub_extra_delay_ms:=15000                 \
+                       shm_size_mega_bytes:=16000
 ```
 
+2. Execute the benchmarks suite for 5p1s using TZC protocol, in separate Docker containers, with each publisher waiting for the subscriber to establish connection and with the subscriber start up delayed by 15secs, `TCP_NODELAY` enabled.
 
-Execute the benchmarks for 5p1s using TZC protocol, in separate Docker containers, with each publisher waiting for the subscriber to establish connection and with the subscriber start up delayed by 15secs, `TCP_NODELAY` enabled.
 ```
-python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py  \
-        --tcp=no --shm=no --tzc=yes --udp=no                        \
-        --use_case=5p1s_separate_docker --no_pool=yes --pool=no     \
-        --extra_params  pub_wait_for_subscribers:=true              \
-                        sub_extra_delay_ms:=15000                   \
+python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py      \
+        --tcp=no --shm=no --tzc=yes --udp=no                     \
+        --use_case=5p1s_separate_docker --no_pool=yes --pool=no  \
+        --extra_params  pub_wait_for_subscribers:=true           \
+                        sub_extra_delay_ms:=15000
+```
+
+3. Execute the benchmarks suite for 5p1s using TZC protocol, in separate Docker containers, with each publisher waiting for the subscriber to establish connection and with the publishers start up order enforced, `TCP_NODELAY` enabled, overriding the default results path.
+
+```
+python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py      \
+        --tcp=no --shm=no --tzc=yes --udp=no                     \
+        --use_case=5p1s_separate_docker --no_pool=yes --pool=no  \
+        --extra_params  pub_wait_for_subscribers:=true           \
+                        pub_enable_synch_startup:=true           \
                         sub_stats_file_path:=/path/to/results
 ```
 
-Execute the benchmarks for 5p1s using TZC protocol, in separate Docker containers, with each publisher waiting for the subscriber to establish connection and with the publishers start up order enforced, `TCP_NODELAY` enabled.
+3. Execute the benchmarks suite for 5p1s using SHM protocol, in separate Docker containers, with each publisher waiting for the subscriber to establish connection and with the publishers start up order enforced, and image pools disabled.
+
 ```
-python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py  \
-        --tcp=no --shm=no --tzc=yes --udp=no                        \
-        --use_case=5p1s_separate_docker --no_pool=yes --pool=no     \
-        --extra_params  pub_wait_for_subscribers:=true              \
-                        pub_enable_synch_startup:=true              \
-                        sub_stats_file_path:=/path/to/results
+python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py      \
+        --tcp=no --shm=yes --tzc=no --udp=no                     \
+        --use_case=5p1s_separate_docker --no_pool=yes --pool=no  \
+        --extra_params  pub_wait_for_subscribers:=true           \
+                        pub_enable_synch_startup:=true
 ```
 
+4. Execute _one single test_ using TCP protocol, in same docker container, with image pool disabled.
 
-Execute the benchmarks for 5p1s using SHM protocol, in separate Docker containers, with each publisher waiting for the subscriber to establish connection and with the publishers start up order enforced, and image pools disabled.
 ```
-python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py  \
-        --tcp=no --shm=yes --tzc=no --udp=no                        \
-        --use_case=5p1s_separate_docker --no_pool=yes --pool=no     \
-        --extra_params  pub_wait_for_subscribers:=true              \
-                        pub_enable_synch_startup:=true              \
-                        sub_stats_file_path:=/path/to/results
+roslaunch --screen -v  benchmark launch.xml     \
+        pub_image_count:=200                    \
+        use_case:=1p5s_same_docker              \
+        transport:=tcp                          \
+        image_width_pixels:=512                 \
+        image_height_pixels:=512                \
+        pub_pool_size:=0
 ```
