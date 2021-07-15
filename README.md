@@ -1,9 +1,5 @@
 # FiveSHM
 
-## TO DO BEFORE RELEASE
-
-CHANGE `git@github.com:costinior/ros_comm.git` TO THE FIVE REPO. RENAME REFERENCES TO `ros_comm` APPROPRIATELY.
-
 ## General description
 
 This repository contains the C++ implementation of the shared memory mechanism described in the paper _Smart Pointers and Shared Memory Synchronisation for Efficient Inter-process Communication in ROS on an Autonomous Vehicle_ (IROS 2021) along with detailed build and deployment instructions.
@@ -34,7 +30,7 @@ The following steps build the code directly on the host machine.
 
 ### Cloning the repo and switching to the target branch
 
-Note that we set up a working directory of `$HOME/ros_comm` in this step. We assume this working directory in subsequent steps. If you prefer to use a different working directory, the subsequent steps will need to be appropriately modified.
+Note that we clone the repository into `$HOME/ros_comm/src/ros_comm` in this step. We assume this directory in subsequent steps. If you prefer to use a different working directory, the subsequent steps will need to be appropriately modified.
 
 ```
 git clone git@github.com:fiveai/ros_comm.git $HOME/ros_comm/src/ros_comm
