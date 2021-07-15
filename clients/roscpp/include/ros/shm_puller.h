@@ -36,7 +36,7 @@ namespace ros
         using OnStartedMainLoopCallback = std::function<void()>;
         using OnStoppedMainLoopCallback = std::function<void()>;
 
-        using Image               = fiveai::std_msgs::shm::Image;
+        using Image               = fiveai::shm_msgs::Image;
         using SharedPtrImage      = fiveai::shm::SharedPtr<Image>;
         using SharedPtrConstImage = fiveai::shm::SharedPtr<const Image>;
         using WorkerAttributes    = fiveai::threading::StandardAttributes;

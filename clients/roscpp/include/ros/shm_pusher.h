@@ -28,7 +28,7 @@ namespace ros
     class ShmPusher
     {
     public:
-        using Image               = fiveai::std_msgs::shm::Image;
+        using Image               = fiveai::shm_msgs::Image;
         using SharedPtrImage      = fiveai::shm::SharedPtr<Image>;
         using UniquePtrImage      = fiveai::shm::UniquePtr<Image>;
         using SharedPtrConstImage = fiveai::shm::SharedPtr<const Image>;

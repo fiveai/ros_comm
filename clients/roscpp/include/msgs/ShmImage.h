@@ -19,7 +19,7 @@
 
 #include <vector>
 
-namespace fiveai { namespace std_msgs { namespace shm
+namespace fiveai { namespace shm_msgs
 {
     template <class Sa>
     struct Image_
@@ -30,7 +30,7 @@ namespace fiveai { namespace std_msgs { namespace shm
         using Type            = Image_<StringAllocator>;
 
         using SegmentManager = boost::interprocess::managed_shared_memory::segment_manager;
-        using Header         = shm::Header_<StringAllocator>;
+        using Header         = shm_msgs::Header_<StringAllocator>;
         using String         = fiveai::shm::_String<typename StringAllocator::value_type, StringAllocator>;
         using Vector         = fiveai::shm::Vector<typename DataAllocator::value_type, DataAllocator>;
         using Size           = uint32_t;
@@ -79,39 +79,39 @@ namespace fiveai { namespace std_msgs { namespace shm
         Vector  data;
     };
 
-    using Image                  = shm::Image_<fiveai::shm::StringAllocator>;
-    using SharedPtrShmImage      = fiveai::shm::SharedPtr<shm::Image>;
-    using SharedPtrConstShmImage = fiveai::shm::SharedPtr<const shm::Image>;
+    using Image                  = shm_msgs::Image_<fiveai::shm::StringAllocator>;
+    using SharedPtrShmImage      = fiveai::shm::SharedPtr<shm_msgs::Image>;
+    using SharedPtrConstShmImage = fiveai::shm::SharedPtr<const shm_msgs::Image>;
 
     template<typename A>
-    std::ostream& operator<<(std::ostream& s, const shm::Image_<A> & v)
+    std::ostream& operator<<(std::ostream& s, const shm_msgs::Image_<A> & v)
     {
-        ros::message_operations::Printer<shm::Image_<A>>::stream(s, "", v);
+        ros::message_operations::Printer<shm_msgs::Image_<A>>::stream(s, "", v);
         return s;
     }
 
-}}}
+}}
 
 namespace ros { namespace message_traits
 {
-    template <class A> struct IsFixedSize<fiveai::std_msgs::shm::Image_<A>> : FalseType {};
-    template <class A> struct IsFixedSize<fiveai::std_msgs::shm::Image_<A> const> : FalseType {};
+    template <class A> struct IsFixedSize<fiveai::shm_msgs::Image_<A>> : FalseType {};
+    template <class A> struct IsFixedSize<fiveai::shm_msgs::Image_<A> const> : FalseType {};
 
-    template <class A> struct IsMessage<fiveai::std_msgs::shm::Image_<A>> : TrueType {};
-    template <class A> struct IsMessage<fiveai::std_msgs::shm::Image_<A> const>: TrueType {};
+    template <class A> struct IsMessage<fiveai::shm_msgs::Image_<A>> : TrueType {};
+    template <class A> struct IsMessage<fiveai::shm_msgs::Image_<A> const>: TrueType {};
 
-    template <class A> struct HasHeader<fiveai::std_msgs::shm::Image_<A>> : TrueType {};
-    template <class A> struct HasHeader<fiveai::std_msgs::shm::Image_<A> const> : TrueType {};
+    template <class A> struct HasHeader<fiveai::shm_msgs::Image_<A>> : TrueType {};
+    template <class A> struct HasHeader<fiveai::shm_msgs::Image_<A> const> : TrueType {};
 
     template<class A>
-    struct MD5Sum<fiveai::std_msgs::shm::Image_<A>>
+    struct MD5Sum<fiveai::shm_msgs::Image_<A>>
     {
         static const char* value()
         {
             return "b5370f33e6f7ca0826f9f9522c20aee0";
         }
 
-        static const char* value(const fiveai::std_msgs::shm::Image_<A>&)
+        static const char* value(const fiveai::shm_msgs::Image_<A>&)
         {
             return value();
         }
@@ -121,14 +121,14 @@ namespace ros { namespace message_traits
     };
 
     template<class A>
-    struct MD5Sum<const fiveai::std_msgs::shm::Image_<A>>
+    struct MD5Sum<const fiveai::shm_msgs::Image_<A>>
     {
         static const char* value()
         {
             return "44579588cc1b1465f0f5e0db924d97f8";
         }
 
-        static const char* value(const fiveai::std_msgs::shm::Image_<A>&)
+        static const char* value(const fiveai::shm_msgs::Image_<A>&)
         {
             return value();
         }
@@ -138,35 +138,35 @@ namespace ros { namespace message_traits
     };
 
     template<class A>
-    struct DataType<fiveai::std_msgs::shm::Image_<A>>
+    struct DataType<fiveai::shm_msgs::Image_<A>>
     {
         static const char* value()
         {
             return "sensor_msgs/ShmImage";
         }
 
-        static const char* value(const fiveai::std_msgs::shm::Image_<A>&)
+        static const char* value(const fiveai::shm_msgs::Image_<A>&)
         {
             return value();
         }
     };
 
     template<class A>
-    struct DataType<const fiveai::std_msgs::shm::Image_<A>>
+    struct DataType<const fiveai::shm_msgs::Image_<A>>
     {
         static const char* value()
         {
             return "sensor_msgs/ConstShmImage";
         }
 
-        static const char* value(const fiveai::std_msgs::shm::Image_<A>&)
+        static const char* value(const fiveai::shm_msgs::Image_<A>&)
         {
             return value();
         }
     };
 
     template<class A>
-    struct Definition<fiveai::std_msgs::shm::Image_<A>>
+    struct Definition<fiveai::shm_msgs::Image_<A>>
     {
         static const char* value()
         {
@@ -174,14 +174,14 @@ namespace ros { namespace message_traits
                    " In addition, it can be placed in shared memory and mutated";
         }
 
-        static const char* value(const fiveai::std_msgs::shm::Image_<A>&)
+        static const char* value(const fiveai::shm_msgs::Image_<A>&)
         {
             return value();
         }
     };
 
     template<class A>
-    struct Definition<const fiveai::std_msgs::shm::Image_<A>>
+    struct Definition<const fiveai::shm_msgs::Image_<A>>
     {
         static const char* value()
         {
@@ -190,7 +190,7 @@ namespace ros { namespace message_traits
                    " cannot be mutated.";
         }
 
-        static const char* value(const fiveai::std_msgs::shm::Image_<A>&)
+        static const char* value(const fiveai::shm_msgs::Image_<A>&)
         {
             return value();
         }
@@ -201,7 +201,7 @@ namespace ros { namespace message_traits
 namespace ros { namespace serialization
 {
     template<class A>
-    struct Serializer<fiveai::std_msgs::shm::Image_<A>>
+    struct Serializer<fiveai::shm_msgs::Image_<A>>
     {
         template<typename Stream, typename T>
         inline static
@@ -224,21 +224,21 @@ namespace ros { namespace serialization
 namespace ros { namespace message_operations
 {
     template<class A>
-    struct Printer<fiveai::std_msgs::shm::Image_<A>>
+    struct Printer<fiveai::shm_msgs::Image_<A>>
     {
         template<typename Stream>
         inline static
-        void stream(Stream& s, const std::string& indent, const fiveai::std_msgs::shm::Image_<A>& v)
+        void stream(Stream& s, const std::string& indent, const fiveai::shm_msgs::Image_<A>& v)
         {
             s << indent << "header: ";
             s << std::endl;
-            Printer<fiveai::std_msgs::shm::Header_<A>>::stream(s, indent + "  ", v.header);
+            Printer<fiveai::shm_msgs::Header_<A>>::stream(s, indent + "  ", v.header);
             s << indent << "height: ";
             Printer<uint32_t>::stream(s, indent + "  ", v.height);
             s << indent << "width: ";
             Printer<uint32_t>::stream(s, indent + "  ", v.width);
             s << indent << "encoding: ";
-            Printer<typename fiveai::std_msgs::shm::Image_<A>::String>::stream(s, indent + "  ", v.encoding);
+            Printer<typename fiveai::shm_msgs::Image_<A>::String>::stream(s, indent + "  ", v.encoding);
             s << indent << "is_bigendian: ";
             Printer<uint8_t>::stream(s, indent + "  ", v.is_bigendian);
             s << indent << "step: ";

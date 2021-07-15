@@ -15,7 +15,7 @@
 
 namespace ros
 {
-    using ShmCircularQueue = fiveai::threading::shm::CircularQueue<fiveai::std_msgs::shm::SharedPtrConstShmImage>;
+    using ShmCircularQueue = fiveai::threading::shm::CircularQueue<fiveai::shm_msgs::SharedPtrConstShmImage>;
 
     namespace internal
     {

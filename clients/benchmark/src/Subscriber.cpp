@@ -36,7 +36,7 @@
  * the publisher(s) are required.
  */
 
-using SharedPtrConstShmImage = fiveai::std_msgs::shm::SharedPtrConstShmImage;
+using SharedPtrConstShmImage = fiveai::shm_msgs::SharedPtrConstShmImage;
 using SharedPtrConstImage = sensor_msgs::ImageConstPtr;
 using SizePixels = fiveai::util::SizePixels;
 

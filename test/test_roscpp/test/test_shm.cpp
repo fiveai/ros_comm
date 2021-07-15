@@ -41,8 +41,8 @@ public:
     {}
 
 protected:
-    using RosCallback = boost::function<void(fiveai::std_msgs::shm::SharedPtrConstShmImage)>;
-    using SharedPtrConstShmImage = fiveai::std_msgs::shm::SharedPtrConstShmImage;
+    using RosCallback = boost::function<void(fiveai::shm_msgs::SharedPtrConstShmImage)>;
+    using SharedPtrConstShmImage = fiveai::shm_msgs::SharedPtrConstShmImage;
 
     void SetUp() override
     {

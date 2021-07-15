@@ -34,8 +34,8 @@
  * the subscriber(s) are required.
  */
 
-using SharedPtrConstShmImage = fiveai::std_msgs::shm::SharedPtrConstShmImage;
-using SharedPtrShmImage = fiveai::std_msgs::shm::SharedPtrShmImage;
+using SharedPtrConstShmImage = fiveai::shm_msgs::SharedPtrConstShmImage;
+using SharedPtrShmImage = fiveai::shm_msgs::SharedPtrShmImage;
 using SharedPtrImage = sensor_msgs::ImagePtr;
 using SharedPtrConstImage = sensor_msgs::ImageConstPtr;
 
