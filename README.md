@@ -100,7 +100,6 @@ python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py      \
         --use_case=1p5s_separate_docker --no_pool=yes --pool=no  \
         --extra_params sub_enable_synch_startup:=true            \
                        pub_extra_delay_ms:=15000                 \
-                       sub_stats_file_path:=/path/to/results     \
                        shm_size_mega_bytes:=16000
 ```
 
@@ -111,11 +110,10 @@ python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py      \
         --tcp=no --shm=no --tzc=yes --udp=no                     \
         --use_case=5p1s_separate_docker --no_pool=yes --pool=no  \
         --extra_params  pub_wait_for_subscribers:=true           \
-                        sub_extra_delay_ms:=15000                \
-                        sub_stats_file_path:=/path/to/results
+                        sub_extra_delay_ms:=15000                
 ```
 
-3. Execute the benchmarks suite for 5p1s using TZC protocol, in separate Docker containers, with each publisher waiting for the subscriber to establish connection and with the publishers start up order enforced, TCP_NODELAY enabled.
+3. Execute the benchmarks suite for 5p1s using TZC protocol, in separate Docker containers, with each publisher waiting for the subscriber to establish connection and with the publishers start up order enforced, TCP_NODELAY enabled, overriding the default results path.
 ```
 python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py      \
         --tcp=no --shm=no --tzc=yes --udp=no                     \
@@ -132,8 +130,7 @@ python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py      \
         --tcp=no --shm=yes --tzc=no --udp=no                     \
         --use_case=5p1s_separate_docker --no_pool=yes --pool=no  \
         --extra_params  pub_wait_for_subscribers:=true           \
-                        pub_enable_synch_startup:=true           \
-                        sub_stats_file_path:=/path/to/results
+                        pub_enable_synch_startup:=true           
 ```
 
 4. Execute _one single test_ using TCP protocol, in same docker container, with image pool disabled.
