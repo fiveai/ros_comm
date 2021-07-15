@@ -86,7 +86,7 @@
         <param name="sub_count" type="int" value="1" />
         <param name="pub_count" type="int" value="1" />
 
-        <machine name="m1" address="node2" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
+        <machine name="m1" address="node2" user="root" password="abcde" default="never" env-loader="/ros_comm/devel-release/env.sh"/>
         <node machine="m1" name="pub1" launch-prefix="$(arg pubs_prefix)" pkg="benchmark" type="benchmark_publisher" >
             <param name="id" type="int" value="0" />
         </node>
@@ -128,11 +128,11 @@
     </group>
 
     <group if="$(eval arg('use_case') == '1p5s_separate_docker')">
-        <machine name="m1" address="node2" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
-        <machine name="m2" address="node3" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
-        <machine name="m3" address="node4" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
-        <machine name="m4" address="node5" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
-        <machine name="m5" address="node6" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
+        <machine name="m1" address="node2" user="root" password="abcde" default="never" env-loader="/ros_comm/devel-release/env.sh"/>
+        <machine name="m2" address="node3" user="root" password="abcde" default="never" env-loader="/ros_comm/devel-release/env.sh"/>
+        <machine name="m3" address="node4" user="root" password="abcde" default="never" env-loader="/ros_comm/devel-release/env.sh"/>
+        <machine name="m4" address="node5" user="root" password="abcde" default="never" env-loader="/ros_comm/devel-release/env.sh"/>
+        <machine name="m5" address="node6" user="root" password="abcde" default="never" env-loader="/ros_comm/devel-release/env.sh"/>
 
         <param name="sub_count" type="int" value="5" />
         <param name="pub_count" type="int" value="1" />
@@ -194,11 +194,11 @@
     </group>
 
     <group if="$(eval arg('use_case') == '5p1s_separate_docker')">
-        <machine name="m1" address="node2" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
-        <machine name="m2" address="node3" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
-        <machine name="m3" address="node4" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
-        <machine name="m4" address="node5" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
-        <machine name="m5" address="node6" user="root" password="abcde" default="never" env-loader="/ros_comm_fiveai/devel-release/env.sh"/>
+        <machine name="m1" address="node2" user="root" password="abcde" default="never" env-loader="/ros_comm/devel-release/env.sh"/>
+        <machine name="m2" address="node3" user="root" password="abcde" default="never" env-loader="/ros_comm/devel-release/env.sh"/>
+        <machine name="m3" address="node4" user="root" password="abcde" default="never" env-loader="/ros_comm/devel-release/env.sh"/>
+        <machine name="m4" address="node5" user="root" password="abcde" default="never" env-loader="/ros_comm/devel-release/env.sh"/>
+        <machine name="m5" address="node6" user="root" password="abcde" default="never" env-loader="/ros_comm/devel-release/env.sh"/>
 
         <param name="sub_count" type="int" value="1" />
         <param name="pub_count" type="int" value="5" />

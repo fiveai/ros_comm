@@ -34,38 +34,38 @@ ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 RUN echo "/usr/sbin/sshd" >> ~/.bashrc
 RUN echo "export ROSLAUNCH_SSH_UNKNOWN=1" >> ~/.bashrc
-RUN echo "source /ros_comm_fiveai/devel-release/setup.sh" >> ~/.bashrc
+RUN echo "source /ros_comm/devel-release/setup.sh" >> ~/.bashrc
 RUN echo "mkdir -p \${SHM_ON_ROS_HOME}" >> ~/.bashrc
 # This line is need to workaround a roslaunch bug where multiple instances of roscore are launched 
 RUN echo "export ROS_MASTER_URI=http://\$(uname -n):11311" >> ~/.bashrc
-RUN echo "nano /ros_comm_fiveai/src/ros_comm/clients/benchmark/launch/launch.xml" >> ~/.bash_history
+RUN echo "nano /ros_comm/src/ros_comm/clients/benchmark/launch/launch.xml" >> ~/.bash_history
 RUN echo "catkin_make_isolated  \
 --source ./src/  \
---build /ros_comm_fiveai/build-release \
---devel /projects/ros_comm_fiveai/devel-release \
---install-space /ros_comm_fiveai/install-release  \
+--build /ros_comm/build-release \
+--devel /projects/ros_comm/devel-release \
+--install-space /ros_comm/install-release  \
 --pkg=benchmark --install --cmake-args -DCMAKE_BUILD_TYPE=Release && \
 roslaunch --screen -v  benchmark launch.xml pub_image_count:=2000 \
 sub_stats_file_path:=/root/tmp use_case:=1p1s_same_host" >> ~/.bash_history
 
-RUN echo "python2 /ros_comm_fiveai/src/ros_comm/clients/benchmark/execute.py --use_case=1p1s_same_host --extra_params=''" >> ~/.bash_history
+RUN echo "python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py --use_case=1p1s_same_host --extra_params=''" >> ~/.bash_history
 
 
-RUN --mount=type=ssh git clone git@github.com:costinior/ros_comm.git /ros_comm_fiveai/src/ros_comm && \
-    cd /ros_comm_fiveai/src/ros_comm         && \
+RUN --mount=type=ssh git clone git@github.com:costinior/ros_comm.git /ros_comm/src/ros_comm && \
+    cd /ros_comm/src/ros_comm         && \
     git pull                                 && \
     git checkout shm-on-ros                  && \
-    cd /ros_comm_fiveai
+    cd /ros_comm
 
 RUN  /bin/bash -c "source /opt/ros/kinetic/setup.sh   &&        \
     catkin_make_isolated                                        \
-    --source        /ros_comm_fiveai/src/                       \
-    --build         /ros_comm_fiveai/build-release              \
-    --devel         /ros_comm_fiveai/devel-release              \
-    --install-space /ros_comm_fiveai/install-release            \
+    --source        /ros_comm/src/                       \
+    --build         /ros_comm/build-release              \
+    --devel         /ros_comm/devel-release              \
+    --install-space /ros_comm/install-release            \
     --install                                                   \
     --cmake-args -DCMAKE_BUILD_TYPE=Release"
 
-WORKDIR /ros_comm_fiveai
+WORKDIR /ros_comm
 
 EXPOSE 22
