@@ -33,20 +33,20 @@ The following steps build the code directly on the host machine.
 Note, the target folder structure must be the one shown below, or else the subsequent steps won't work.
 
 ```
-git clone git@github.com:costinior/ros_comm.git $HOME/ros_comm_fiveai/src/ros_comm
+git clone git@github.com:costinior/ros_comm.git $HOME/ros_comm/src/ros_comm
 git checkout shm-on-ros
 ```
 
 ### Compile the entire workspace
 
 ```
-cd $HOME/ros_comm_fiveai
+cd $HOME/ros_comm
 source /opt/ros/kinetic/setup.sh  # this assumes ROS kinetic 1.12.14 is already installed
 catkin_make_isolated
   --source ./src/  \
-  --build $HOME/ros_comm_fiveai/build-release \
-  --devel $HOME/ros_comm_fiveai/devel-release \
-  --install-space $HOME/ros_comm_fiveai/install-release  \
+  --build $HOME/ros_comm/build-release \
+  --devel $HOME/ros_comm/devel-release \
+  --install-space $HOME/ros_comm/install-release  \
   --install \
   --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
@@ -54,7 +54,7 @@ catkin_make_isolated
 ### Execute the benchmarks specified in launch.xml overriding some of the parameters
 
 ```
-cd $HOME/ros_comm_fiveai
+cd $HOME/ros_comm
 source ./devel-release/setup.sh
 roslaunch --screen -v  benchmark launch.xml   \
   use_case:=5p1s_same_host sub_stats_file_path:=$HOME \
@@ -66,7 +66,7 @@ roslaunch --screen -v  benchmark launch.xml   \
 ### Build the docker image
 
 ```
-cd ~/ros_comm_fiveai/src/ros_comm/clients/benchmark/docker
+cd ~/ros_comm/src/ros_comm/clients/benchmark/docker
 export DOCKER_BUILDKIT=1
 docker build --ssh default --tag shm-on-ros:2.4 .
 ```
@@ -76,7 +76,7 @@ docker build --ssh default --tag shm-on-ros:2.4 .
 Assuming the Docker container built as above, with a tag of `shm-on-ros:2.4`:
 
 ```
-cd ~/ros_comm_fiveai/src/ros_comm/clients/benchmark/docker
+cd ~/ros_comm/src/ros_comm/clients/benchmark/docker
 docker-compose up
 
 # on a different terminal attach to node1; note it must be node1!
@@ -86,7 +86,7 @@ docker attach node1
 And then, from within the container, our benchmarks can be executed using commands of the form:
 
 ```
-python2 /ros_comm_fiveai/src/ros_comm/clients/benchmark/execute.py --tcp=no --shm=yes --use_case=5p1s_separate_docker
+python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py --tcp=no --shm=yes --use_case=5p1s_separate_docker
 ```
 
 The next sections provides examples of such commands.
@@ -95,7 +95,7 @@ The next sections provides examples of such commands.
 
 Execute the benchmarks for 1p5s using TZC protocol, in separate Docker containers, enforcing the subscribers start up order, allocating 16GB of shared memory to be used by the publishers, and telling the subscriber to wait 15 seconds before starting publishing messages, TCP_NODELAY enabled.
 ```
-python2 /ros_comm_fiveai/src/ros_comm/clients/benchmark/execute.py  \
+python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py  \
         --tcp=no --shm=no --tzc=yes --udp=no                        \
         --use_case=1p5s_separate_docker --no_pool=yes --pool=no     \
         --extra_params sub_enable_synch_startup:=true               \
@@ -107,7 +107,7 @@ python2 /ros_comm_fiveai/src/ros_comm/clients/benchmark/execute.py  \
 
 Execute the benchmarks for 5p1s using TZC protocol, in separate Docker containers, with each publisher waiting for the subscriber to establish connection and with the subscriber start up delayed by 15secs, TCP_NODELAY enabled.
 ```
-python2 /ros_comm_fiveai/src/ros_comm/clients/benchmark/execute.py  \
+python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py  \
         --tcp=no --shm=no --tzc=yes --udp=no                        \
         --use_case=5p1s_separate_docker --no_pool=yes --pool=no     \
         --extra_params  pub_wait_for_subscribers:=true              \
@@ -117,7 +117,7 @@ python2 /ros_comm_fiveai/src/ros_comm/clients/benchmark/execute.py  \
 
 Execute the benchmarks for 5p1s using TZC protocol, in separate Docker containers, with each publisher waiting for the subscriber to establish connection and with the publishers start up order enforced, TCP_NODELAY enabled.
 ```
-python2 /ros_comm_fiveai/src/ros_comm/clients/benchmark/execute.py  \
+python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py  \
         --tcp=no --shm=no --tzc=yes --udp=no                        \
         --use_case=5p1s_separate_docker --no_pool=yes --pool=no     \
         --extra_params  pub_wait_for_subscribers:=true              \
@@ -128,7 +128,7 @@ python2 /ros_comm_fiveai/src/ros_comm/clients/benchmark/execute.py  \
 
 Execute the benchmarks for 5p1s using SHM protocol, in separate Docker containers, with each publisher waiting for the subscriber to establish connection and with the publishers start up order enforced, and image pools disabled.
 ```
-python2 /ros_comm_fiveai/src/ros_comm/clients/benchmark/execute.py  \
+python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py  \
         --tcp=no --shm=yes --tzc=no --udp=no                        \
         --use_case=5p1s_separate_docker --no_pool=yes --pool=no     \
         --extra_params  pub_wait_for_subscribers:=true              \
