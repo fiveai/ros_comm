@@ -52,9 +52,9 @@ RUN echo "python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py --use_case
 
 
 RUN --mount=type=ssh git clone git@github.com:costinior/ros_comm.git /ros_comm/src/ros_comm && \
-    cd /ros_comm/src/ros_comm         && \
-    git pull                                 && \
-    git checkout shm-on-ros                  && \
+    cd /ros_comm/src/ros_comm     && \
+    git pull                      && \
+    git checkout fiveshm          && \
     cd /ros_comm
 
 RUN  /bin/bash -c "source /opt/ros/kinetic/setup.sh   &&        \

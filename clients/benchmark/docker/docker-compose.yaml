@@ -6,14 +6,14 @@
 version: "3.7"
 
 x-base_node: &base_node
-    image: shm-on-ros:2.4
+    image: fiveshm:2.4
     ipc: host
     volumes: 
         - "${HOME}:${HOME}"
     stdin_open: true # docker run -i
     tty: true        # docker run -t
     environment:
-        - SHM_ON_ROS_HOME=${HOME}/shm-on-ros
+        - SHM_ON_ROS_HOME=${HOME}/fiveshm
 
 services:
     # define the nodes as copies of the base node

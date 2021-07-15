@@ -12,7 +12,7 @@ The implementation is based on ROS (Kinetic) 1.12.14 but it can be easily ported
 
 A [suite of benchmarks](./clients/benchmark) has been provided. The entire suite or individual tests can be executed following the procedure described below. Currently, four protocols are supported: TCP, UDP, SHM and TZC.
 
-When executed from within the Docker containers, the benchmarks results are generated under ${HOME}/shm-on-ros folder. Otherwise, environment variable SHM_ON_ROS_HOME dictates the results folder.
+When executed from within the Docker containers, the benchmarks results are generated under ${HOME}/fiveshm folder. Otherwise, environment variable SHM_ON_ROS_HOME dictates the results folder.
 
 ### Notes on provided code
 
@@ -34,7 +34,7 @@ Note, the target folder structure must be the one shown below, or else the subse
 
 ```
 git clone git@github.com:costinior/ros_comm.git $HOME/ros_comm/src/ros_comm
-git checkout shm-on-ros
+git checkout fiveshm
 ```
 
 ### Compile the entire workspace
@@ -68,12 +68,12 @@ roslaunch --screen -v  benchmark launch.xml   \
 ```
 cd ~/ros_comm/src/ros_comm/clients/benchmark/docker
 export DOCKER_BUILDKIT=1
-docker build --ssh default --tag shm-on-ros:2.4 .
+docker build --ssh default --tag fiveshm:2.4 .
 ```
 
 ### Execute the benchmark suite deploying the ROS nodes in separate docker images
 
-Assuming the Docker container built as above, with a tag of `shm-on-ros:2.4`:
+Assuming the Docker container built as above, with a tag of `fiveshm:2.4`:
 
 ```
 cd ~/ros_comm/src/ros_comm/clients/benchmark/docker
