@@ -2,7 +2,7 @@
 
 ## TO DO BEFORE RELEASE
 
-CHANGE `git@github.com:costinior/ros_comm.git` TO THE FIVE REPO. RENAME REFERENCES TO `ros_comm` APPROPRIATELY.
+
 
 ## General description
 
