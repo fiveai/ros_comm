@@ -101,7 +101,7 @@ python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py  \
         --extra_params sub_enable_synch_startup:=true               \
                        pub_extra_delay_ms:=15000                    \
                        sub_stats_file_path:=/path/to/results        \
-                       shm_size_mega_bytes:=
+                       shm_size_mega_bytes:=16000
 ```
 
 
