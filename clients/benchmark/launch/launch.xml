@@ -37,7 +37,7 @@
     <arg name="sub_queue_size"           default="100" />
     <arg name="sub_output_stats"         default="false" />
     <arg name="sub_tcp_no_delay"         default="true" />
-    <arg name="sub_stats_file_path"      default="$(env SHM_ON_ROS_HOME)" />
+    <arg name="sub_stats_file_path"      default="$(env FIVESHM_HOME)" />
     <arg name="sub_stats_file_name"     
         default="$(arg transport)_$(arg use_case)_$(arg image_width_pixels)x$(arg image_height_pixels)_pool$(arg pub_pool_size)_Hz$(arg pub_hz)_count$(arg pub_image_count).txt" 
     />

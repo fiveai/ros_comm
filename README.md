@@ -1,4 +1,4 @@
-# SHM on ROS
+# FiveSHM
 
 ## TO DO BEFORE RELEASE
 
@@ -8,21 +8,25 @@ CHANGE `git@github.com:costinior/ros_comm.git` TO THE FIVE REPO. RENAME REFERENC
 
 This repository contains the C++ implementation of the shared memory mechanism described in the paper _Smart Pointers and Shared Memory Synchronisation for Efficient Inter-process Communication in ROS on an Autonomous Vehicle_ (IROS 2021) along with detailed build and deployment instructions.
 
-The implementation is based on ROS (Kinetic) 1.12.14 but it can be easily ported to more modern ROS versions which support C++11 or later. The code can be built either directly on the host machine _or_ within a Docker container via [the provided Docker script](./clients/benchmark/docker/Dockerfile). The former assumes the installation of ROS 1.12.14, Boost 1.58.0 and python2 on the host machine. The latter only requires Docker installation on the host machine. See [the Docker website](https://docs.docker.com/get-docker/) for details of setting up Docker on the host machine.
+The implementation consists of a modified version of the `ros_comm` package from ROS Kinetic (v1.12.14) along with a [suite of benchmarks](./clients/benchmark).
 
-A [suite of benchmarks](./clients/benchmark) has been provided. The entire suite or individual tests can be executed following the procedure described below. Currently, four protocols are supported: TCP, UDP, SHM and TZC.
+The code can be built either directly on the host machine _or_ within a Docker container via [the provided Docker script](./clients/benchmark/docker/Dockerfile). The former assumes the installation of ROS 1.12.14, Boost 1.58.0 and python2 on the host machine. The latter only requires Docker installation on the host machine. See [the Docker website](https://docs.docker.com/get-docker/) for details of setting up Docker on the host machine.
 
-When executed from within the Docker containers, the benchmarks results are generated under ${HOME}/fiveshm folder. Otherwise, environment variable SHM_ON_ROS_HOME dictates the results folder.
+The benchmarks - either the entire suite or individual tests - can be executed following the procedure described below. Currently, four protocols are supported: TCP, UDP, SHM and TZC.
+
+When executed from within the Docker containers, the benchmarks results are generated under ${HOME}/fiveshm folder. Otherwise, environment variable FIVESHM_HOME dictates the results folder.
 
 ### Notes on provided code
-
-[Boost.Process 1_65_0](https://www.boost.org/doc/libs/1_65_0/doc/html/process.html) has been imported into the source tree to support [unit tests](./test/test_roscpp/test/test_shm.cpp).
 
 We apply the following bug fixes on top of ROS 1.12.14 in addition to our own code:
  - _roslaunch_ [bug fix](https://github.com/ros/ros_comm/pull/1115)
  - replace _boost::condition_variable_ variable with _std::condition_variable_ in [callback_queue.cpp](./clients/roscpp/src/libros/callback_queue.cpp)
 
-For convenience of running the benchmarks, we have included TZC in this repository. TZC was developed by a group researchers afilliated to Tsinghua University, China and University of Maryland, USA and is described more fully in the _TZC: Efficient Inter-Process Communication for Robotics Middleware with Partial Serialization_. Its authors have released it under the [BSD](https://github.com/qboticslabs/tzc_transport/blob/master/package.xml) license.
+### Third party code
+
+[Boost.Process 1_65_0](https://www.boost.org/doc/libs/1_65_0/doc/html/process.html) has been imported into the source tree to support [unit tests](./test/test_roscpp/test/test_shm.cpp). We note that Boost is released under the [Boost Software License](http://www.boost.org/LICENSE_1_0.txt).
+
+For convenience of running the benchmarks, we have also included TZC in this repository. TZC was developed by a group researchers afilliated to Tsinghua University, China and University of Maryland, USA and is described more fully in the _TZC: Efficient Inter-Process Communication for Robotics Middleware with Partial Serialization_. Its authors have released it under the [BSD](https://github.com/qboticslabs/tzc_transport/blob/master/package.xml) license.
 
 ## Building and running benchmarks natively
 
@@ -30,10 +34,11 @@ The following steps build the code directly on the host machine.
 
 ### Cloning the repo and switching to the target branch
 
-Note, the target folder structure must be the one shown below, or else the subsequent steps won't work.
+Note that we set up a working directory of `$HOME/ros_comm` in this step. We assume this working directory in subsequent steps. If you prefer to use a different working directory, the subsequent steps will need to be appropriately modified.
 
 ```
-git clone git@github.com:costinior/ros_comm.git $HOME/ros_comm/src/ros_comm
+git clone git@github.com:fiveai/ros_comm.git $HOME/ros_comm/src/ros_comm
+cd $HOME/ros_comm/src/ros_comm
 git checkout fiveshm
 ```
 
@@ -68,12 +73,12 @@ roslaunch --screen -v  benchmark launch.xml   \
 ```
 cd ~/ros_comm/src/ros_comm/clients/benchmark/docker
 export DOCKER_BUILDKIT=1
-docker build --ssh default --tag fiveshm:2.4 .
+docker build --ssh default --tag fiveshm .
 ```
 
 ### Execute the benchmark suite deploying the ROS nodes in separate docker images
 
-Assuming the Docker container built as above, with a tag of `fiveshm:2.4`:
+Assuming the Docker container built as above, with a tag of `fiveshm`:
 
 ```
 cd ~/ros_comm/src/ros_comm/clients/benchmark/docker
