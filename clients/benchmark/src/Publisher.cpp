@@ -29,7 +29,7 @@
  * protocols: SHM, TCP, UDP or TZC.
  *
  * When more than one @em publisher exists in the ROS graph, the initialisation
- * order among its siblings can be enforced. Likewise, additional delays are
+ * order of sibling publishers can be enforced. Likewise, additional delays are
  * suppored in key points if more complex synchronisation strategies with
  * the subscriber(s) are required.
  */
