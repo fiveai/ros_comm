@@ -20,9 +20,9 @@ We apply the following bug fixes on top of ROS 1.12.14 in addition to our own co
 
 ### Third party code
 
-[Boost.Process 1_65_0](https://www.boost.org/doc/libs/1_65_0/doc/html/process.html) has been imported into the source tree to support [unit tests](./test/test_roscpp/test/test_shm.cpp). We note that Boost is released under the [Boost Software License](http://www.boost.org/LICENSE_1_0.txt).
+[Boost.Process 1_65_0](https://www.boost.org/doc/libs/1_65_0/doc/html/process.html) has been imported into the source tree to support [unit tests](./test/test_roscpp/test/test_shm.cpp). We note that [Boost 1.65.0](https://github.com/boostorg/boost/tree/boost-1.65.0) is released under the [Boost Software License](http://www.boost.org/LICENSE_1_0.txt).
 
-For convenience of running the benchmarks, we have also included TZC in this repository. TZC was developed by a group researchers afilliated to Tsinghua University, China and University of Maryland, USA and is described more fully in the _TZC: Efficient Inter-Process Communication for Robotics Middleware with Partial Serialization_. Its authors have released it under the [BSD](https://github.com/qboticslabs/tzc_transport/blob/master/package.xml) license.
+For convenience of running the benchmarks, we have also included [TZC](https://github.com/qboticslabs/tzc_transport) in this repository. TZC was developed by a group researchers afilliated to Tsinghua University, China and University of Maryland, USA and is described more fully in the _TZC: Efficient Inter-Process Communication for Robotics Middleware with Partial Serialization_. Its authors have released it under the [BSD](https://github.com/qboticslabs/tzc_transport/blob/master/package.xml) license.
 
 ## Cloning the repository and switching to the target branch
 
