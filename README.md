@@ -4,7 +4,7 @@
 
 This repository contains the C++ implementation of the shared memory mechanism described in the paper _Smart Pointers and Shared Memory Synchronisation for Efficient Inter-process Communication in ROS on an Autonomous Vehicle_ (IROS 2021) along with detailed build and deployment instructions.
 
-The implementation consists of a modified version of the `ros_comm` package from ROS Kinetic (v1.12.14) along with a [suite of benchmarks](./clients/benchmark).
+The implementation consists of a modified version of the `ros_comm` package from ROS Kinetic (v1.12.14) along with a [suite of benchmarks](./clients/benchmark) that were used to generate the [LOT benchmark data](https://github.com/fiveai/lot-benchmark-results).
 
 The code can be built either directly on the host machine _or_ within a Docker container via [the provided Docker script](./clients/benchmark/docker/Dockerfile). The former assumes the installation of ROS 1.12.14, Boost 1.58.0 and python2 on the host machine. The latter only requires Docker installation on the host machine. See [the Docker website](https://docs.docker.com/get-docker/) for details of setting up Docker on the host machine.
 
