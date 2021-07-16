@@ -5,7 +5,7 @@
 
 #pragma once
 
-namespace fiveai { namespace util
+namespace ros { namespace util
 {
     template <typename T>
     struct Range

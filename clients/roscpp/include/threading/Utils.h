@@ -10,7 +10,7 @@
 #include <future>
 #include <functional>
 
-namespace fiveai { namespace threading
+namespace ros { namespace threading
 {
     /**
      * Assigns @param name to the calling thread.

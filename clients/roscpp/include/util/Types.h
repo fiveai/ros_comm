@@ -9,7 +9,7 @@
 
 #include <cstdint>
 
-namespace fiveai { namespace util
+namespace ros { namespace util
 {
     using ElementCount = std::uint64_t;
     using ByteCount = std::uint64_t;

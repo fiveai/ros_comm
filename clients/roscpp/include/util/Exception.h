@@ -10,7 +10,7 @@
 #include <string>
 #include <functional>
 
-namespace fiveai { namespace util
+namespace ros { namespace util
 {
     /*
      * Writes the error message for exception ex to output stream os, followed by a | symbol. If the exception is

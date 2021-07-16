@@ -16,7 +16,7 @@
 #include <pthread.h>
 #include <sys/resource.h>
 
-namespace fiveai { namespace threading
+namespace ros { namespace threading
 {
 
 template <typename A>
@@ -158,7 +158,7 @@ template <typename A>
 void Thread<A>::initCommonLiveAttributes()
 {
     auto msg = [this] {return "Could not set name of thread " + m_attributes.getName();};
-    util::tryInvoke(fiveai::threading::baptizeThisThread, msg, m_attributes.getName());
+    util::tryInvoke(baptizeThisThread, msg, m_attributes.getName());
 }
 
 template <>

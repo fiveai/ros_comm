@@ -28,11 +28,11 @@ namespace ros
     class ShmPusher
     {
     public:
-        using Image               = fiveai::shm_msgs::Image;
-        using SharedPtrImage      = fiveai::shm::SharedPtr<Image>;
-        using UniquePtrImage      = fiveai::shm::UniquePtr<Image>;
-        using SharedPtrConstImage = fiveai::shm::SharedPtr<const Image>;
-        using UniquePtrConstImage = fiveai::shm::UniquePtr<const Image>;
+        using Image               = ros::shm_msgs::Image;
+        using SharedPtrImage      = ros::shm::SharedPtr<Image>;
+        using UniquePtrImage      = ros::shm::UniquePtr<Image>;
+        using SharedPtrConstImage = ros::shm::SharedPtr<const Image>;
+        using UniquePtrConstImage = ros::shm::UniquePtr<const Image>;
         using ShmManager          = boost::interprocess::managed_shared_memory;
 
         ShmPusher(const std::string& topicName, std::size_t shmCircularQueueCapacity,

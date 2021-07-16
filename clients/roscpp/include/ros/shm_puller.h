@@ -36,11 +36,11 @@ namespace ros
         using OnStartedMainLoopCallback = std::function<void()>;
         using OnStoppedMainLoopCallback = std::function<void()>;
 
-        using Image               = fiveai::shm_msgs::Image;
-        using SharedPtrImage      = fiveai::shm::SharedPtr<Image>;
-        using SharedPtrConstImage = fiveai::shm::SharedPtr<const Image>;
-        using WorkerAttributes    = fiveai::threading::StandardAttributes;
-        using Worker              = fiveai::threading::StandardThread;
+        using Image               = ros::shm_msgs::Image;
+        using SharedPtrImage      = ros::shm::SharedPtr<Image>;
+        using SharedPtrConstImage = ros::shm::SharedPtr<const Image>;
+        using WorkerAttributes    = ros::threading::StandardAttributes;
+        using Worker              = ros::threading::StandardThread;
         using ShmManager          = boost::interprocess::managed_shared_memory;
 
         ShmPuller(const std::string& topicName, const std::string& publisherName,
@@ -106,7 +106,7 @@ namespace ros
     private:
         using ShmQueue = ::ros::ShmCircularQueue;
         using Command = std::function<void()>;
-        using Queue = fiveai::threading::Queue<Command>;
+        using Queue = ros::threading::Queue<Command>;
 
         void mainLoop();
         void attach();

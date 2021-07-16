@@ -11,7 +11,7 @@
 #include <sstream>
 #include <string>
 
-namespace fiveai { namespace util
+namespace ros { namespace util
 {
     template <typename T>
     inline std::ostream& operator<<(std::ostream& os, const RectangleSize<T>& r)

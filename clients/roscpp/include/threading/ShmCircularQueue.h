@@ -17,7 +17,7 @@
 #include <functional>
 #include <memory>
 
-namespace fiveai { namespace threading { namespace shm
+namespace ros { namespace threading { namespace shm
 {
     /**
      * The @class CircularQueue is a lock based data structure which provides

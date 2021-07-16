@@ -12,8 +12,8 @@ namespace ros
     template <typename M>
     struct IsShm
     {
-      constexpr static bool value = std::is_same<fiveai::shm_msgs::SharedPtrShmImage, M>::value        ||
-                                    std::is_same<fiveai::shm_msgs::SharedPtrConstShmImage, M>::value   
+      constexpr static bool value = std::is_same<ros::shm_msgs::SharedPtrShmImage, M>::value        ||
+                                    std::is_same<ros::shm_msgs::SharedPtrConstShmImage, M>::value   
         ;
     };
 }

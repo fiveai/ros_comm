@@ -9,7 +9,7 @@
 
 #include <boost/interprocess/containers/vector.hpp>
 
-namespace fiveai { namespace shm
+namespace ros { namespace shm
 {
     template <typename T, typename A = shm::Allocator<T>>
     using Vector = boost::interprocess::vector<T, A>;

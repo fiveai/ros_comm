@@ -8,7 +8,7 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
-namespace fiveai { namespace util
+namespace ros { namespace util
 {
 
 std::string portableShmName(const std::string& s)

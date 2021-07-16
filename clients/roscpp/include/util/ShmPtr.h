@@ -8,7 +8,7 @@
 #include "util/ShmSharedPtr.h"
 #include "util/ShmUniquePtr.h"
 
-namespace fiveai { namespace shm
+namespace ros { namespace shm
 {
 
     template <typename T, typename ManagedMemory>

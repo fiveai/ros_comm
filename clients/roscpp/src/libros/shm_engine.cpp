@@ -58,7 +58,7 @@ namespace
 }
 
 ShmEngine::ShmEngine(const std::string& name,
-                     const std::string& shmName, fiveai::util::ByteCount shmSizeBytes) :
+                     const std::string& shmName, util::ByteCount shmSizeBytes) :
     m_name{name},
     m_shmName{makePortableShmName(shmName)},
     m_shmSizeBytes{shmSizeBytes},
@@ -239,7 +239,6 @@ void ShmEngine::unregisterPublisher(const std::string& topicName,
 ShmEngine::UniquePtrImage ShmEngine::allocateUniqueImage(SizePixels sz)
 {
     using namespace boost::interprocess;
-    using namespace fiveai;
 
     ROS_DEBUG_STREAM(getName() << " is allocating image ");
 
@@ -272,7 +271,7 @@ ShmEngine::UniquePtrImage ShmEngine::allocateUniqueImage(SizePixels sz)
 
 ShmEngine::SharedPtrImage ShmEngine::allocateSharedImage(SizePixels sz)
 {
-    return fiveai::shm::convertToShared(allocateUniqueImage(sz), m_shmManager);
+    return shm::convertToShared(allocateUniqueImage(sz), m_shmManager);
 }
 
 template <typename C, typename P>
@@ -368,7 +367,7 @@ void ShmEngine::doReleaseRosReferences()
 
 std::string ShmEngine::makePortableShmName(const std::string& shmName) const
 {
-    const auto portableShmName = fiveai::util::portableShmName(shmName);
+    const auto portableShmName = util::portableShmName(shmName);
 
     if (portableShmName != shmName)
     {
@@ -380,14 +379,13 @@ std::string ShmEngine::makePortableShmName(const std::string& shmName) const
 
 std::string ShmEngine::makeShmServiceQueueName(const std::string& nodeName) const
 {
-    return fiveai::util::portableShmQueueName(nodeName + "-shm-eng");
+    return util::portableShmQueueName(nodeName + "-shm-eng");
 }
 
 ShmEngine::ShmQueueShmUniquePtr
 ShmEngine::makeShmQueue(const std::string& shmQueueName)
 {
     using namespace boost::interprocess;
-    using namespace fiveai;
 
     ROS_INFO_STREAM(getName() << " is creating shm queue " << shmQueueName
                     << " in " << getShmName() << " shared memory");
@@ -689,7 +687,6 @@ void ShmEngine::sendRequest(const typename Service::Request& request,
 template <typename Service>
 void ShmEngine::sendRequestToAll(const std::vector<Entry>& entries)
 {
-    using namespace fiveai;
     for (const auto& entry : entries)
     {
         typename Service::Request request
@@ -825,7 +822,7 @@ Ret ShmEngine::syncExecute(Cmd cmd)
     std::future<Ret> future = barrier.get_future();
     asyncExecute([&barrier, cmd]
     {
-        using fiveai::threading::executeAndSetBarrier;
+        using threading::executeAndSetBarrier;
         executeAndSetBarrier<Ret>(barrier, cmd);
     });
     return future.get();

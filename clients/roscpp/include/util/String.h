@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <functional>
 
-namespace fiveai { namespace util
+namespace ros { namespace util
 {
     template <typename C>
     std::string foldToString(const C& container,

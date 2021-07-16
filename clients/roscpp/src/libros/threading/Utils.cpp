@@ -9,7 +9,7 @@
 
 #include <pthread.h>
 
-namespace fiveai { namespace threading
+namespace ros { namespace threading
 {
 
 int baptizeThisThread(const std::string& name)

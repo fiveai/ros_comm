@@ -16,25 +16,25 @@
 
 #include <stdexcept>
 
-namespace fiveai { namespace shm_msgs
+namespace ros { namespace shm_msgs
 {
     template <typename T>
-    using SharedPtr = fiveai::shm::SharedPtr<T>;
+    using SharedPtr = ros::shm::SharedPtr<T>;
 }}
 
 namespace ros { namespace message_traits
 {
-    template <class T> struct IsFixedSize<fiveai::shm_msgs::SharedPtr<T>> : TrueType {};
-    template <class T> struct IsFixedSize<fiveai::shm_msgs::SharedPtr<T> const> : TrueType {};
+    template <class T> struct IsFixedSize<ros::shm_msgs::SharedPtr<T>> : TrueType {};
+    template <class T> struct IsFixedSize<ros::shm_msgs::SharedPtr<T> const> : TrueType {};
 
-    template <class T> struct IsMessage<fiveai::shm_msgs::SharedPtr<T>> : TrueType {};
-    template <class T> struct IsMessage<fiveai::shm_msgs::SharedPtr<T> const> : TrueType {};
+    template <class T> struct IsMessage<ros::shm_msgs::SharedPtr<T>> : TrueType {};
+    template <class T> struct IsMessage<ros::shm_msgs::SharedPtr<T> const> : TrueType {};
 
-    template <class T> struct HasHeader<fiveai::shm_msgs::SharedPtr<T>> : FalseType {};
-    template <class T> struct HasHeader<fiveai::shm_msgs::SharedPtr<T> const> : FalseType {};
+    template <class T> struct HasHeader<ros::shm_msgs::SharedPtr<T>> : FalseType {};
+    template <class T> struct HasHeader<ros::shm_msgs::SharedPtr<T> const> : FalseType {};
 
     template<class T>
-    struct MD5Sum<fiveai::shm_msgs::SharedPtr<T>>
+    struct MD5Sum<ros::shm_msgs::SharedPtr<T>>
     {
         static const char* value()
         {
@@ -42,7 +42,7 @@ namespace ros { namespace message_traits
             return sum.c_str();
         }
 
-        static const char* value(const fiveai::shm_msgs::SharedPtr<T>&)
+        static const char* value(const ros::shm_msgs::SharedPtr<T>&)
         {
             return value();
         }
@@ -52,7 +52,7 @@ namespace ros { namespace message_traits
     };
 
     template<class T>
-    struct DataType<fiveai::shm_msgs::SharedPtr<T>>
+    struct DataType<ros::shm_msgs::SharedPtr<T>>
     {
         static std::string getPointedTypeName()
         {
@@ -66,21 +66,21 @@ namespace ros { namespace message_traits
             return v.c_str();
         }
 
-        static const char* value(const fiveai::shm_msgs::SharedPtr<T>&)
+        static const char* value(const ros::shm_msgs::SharedPtr<T>&)
         {
             return value();
         }
     };
 
     template<class T>
-    struct Definition<fiveai::shm_msgs::SharedPtr<T>>
+    struct Definition<ros::shm_msgs::SharedPtr<T>>
     {
         static const char* value()
         {
             return "# This message contains shared memory shared pointer";
         }
 
-        static const char* value(const fiveai::shm_msgs::SharedPtr<T>&)
+        static const char* value(const ros::shm_msgs::SharedPtr<T>&)
         {
            return value();
         }
@@ -90,7 +90,7 @@ namespace ros { namespace message_traits
 
 namespace ros { namespace serialization
 {
-    template<class _T> struct Serializer<fiveai::shm_msgs::SharedPtr<_T>>
+    template<class _T> struct Serializer<ros::shm_msgs::SharedPtr<_T>>
     {
         template<typename Stream, typename T>
         inline static
@@ -109,11 +109,11 @@ namespace ros { namespace serialization
 namespace ros { namespace message_operations
 {
     template<class T>
-    struct Printer<fiveai::shm_msgs::SharedPtr<T>>
+    struct Printer<ros::shm_msgs::SharedPtr<T>>
     {
         template<typename Stream>
         static
-        void stream(Stream& s, const std::string& indent, const fiveai::shm_msgs::SharedPtr<T>& p)
+        void stream(Stream& s, const std::string& indent, const ros::shm_msgs::SharedPtr<T>& p)
         {
             s << indent << "pointer value: " << p.get() << std::endl;
             s << indent << "use count: " << p.use_count() << std::endl;

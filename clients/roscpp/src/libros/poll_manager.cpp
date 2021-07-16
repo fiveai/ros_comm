@@ -74,7 +74,7 @@ void PollManager::threadFunc()
 {
   disableAllSignalsInThisThread();
 
-  fiveai::threading::baptizeThisThread("ros-poll-mng");
+  ros::threading::baptizeThisThread("ros-poll-mng");
 
   while (!shutting_down_)
   {

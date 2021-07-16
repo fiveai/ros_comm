@@ -8,7 +8,7 @@
 
 #include <iosfwd>
 
-namespace fiveai { namespace threading
+namespace ros { namespace threading
 {
     std::ostream& operator<<(std::ostream& os, const Nice& nice);
     template <typename Policy>

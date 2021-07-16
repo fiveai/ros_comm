@@ -8,7 +8,7 @@
 
 #include <boost/thread/thread.hpp>
 
-namespace fiveai { namespace threading
+namespace ros { namespace threading
 {
     template <typename A>
     class Thread

@@ -10,7 +10,7 @@
 
 #include <type_traits>
 
-namespace fiveai { namespace shm
+namespace ros { namespace shm
 {
     namespace __unique_ptr
     {

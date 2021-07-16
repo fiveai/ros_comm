@@ -120,7 +120,7 @@ namespace ros
         }
 
         // ensure all shm messages are const
-        auto constMessage = fiveai::shm::makeConst(std::move(message));
+        auto constMessage = ros::shm::makeConst(std::move(message));
         ROS_ASSERT_MSG(impl_->md5sum_ == "*" || std::string(mt::md5sum(constMessage)) == "*" || impl_->md5sum_ == mt::md5sum(constMessage),
                        "Trying to publish message of type [%s/%s] on a publisher with type [%s/%s]",
                        mt::datatype(constMessage), mt::md5sum(constMessage),

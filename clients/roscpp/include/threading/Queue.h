@@ -14,7 +14,7 @@
 #include <mutex>
 #include <condition_variable>
 
-namespace fiveai { namespace threading
+namespace ros { namespace threading
 {
     /**
      * The @class Queue is a lock based data structure which provides

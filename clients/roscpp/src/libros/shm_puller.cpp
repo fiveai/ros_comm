@@ -362,7 +362,7 @@ Ret ShmPuller::syncExecute(Cmd cmd)
     std::future<Ret> future = barrier.get_future();
     asyncExecute([&barrier, cmd]
     {
-        using fiveai::threading::executeAndSetBarrier;
+        using threading::executeAndSetBarrier;
         executeAndSetBarrier<Ret>(barrier, cmd);
     });
     return future.get();

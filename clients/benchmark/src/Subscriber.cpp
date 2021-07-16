@@ -36,9 +36,9 @@
  * the publisher(s) are required.
  */
 
-using SharedPtrConstShmImage = fiveai::shm_msgs::SharedPtrConstShmImage;
+using SharedPtrConstShmImage = ros::shm_msgs::SharedPtrConstShmImage;
 using SharedPtrConstImage = sensor_msgs::ImageConstPtr;
-using SizePixels = fiveai::util::SizePixels;
+using SizePixels = ros::util::SizePixels;
 
 struct Data
 {

@@ -4,7 +4,7 @@
  ***************************************************************************************************/
 #pragma once
 
-namespace fiveai { namespace util
+namespace ros { namespace util
 {
     /*
      * Portable and type safe class encapsulating the size of a rectangle.

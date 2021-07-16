@@ -295,7 +295,7 @@ void internalCallbackQueueThreadFunc()
 {
   disableAllSignalsInThisThread();
 
-  fiveai::threading::baptizeThisThread("ros-cb-queue");
+  ros::threading::baptizeThisThread("ros-cb-queue");
 
   CallbackQueuePtr queue = getInternalCallbackQueue();
 

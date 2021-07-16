@@ -11,7 +11,7 @@
 
 #include <string> // for std::char_traits
 
-namespace fiveai { namespace shm
+namespace ros { namespace shm
 {
     template
     <

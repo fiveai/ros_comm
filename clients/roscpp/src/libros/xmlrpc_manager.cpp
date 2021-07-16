@@ -249,7 +249,7 @@ void XMLRPCManager::serverThreadFunc()
 {
   disableAllSignalsInThisThread();
 
-  fiveai::threading::baptizeThisThread("ros-xmlrpc");
+  threading::baptizeThisThread("ros-xmlrpc");
 
   while(!shutting_down_)
   {

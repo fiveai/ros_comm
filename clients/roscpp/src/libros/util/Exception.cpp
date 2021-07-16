@@ -8,7 +8,7 @@
 #include <exception>
 #include <sstream>
 
-namespace fiveai { namespace util
+namespace ros { namespace util
 {
     void printExceptionInfo(const std::exception& ex, std::ostream& os) noexcept
     {

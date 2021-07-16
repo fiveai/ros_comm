@@ -15,7 +15,7 @@
 
 namespace ros
 {
-    using ShmCircularQueue = fiveai::threading::shm::CircularQueue<fiveai::shm_msgs::SharedPtrConstShmImage>;
+    using ShmCircularQueue = ros::threading::shm::CircularQueue<ros::shm_msgs::SharedPtrConstShmImage>;
 
     namespace internal
     {
@@ -25,8 +25,8 @@ namespace ros
             using Service = S;
 
             std::size_t         id;
-            fiveai::shm::String sourceNodeName;
-            fiveai::shm::String targetNodeName;
+            ros::shm::String sourceNodeName;
+            ros::shm::String targetNodeName;
         };
 
         template <typename S>
@@ -35,8 +35,8 @@ namespace ros
             using Service = S;
 
             std::size_t         requestId;
-            fiveai::shm::String sourceNodeName;
-            fiveai::shm::String targetNodeName;
+            ros::shm::String sourceNodeName;
+            ros::shm::String targetNodeName;
         };
     }
 
@@ -68,5 +68,5 @@ namespace ros
         UnregisterPublisher::Request,
         UnregisterPublisher::Response
     >;
-    using ShmEngineQueue = fiveai::threading::shm::Queue<ShmEngineItem>;
+    using ShmEngineQueue = ros::threading::shm::Queue<ShmEngineItem>;
 }

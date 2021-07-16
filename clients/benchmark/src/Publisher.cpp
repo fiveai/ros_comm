@@ -34,12 +34,12 @@
  * the subscriber(s) are required.
  */
 
-using SharedPtrConstShmImage = fiveai::shm_msgs::SharedPtrConstShmImage;
-using SharedPtrShmImage = fiveai::shm_msgs::SharedPtrShmImage;
+using SharedPtrConstShmImage = ros::shm_msgs::SharedPtrConstShmImage;
+using SharedPtrShmImage = ros::shm_msgs::SharedPtrShmImage;
 using SharedPtrImage = sensor_msgs::ImagePtr;
 using SharedPtrConstImage = sensor_msgs::ImageConstPtr;
 
-using SizePixels = fiveai::util::SizePixels;
+using SizePixels = ros::util::SizePixels;
 
 struct Params
 {

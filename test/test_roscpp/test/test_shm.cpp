@@ -41,8 +41,8 @@ public:
     {}
 
 protected:
-    using RosCallback = boost::function<void(fiveai::shm_msgs::SharedPtrConstShmImage)>;
-    using SharedPtrConstShmImage = fiveai::shm_msgs::SharedPtrConstShmImage;
+    using RosCallback = boost::function<void(ros::shm_msgs::SharedPtrConstShmImage)>;
+    using SharedPtrConstShmImage = ros::shm_msgs::SharedPtrConstShmImage;
 
     void SetUp() override
     {
@@ -782,7 +782,7 @@ int main(int argc, char** argv)
     globalArgc = argc;
     globalArgv = argv;
 
-    fiveai::threading::baptizeThisThread("main");
+    ros::threading::baptizeThisThread("main");
 
     const auto ret = RUN_ALL_TESTS();
     return ret;

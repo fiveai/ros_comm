@@ -8,7 +8,7 @@
 #include <boost/interprocess/allocators/allocator.hpp>
 #include <boost/interprocess/managed_shared_memory.hpp>
 
-namespace fiveai { namespace shm
+namespace ros { namespace shm
 {
     /// A STL compatible allocator able to reserve/release shared memory
     /// of the type specified by template @param T
