@@ -507,8 +507,8 @@ void Subscription::pendingConnectionDone(const PendingConnectionPtr& conn, XmlRp
         proto[1].getType() != XmlRpcValue::TypeString ||
         proto[2].getType() != XmlRpcValue::TypeInt)
     {
-    	ROSCPP_LOG_DEBUG("publisher implements TCPROS, but the " \
-                "parameters aren't string,int");
+        ROSCPP_LOG_STREAM_DEBUG("publisher implements " << proto_name << ", but the " \
+                "the second and third parameters aren't string,int");
       return;
     }
     std::string pub_host = proto[1];
@@ -551,7 +551,7 @@ void Subscription::pendingConnectionDone(const PendingConnectionPtr& conn, XmlRp
             proto[3].getType() != XmlRpcValue::TypeString ||
             proto[4].getType() != XmlRpcValue::TypeString)
         {
-            ROSCPP_LOG_DEBUG("publisher implements SHM, but the parameters aren't string,string");
+            ROSCPP_LOG_DEBUG("publisher implements SHM, but the fourth and fifth parameters aren't string,string");
             return;
         }
 
