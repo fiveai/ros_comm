@@ -1,4 +1,4 @@
-# FiveSHM
+# LOT - Low Overhead Transport
 
 ## General description
 
@@ -10,7 +10,7 @@ The code can be built either directly on the host machine _or_ within a Docker c
 
 The benchmarks - either the entire suite or individual tests - can be executed following the procedure described below. Currently, four protocols are supported: TCP, UDP, SHM and TZC.
 
-When executed from within the Docker containers, the benchmarks results are generated under `${HOME}/fiveshm` folder. Otherwise, environment variable `FIVESHM_HOME` dictates the results folder.
+When executed from within the Docker containers, the benchmarks results are generated under `${HOME}/lot` folder. Otherwise, environment variable `lot_HOME` dictates the results folder.
 
 ### Notes on provided code
 
@@ -31,7 +31,7 @@ Note that we clone the repository into `$HOME/ros_comm/src/ros_comm` in this ste
 ```
 git clone git@github.com:fiveai/ros_comm.git $HOME/ros_comm/src/ros_comm
 cd $HOME/ros_comm/src/ros_comm
-git checkout fiveshm
+git checkout lot
 ```
 
 ## Building and running the benchmarks natively
@@ -69,12 +69,12 @@ roslaunch --screen -v  benchmark launch.xml   \
 ```
 cd ~/ros_comm/src/ros_comm/clients/benchmark/docker
 export DOCKER_BUILDKIT=1
-docker build --ssh default --tag fiveshm .
+docker build --ssh default --tag lot .
 ```
 
 ### Executing the benchmark suite, deploying the ROS nodes in separate docker images
 
-Assuming the Docker container built as above, with a tag of `fiveshm`:
+Assuming the Docker container built as above, with a tag of `lot`:
 
 ```
 cd ~/ros_comm/src/ros_comm/clients/benchmark/docker
