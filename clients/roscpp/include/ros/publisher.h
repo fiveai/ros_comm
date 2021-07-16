@@ -96,6 +96,11 @@ namespace ros
       publish(boost::bind(serializeMessage<M>, boost::ref(*message)), m);
     }
 
+     /**
+     * @brief Publish a message through shared memory. Relies on SFINAE to
+     * to remove this method from overload resolution should the message type
+     * not be suitable for being transmitted via shared memory.
+     */
     template <typename M>
     typename std::enable_if<IsShm<M>::value>::type
     publish(M message) const
