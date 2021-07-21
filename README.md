@@ -12,17 +12,6 @@ The benchmarks - either the entire suite or individual tests - can be executed f
 
 When executed from within the Docker containers, the benchmarks results are generated under `${HOME}/lot` folder. Otherwise, environment variable `lot_HOME` dictates the results folder.
 
-### Notes on provided code
-
-We apply the following bug fixes on top of ROS 1.12.14 in addition to our own code:
- - _roslaunch_ [bug fix](https://github.com/ros/ros_comm/pull/1115).
- - replace `boost::condition_variable` variable with `std::condition_variable` in [callback_queue.cpp](./clients/roscpp/src/libros/callback_queue.cpp).
-
-### Third party code
-
-[Boost.Process 1_65_0](https://www.boost.org/doc/libs/1_65_0/doc/html/process.html) has been imported into the source tree to support [unit tests](./test/test_roscpp/test/test_shm.cpp). We note that [Boost 1.65.0](https://github.com/boostorg/boost/tree/boost-1.65.0) is released under the [Boost Software License](http://www.boost.org/LICENSE_1_0.txt).
-
-For convenience of running the benchmarks, we have also included [TZC](https://github.com/qboticslabs/tzc_transport) in this repository. TZC was developed by a group researchers afilliated to Tsinghua University, China and University of Maryland, USA and is described more fully in the _TZC: Efficient Inter-Process Communication for Robotics Middleware with Partial Serialization_. Its authors have released it under the [BSD](https://github.com/qboticslabs/tzc_transport/blob/master/package.xml) license.
 
 ## Cloning the repository and switching to the target branch
 
@@ -147,3 +136,19 @@ roslaunch --screen -v  benchmark launch.xml     \
         image_height_pixels:=512                \
         pub_pool_size:=0
 ```
+
+## Licence
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />LOT is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+This work is based on a fork of [ros_comm kinetic 1.12.14](https://github.com/ros/ros_comm/tree/fb6a6bd2839206ab99994a0d0beb89a6ffab1223). 
+We apply the following fixes to `ros_comm`, in addition to our own code:
+- [#1115 roslaunch - pass through command-line args to the xmlloader when using the API](https://github.com/ros/ros_comm/pull/1115).
+- replace `boost::condition_variable` variable with `std::condition_variable` in [callback_queue.cpp](./clients/roscpp/src/libros/callback_queue.cpp).
+
+[Boost.Process 1_65_0](https://www.boost.org/doc/libs/1_65_0/doc/html/process.html) has been imported into the source tree at [./clients/roscpp/include/boost_1.65.0](./clients/roscpp/include/boost_1.65.0) to support [unit tests](./test/test_roscpp/test/test_shm.cpp). We note that [Boost 1.65.0](https://github.com/boostorg/boost/tree/boost-1.65.0) is released under the [Boost Software License](http://www.boost.org/LICENSE_1_0.txt).
+
+For convenience of running the benchmarks, we have also included code from [TZC](https://github.com/qboticslabs/tzc_transport). TZC was developed by a group researchers affiliated to Tsinghua University, China and University of Maryland, USA and is described more fully in their paper [TZC: Efficient Inter-Process Communication for Robotics Middleware with Partial Serialization](https://arxiv.org/abs/1810.00556). Its authors have released it under a [BSD](https://github.com/qboticslabs/tzc_transport/blob/master/package.xml) license.
+
+
+

@@ -9,7 +9,7 @@
 
   <maintainer email="costin.iordache@five.ai">Costin Iordache</maintainer>
 
-  <license>TODO</license>
+  <license>CC-BY-NC-SA</license>
 
   <buildtool_depend>catkin</buildtool_depend>
 
