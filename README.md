@@ -146,9 +146,11 @@ We apply the following fixes to `ros_comm`, in addition to our own code:
 - [#1115 roslaunch - pass through command-line args to the xmlloader when using the API](https://github.com/ros/ros_comm/pull/1115).
 - replace `boost::condition_variable` variable with `std::condition_variable` in [callback_queue.cpp](./clients/roscpp/src/libros/callback_queue.cpp).
 
-[Boost.Process 1_65_0](https://www.boost.org/doc/libs/1_65_0/doc/html/process.html) has been imported into the source tree at [./clients/roscpp/include/boost_1.65.0](./clients/roscpp/include/boost_1.65.0) to support [unit tests](./test/test_roscpp/test/test_shm.cpp). We note that [Boost 1.65.0](https://github.com/boostorg/boost/tree/boost-1.65.0) is released under the [Boost Software License](http://www.boost.org/LICENSE_1_0.txt).
+[Boost.Process 1_65_0](https://www.boost.org/doc/libs/1_65_0/doc/html/process.html) has been imported into the source tree at [./clients/roscpp/include/boost_1.65.0](./clients/roscpp/include/boost_1.65.0) to support [unit tests](./test/test_roscpp/test/test_shm.cpp). We note that it is released under the [Boost Software License](http://www.boost.org/LICENSE_1_0.txt).
 
-For convenience of running the benchmarks, we have also included code from [TZC](https://github.com/qboticslabs/tzc_transport). TZC was developed by a group researchers affiliated to Tsinghua University, China and University of Maryland, USA and is described more fully in their paper [TZC: Efficient Inter-Process Communication for Robotics Middleware with Partial Serialization](https://arxiv.org/abs/1810.00556). Its authors have released it under a [BSD](https://github.com/qboticslabs/tzc_transport/blob/master/package.xml) license.
+For convenience of running the benchmarks, we have also included code from [TZC](https://github.com/qboticslabs/tzc_transport). TZC was developed by a group researchers affiliated to Tsinghua University, China and University of Maryland, USA and is described more fully in their paper [TZC: Efficient Inter-Process Communication for Robotics Middleware with Partial Serialization](https://arxiv.org/abs/1810.00556). We note it is released it under a [BSD](https://github.com/qboticslabs/tzc_transport/blob/master/package.xml) license.
+
+We thank the authors for making their code available.
 
 
 
