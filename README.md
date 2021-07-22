@@ -23,7 +23,7 @@ cd $HOME/ros_comm/src/ros_comm
 git checkout lot
 ```
 
-## Building and running the benchmarks natively
+## Building and running benchmarks natively
 
 The following steps build the code directly on the host machine.
 
@@ -41,7 +41,7 @@ catkin_make_isolated
   --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
 
-### Executing the benchmarks specified in launch.xml overriding some of the parameters
+### Executing the benchmarks specified in launch.xml, overriding some of the parameters
 
 ```
 cd $HOME/ros_comm
@@ -56,34 +56,36 @@ roslaunch --screen -v  benchmark launch.xml   \
 ### Building the Docker image
 
 ```
-cd ~/ros_comm/src/ros_comm/clients/benchmark/docker
+cd $HOME/ros_comm/clients/benchmark/docker
 export DOCKER_BUILDKIT=1
 docker build --ssh default --tag lot .
 ```
 
-### Executing the benchmark suite, deploying the ROS nodes in separate docker images
+## Launch the docker containers, and run the benchmarks from within 1 of them
 
-Assuming the Docker container built as above, with a tag of `lot`:
-
+Launch 6 containers based on the above image, and attach to one of them:
 ```
-cd ~/ros_comm/src/ros_comm/clients/benchmark/docker
-docker-compose up
-
-# on a different terminal attach to node1; note it must be node1!
+cd $HOME/ros_comm/clients/benchmark/docker
+docker-compose up -d
 docker attach node1
 ```
 
-And then, from within the container, our benchmarks can be executed using commands of the form:
-
+From within the container, benchmarks can be executed using commands of the form:
 ```
 python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py --tcp=no --shm=yes --use_case=5p1s_separate_docker
 ```
 
-The next sections provides examples of such commands.
+Once you're finished, exit the docker container and shutdown the others
+```
+docker-compose stop
+```
+You should find the results in `$HOME/lot`
+
+The following section provides examples of benchmark commands.
 
 ### Benchmark execution command examples
 
-1. Execute the benchmarks suite for 1p5s using TZC protocol, in separate Docker containers, enforcing the subscribers start up order, allocating 3GB of shared memory to be used by the publishers, and telling the subscriber to wait 15 seconds before starting publishing messages, `TCP_NODELAY` enabled.
+1. Execute the benchmark suite for 1p5s using TZC protocol, in separate Docker containers, enforcing the subscribers start up order, allocating 16GB of shared memory to be used by the publishers, and telling the subscriber to wait 15 seconds before starting publishing messages, `TCP_NODELAY` enabled.
 
 ```
 python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py      \
