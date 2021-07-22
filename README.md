@@ -83,7 +83,7 @@ The next sections provides examples of such commands.
 
 ### Benchmark execution command examples
 
-1. Execute the benchmarks suite for 1p5s using TZC protocol, in separate Docker containers, enforcing the subscribers start up order, allocating 16GB of shared memory to be used by the publishers, and telling the subscriber to wait 15 seconds before starting publishing messages, `TCP_NODELAY` enabled.
+1. Execute the benchmarks suite for 1p5s using TZC protocol, in separate Docker containers, enforcing the subscribers start up order, allocating 3GB of shared memory to be used by the publishers, and telling the subscriber to wait 15 seconds before starting publishing messages, `TCP_NODELAY` enabled.
 
 ```
 python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py      \
@@ -91,7 +91,7 @@ python2 /ros_comm/src/ros_comm/clients/benchmark/execute.py      \
         --use_case=1p5s_separate_docker --no_pool=yes --pool=no  \
         --extra_params sub_enable_synch_startup:=true            \
                        pub_extra_delay_ms:=15000                 \
-                       shm_size_mega_bytes:=16000
+                       shm_size_mega_bytes:=3000
 ```
 
 2. Execute the benchmarks suite for 5p1s using TZC protocol, in separate Docker containers, with each publisher waiting for the subscriber to establish connection and with the subscriber start up delayed by 15secs, `TCP_NODELAY` enabled.
