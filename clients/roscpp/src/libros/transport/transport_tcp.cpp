@@ -138,6 +138,7 @@ bool TransportTCP::initializeSocket()
   {
     ROS_DEBUG("Adding tcp socket [%d] to pollset", sock_);
     poll_set_->addSocket(sock_, boost::bind(&TransportTCP::socketUpdate, this, _1), shared_from_this());
+    poll_set_->addEvents(sock_, POLLRDHUP);
   }
 
   if (!(flags_ & SYNCHRONOUS))
@@ -690,6 +691,7 @@ void TransportTCP::socketUpdate(int events)
 
   if((events & POLLERR) ||
      (events & POLLHUP) ||
+     (events & POLLRDHUP) ||
      (events & POLLNVAL))
   {
     uint32_t error = -1;

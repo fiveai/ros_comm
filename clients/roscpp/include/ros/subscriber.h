@@ -93,7 +93,8 @@ private:
   class Impl
   {
   public:
-    Impl();
+    Impl(const std::string& topic, const NodeHandle& node_handle,
+         const SubscriptionCallbackHelperPtr& helper);
     ~Impl();
 
     void unsubscribe();

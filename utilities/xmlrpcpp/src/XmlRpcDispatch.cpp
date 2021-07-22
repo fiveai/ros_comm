@@ -26,6 +26,10 @@ static inline int poll( struct pollfd *pfd, int nfds, int timeout)
 # include <sys/time.h>
 #endif  // _WINDOWS
 
+namespace ros
+{
+    void ros_steadytime (uint32_t &sec, uint32_t &nsec);
+}
 
 using namespace XmlRpc;
 

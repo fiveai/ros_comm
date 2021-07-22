@@ -388,12 +388,15 @@ bool TopicManager::advertise(const AdvertiseOptions& ops, const SubscriberCallba
     sub->addLocalConnection(pub);
   }
 
-  XmlRpcValue args, result, payload;
-  args[0] = this_node::getName();
-  args[1] = ops.topic;
-  args[2] = ops.datatype;
-  args[3] = xmlrpc_manager_->getServerURI();
-  master::execute("registerPublisher", args, result, payload, true);
+  if (! ops.isLocalPrivate)
+  {
+    XmlRpcValue args, result, payload;
+    args[0] = this_node::getName();
+    args[1] = ops.topic;
+    args[2] = ops.datatype;
+    args[3] = xmlrpc_manager_->getServerURI();
+    master::execute("registerPublisher", args, result, payload, true);
+  }
 
   return true;
 }
@@ -473,6 +476,8 @@ bool TopicManager::isTopicAdvertised(const string &topic)
 
 bool TopicManager::registerSubscriber(const SubscriptionPtr& s, const string &datatype)
 {
+  vector<string> pub_uris;
+
   XmlRpcValue args, result, payload;
   args[0] = this_node::getName();
   args[1] = s->getName();
@@ -484,7 +489,6 @@ bool TopicManager::registerSubscriber(const SubscriptionPtr& s, const string &da
     return false;
   }
 
-  vector<string> pub_uris;
   for (int i = 0; i < payload.size(); i++)
   {
     if (payload[i] != xmlrpc_manager_->getServerURI())
@@ -584,9 +588,9 @@ bool TopicManager::pubUpdate(const string &topic, const vector<string> &pubs)
   return false;
 }
 
-bool TopicManager::requestTopic(const string &topic,
-                         XmlRpcValue &protos,
-                         XmlRpcValue &ret)
+bool TopicManager::requestTopic(const std::string& callerId, const string &topic,
+                                XmlRpcValue &protos,
+                                XmlRpcValue &ret)
 {
   for (int proto_idx = 0; proto_idx < protos.size(); proto_idx++)
   {
@@ -686,6 +690,21 @@ bool TopicManager::requestTopic(const string &topic,
       ret[1] = string();
       ret[2] = udpros_params;
       return true;
+    }
+    else if (proto_name == string("LOT"))
+    {
+        XmlRpcValue params;
+        PullerShmInfo info = ShmEngine::instance().registerSubscriber(topic, callerId);
+        params[0] = string("LOT");
+        params[1] = network::getHost();
+        params[2] = int(connection_manager_->getTCPPort());
+        params[3] = info.shmName;
+        params[4] = info.shmQueueName;
+        params[5] = this_node::getName();
+        ret[0] = int(1);
+        ret[1] = string();
+        ret[2] = params;
+        return true;
     }
     else
     {
@@ -1021,7 +1040,7 @@ void TopicManager::pubUpdateCallback(XmlRpc::XmlRpcValue& params, XmlRpc::XmlRpc
 
 void TopicManager::requestTopicCallback(XmlRpc::XmlRpcValue& params, XmlRpc::XmlRpcValue& result)
 {
-  if (!requestTopic(params[1], params[2], result))
+  if (!requestTopic(params[0], params[1], params[2], result))
   {
     result = xmlrpc::responseInt(0, console::g_last_error_message, 0);
   }

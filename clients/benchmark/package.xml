@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>benchmark</name>
+  <version>1.0.0</version>
+  <description>
+    The benchmark package aims at providing a framework with the intent 
+    of assessing the performance of roscpp and perhsps rospy.
+  </description>
+
+  <maintainer email="costin.iordache@five.ai">Costin Iordache</maintainer>
+
+  <license>CC-BY-NC-SA</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend version_gte="1.15.0">roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend>
+
+  <build_export_depend version_gte="1.15.0">roscpp</build_export_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <build_export_depend>std_msgs</build_export_depend>
+
+  <exec_depend version_gte="1.15.0">roscpp</exec_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+
+</package>

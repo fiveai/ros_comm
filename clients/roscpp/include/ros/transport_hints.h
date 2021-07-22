@@ -73,6 +73,12 @@ public:
     return *this;
   }
 
+  TransportHints& shm()
+  {
+    transports_.push_back("LOT");
+    return *this;
+  }
+
   /**
    * \brief If a TCP transport is used, specifies whether or not to use TCP_NODELAY to provide
    * a potentially lower-latency connection.

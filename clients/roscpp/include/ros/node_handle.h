@@ -45,7 +45,10 @@
 #include "ros/wall_timer_options.h"
 #include "ros/spinner.h"
 #include "ros/init.h"
+#include "ros/shm_traits.h"
+#include "msgs/ShmImage.h"
 #include "common.h"
+#include "util/Types.h"
 
 #include <boost/bind.hpp>
 
@@ -246,11 +249,16 @@ namespace ros
      * otherwise invalid graph resource name
      */
     template <class M>
-    Publisher advertise(const std::string& topic, uint32_t queue_size, bool latch = false)
+    Publisher advertise(const std::string& topic, uint32_t queue_size, bool latch = false,
+                        bool isShm = IsShm<M>::value,
+                        bool isLocalPrivate = false)
     {
       AdvertiseOptions ops;
       ops.template init<M>(topic, queue_size);
       ops.latch = latch;
+      ops.isShm = isShm;
+      ops.isLocalPrivate = isLocalPrivate;
+
       return advertise(ops);
     }
 
@@ -316,12 +324,17 @@ if (pub)  // Enter if publisher is valid
                             const SubscriberStatusCallback& connect_cb,
                             const SubscriberStatusCallback& disconnect_cb = SubscriberStatusCallback(),
                             const VoidConstPtr& tracked_object = VoidConstPtr(),
-                            bool latch = false)
+                            bool latch = false,
+                            bool isShm = IsShm<M>::value,
+                            bool isLocalPrivate = false)
   {
     AdvertiseOptions ops;
     ops.template init<M>(topic, queue_size, connect_cb, disconnect_cb);
     ops.tracked_object = tracked_object;
     ops.latch = latch;
+    ops.isShm = isShm;
+    ops.isLocalPrivate = isLocalPrivate;
+
     return advertise(ops);
   }
 
@@ -351,7 +364,6 @@ if (pub)  // Enter if publisher is valid
    * \throws InvalidNameException If the topic name begins with a tilde, or is an otherwise invalid graph resource name
    */
   Publisher advertise(AdvertiseOptions& ops);
-
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Versions of subscribe()
@@ -403,8 +415,8 @@ if (sub)  // Enter if subscriber is valid
                        const TransportHints& transport_hints = TransportHints())
   {
     SubscribeOptions ops;
-    ops.template initByFullCallbackType<M>(topic, queue_size, boost::bind(fp, obj, _1));
     ops.transport_hints = transport_hints;
+    ops.template initByFullCallbackType<M>(topic, queue_size, boost::bind(fp, obj, _1));
     return subscribe(ops);
   }
 
@@ -414,8 +426,8 @@ if (sub)  // Enter if subscriber is valid
                        const TransportHints& transport_hints = TransportHints())
   {
     SubscribeOptions ops;
-    ops.template initByFullCallbackType<M>(topic, queue_size, boost::bind(fp, obj, _1));
     ops.transport_hints = transport_hints;
+    ops.template initByFullCallbackType<M>(topic, queue_size, boost::bind(fp, obj, _1));
     return subscribe(ops);
   }
 
@@ -530,9 +542,9 @@ if (sub)  // Enter if subscriber is valid
                        const boost::shared_ptr<T>& obj, const TransportHints& transport_hints = TransportHints())
   {
     SubscribeOptions ops;
-    ops.template initByFullCallbackType<M>(topic, queue_size, boost::bind(fp, obj.get(), _1));
     ops.tracked_object = obj;
     ops.transport_hints = transport_hints;
+    ops.template initByFullCallbackType<M>(topic, queue_size, boost::bind(fp, obj.get(), _1));
     return subscribe(ops);
   }
 
@@ -541,9 +553,9 @@ if (sub)  // Enter if subscriber is valid
                        const boost::shared_ptr<T>& obj, const TransportHints& transport_hints = TransportHints())
   {
     SubscribeOptions ops;
-    ops.template initByFullCallbackType<M>(topic, queue_size, boost::bind(fp, obj.get(), _1));
     ops.tracked_object = obj;
     ops.transport_hints = transport_hints;
+    ops.template initByFullCallbackType<M>(topic, queue_size, boost::bind(fp, obj.get(), _1));
     return subscribe(ops);
   }
 
@@ -653,11 +665,12 @@ if (sub)  // Enter if subscriber is valid
    *  \throws ConflictingSubscriptionException If this node is already subscribed to the same topic with a different datatype
    */
   template<class M>
-  Subscriber subscribe(const std::string& topic, uint32_t queue_size, void(*fp)(M), const TransportHints& transport_hints = TransportHints())
+  Subscriber subscribe(const std::string& topic, uint32_t queue_size, void(*fp)(M),
+                       const TransportHints& transport_hints = TransportHints())
   {
     SubscribeOptions ops;
-    ops.template initByFullCallbackType<M>(topic, queue_size, fp);
     ops.transport_hints = transport_hints;
+    ops.template initByFullCallbackType<M>(topic, queue_size, fp);
     return subscribe(ops);
   }
 
@@ -800,9 +813,9 @@ if (sub)  // Enter if subscriber is valid
                              const VoidConstPtr& tracked_object = VoidConstPtr(), const TransportHints& transport_hints = TransportHints())
   {
     SubscribeOptions ops;
-    ops.template initByFullCallbackType<C>(topic, queue_size, callback);
     ops.tracked_object = tracked_object;
     ops.transport_hints = transport_hints;
+    ops.template initByFullCallbackType<C>(topic, queue_size, callback);
     return subscribe(ops);
   }
 
