@@ -68,11 +68,11 @@ public:
   PublisherLink(const SubscriptionPtr& parent, const std::string& xmlrpc_uri, const TransportHints& transport_hints);
   virtual ~PublisherLink();
 
-  const Stats &getStats() { return stats_; }
+  const Stats &getStats() const { return stats_; }
   const std::string& getPublisherXMLRPCURI();
   int getConnectionID() const { return connection_id_; }
-  const std::string& getCallerID() { return caller_id_; }
-  bool isLatched() { return latched_; }
+  const std::string& getCallerID() const { return caller_id_; }
+  bool isLatched() const { return latched_; }
 
   bool setHeader(const Header& header);
 

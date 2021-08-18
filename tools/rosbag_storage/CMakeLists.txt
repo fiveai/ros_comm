@@ -6,6 +6,9 @@ if(NOT WIN32)
   set_directory_properties(PROPERTIES COMPILE_OPTIONS "-Wall;-Wextra")
 endif()
 
+add_compile_options(-std=c++11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 find_package(console_bridge REQUIRED)
 find_package(catkin REQUIRED COMPONENTS cpp_common roscpp_serialization roscpp_traits rostime roslz4)
 find_package(Boost REQUIRED COMPONENTS date_time filesystem program_options regex)

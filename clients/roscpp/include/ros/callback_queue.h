@@ -61,6 +61,8 @@
 
 #include <list>
 #include <deque>
+#include <condition_variable>
+#include <mutex>
 
 namespace ros
 {
@@ -176,8 +178,8 @@ protected:
   typedef std::deque<CallbackInfo> D_CallbackInfo;
   D_CallbackInfo callbacks_;
   size_t calling_;
-  boost::mutex mutex_;
-  boost::condition_variable condition_;
+  std::mutex mutex_;
+  std::condition_variable condition_;
 
   boost::mutex id_info_mutex_;
   M_IDInfo id_info_;

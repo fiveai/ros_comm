@@ -32,7 +32,15 @@
 #include "ros/common.h"
 #include "ros/message.h"
 #include "ros/serialization.h"
+#include "ros/shm_engine.h"
+#include "ros/shm_traits.h"
+#include "util/ShmSharedPtr.h"
+#include "util/ShmPtr.h"
+
 #include <boost/bind.hpp>
+
+#include <type_traits>
+
 
 namespace ros
 {
@@ -88,11 +96,50 @@ namespace ros
       publish(boost::bind(serializeMessage<M>, boost::ref(*message)), m);
     }
 
+     /**
+     * @brief Publish a message through shared memory. Relies on SFINAE to
+     * to remove this method from overload resolution should the message type
+     * not be suitable for being transmitted via shared memory.
+     */
+    template <typename M>
+    typename std::enable_if<IsShm<M>::value>::type
+    publish(M message) const
+    {
+        using namespace serialization;
+
+        if (!impl_)
+        {
+            ROS_ASSERT_MSG(false, "Call to publish() on an invalid Publisher");
+            return;
+        }
+
+        if (!impl_->isValid())
+        {
+            ROS_ASSERT_MSG(false, "Call to publish() on an invalid Publisher (topic [%s])", impl_->topic_.c_str());
+            return;
+        }
+
+        // ensure all shm messages are const
+        auto constMessage = ros::shm::makeConst(std::move(message));
+        ROS_ASSERT_MSG(impl_->md5sum_ == "*" || std::string(mt::md5sum(constMessage)) == "*" || impl_->md5sum_ == mt::md5sum(constMessage),
+                       "Trying to publish message of type [%s/%s] on a publisher with type [%s/%s]",
+                       mt::datatype(constMessage), mt::md5sum(constMessage),
+                       impl_->datatype_.c_str(), impl_->md5sum_.c_str());
+
+        ShmEngine::instance().post(std::move(constMessage), impl_->topic_);
+
+        // Wrap the shm shared pointer in a shared_ptr and publish it
+        // in case we have self-subscribed.
+        auto sharedPtr = boost::make_shared<decltype(constMessage)>(constMessage);
+        publish(sharedPtr);
+    }
+
     /**
      * \brief Publish a message on the topic associated with this Publisher.
      */
     template <typename M>
-      void publish(const M& message) const
+    typename std::enable_if<! IsShm<M>::value>::type
+    publish(const M& message) const
     {
       using namespace serialization;
       namespace mt = ros::message_traits;

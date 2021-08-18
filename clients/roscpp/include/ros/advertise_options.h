@@ -43,6 +43,8 @@ struct ROSCPP_DECL AdvertiseOptions
   AdvertiseOptions()
   : callback_queue(0)
   , latch(false)
+  , isShm{false}
+  , isLocalPrivate(false)
   {
   }
 
@@ -69,6 +71,8 @@ struct ROSCPP_DECL AdvertiseOptions
   , callback_queue(0)
   , latch(false)
   , has_header(false)
+  , isShm{false}
+  , isLocalPrivate{false}
   {}
 
   /**
@@ -129,6 +133,9 @@ struct ROSCPP_DECL AdvertiseOptions
    *         serialized bytes after the message has been serialized.
    */
   bool has_header;
+
+  bool isShm;
+  bool isLocalPrivate;
 
 
   /**
